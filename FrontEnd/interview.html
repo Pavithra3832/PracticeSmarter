@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/interview.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Practice - PracticeSmarter</title>
+
+</head>
+
+<body>
+    <!-- ======================================
+     COMMON NAVBAR
+====================================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <h2 class="logo">
+            PracticeSmarter.
+        </h2>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="interview.html">
+                    Practice
+                </a>
+            </li>
+
+            <li>
+                <a href="progress.html">
+                    Progress
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    Profile
+                </a>
+            </li>
+
+        </ul>
+
+
+        <!-- ======================================
+             RIGHT SIDE ACTIONS
+        ======================================= -->
+
+        <div class="navbar-actions">
+
+
+            <!-- NOTIFICATION -->
+
+            <div class="notification-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="notification-button"
+                    type="button"
+                    title="Notifications">
+
+                    🔔
+
+                </button>
+
+
+                <div
+                    class="notification-dropdown"
+                    id="notification-dropdown">
+
+                    <h3>Notifications</h3>
+
+                    <p>
+                        🎯 Keep practicing to improve your interview skills.
+                    </p>
+
+                    <p>
+                        📊 Check your progress regularly.
+                    </p>
+
+                    <p>
+                        💡 Take your time and explain your answers clearly.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="profile-button"
+                    type="button"
+                    title="Profile">
+
+                    👤
+
+                </button>
+
+
+                <div
+                    class="profile-dropdown"
+                    id="profile-dropdown">
+
+                    <a href="profile.html">
+                        👤 Profile
+                    </a>
+
+                    <a href="progress.html">
+                        📊 My Progress
+                    </a>
+
+                    <button
+                        id="logout-button"
+                        type="button">
+
+                        🚪 Logout
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+    <main class="interview-page">
+
+        <section class="interview-header">
+
+            <p class="dashboard-tag">AI Interview Practice</p>
+
+            <h1>Let's Start Your Interview</h1>
+
+            <p>
+                Choose your interview type and start practicing
+                with our AI interviewer.
+            </p>
+
+        </section>
+        <section class="interview-categories">
+
+
+    <div class="category-card">
+        <div class="category-icon">🌐</div>
+        <h2>HTML</h2>
+        <p>30 Questions</p>
+        <a href="technical-interview.html?category=HTML">Start Practice</a>
+    </div>
+
+
+    <div class="category-card">
+        <div class="category-icon">🎨</div>
+        <h2>CSS</h2>
+        <p>30 Questions</p>
+        <a href="technical-interview.html?category=CSS">Start Practice</a>
+    </div>
+
+
+    <div class="category-card">
+        <div class="category-icon">🟨</div>
+        <h2>JavaScript</h2>
+        <p>30 Questions</p>
+        <a href="technical-interview.html?category=JavaScript">Start Practice</a>
+    </div>
+
+
+    <div class="category-card">
+        <div class="category-icon">🐍</div>
+        <h2>Python</h2>
+        <p>30 Questions</p>
+        <a href="technical-interview.html?category=Python">Start Practice</a>
+    </div>
+
+
+    <div class="category-card">
+        <div class="category-icon">☕</div>
+        <h2>Java</h2>
+        <p>30 Questions</p>
+        <a href="technical-interview.html?category=Java">Start Practice</a>
+    </div>
+
+
+    <div class="category-card">
+        <div class="category-icon">👔</div>
+        <h2>HR Interview</h2>
+        <p>30 Questions</p>
+        <a href="hr-interview.html">Start Practice</a>
+    </div>
+
+</section>
+
+
+
+    </main>
+<script type="module" src="js/interview.js"></script>
+</body>
+
+</html>

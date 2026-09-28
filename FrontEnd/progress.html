@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Progress - PracticeSmarter</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/progress.css">
+</head>
+
+<body>
+
+<header>
+
+    <nav class="navbar">
+
+        <h2 class="logo">
+            PracticeSmarter.
+        </h2>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="interview.html">
+                    Practice
+                </a>
+            </li>
+
+            <li>
+                <a href="progress.html">
+                    Progress
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    Profile
+                </a>
+            </li>
+
+        </ul>
+
+
+        <!-- RIGHT SIDE ACTIONS -->
+
+        <div class="navbar-actions">
+
+
+            <!-- NOTIFICATION -->
+
+            <div class="notification-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="notification-button"
+                    type="button"
+                    title="Notifications">
+
+                    🔔
+
+                </button>
+
+
+                <div
+                    class="notification-dropdown"
+                    id="notification-dropdown">
+
+                    <h3>Notifications</h3>
+
+                    <p>
+                        🎯 Keep practicing to improve your interview skills.
+                    </p>
+
+                    <p>
+                        📊 Check your progress regularly.
+                    </p>
+
+                    <p>
+                        💡 Take your time and explain your answers clearly.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="profile-button"
+                    type="button"
+                    title="Profile">
+
+                    👤
+
+                </button>
+
+
+                <div
+                    class="profile-dropdown"
+                    id="profile-dropdown">
+
+                    <a href="profile.html">
+                        👤 Profile
+                    </a>
+
+                    <a href="progress.html">
+                        📊 My Progress
+                    </a>
+
+                    <button
+                        id="logout-button"
+                        type="button">
+
+                        🚪 Logout
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+    <main class="progress-page">
+
+        <section class="progress-header">
+
+            <p class="progress-label">Your Performance</p>
+
+            <h1>Track Your Progress</h1>
+
+            <p>
+                Monitor your interview performance and
+                see how you are improving over time.
+            </p>
+
+        </section>
+<section class="progress-stats">
+
+    <div class="progress-card">
+        <div class="progress-icon">🎯</div>
+        <h3>Total Interviews</h3>
+        <strong id="total-interviews">0</strong>
+    </div>
+
+    <div class="progress-card">
+        <div class="progress-icon">📊</div>
+        <h3>Average Score</h3>
+        <strong id="average-score">0%</strong>
+    </div>
+
+    <div class="progress-card">
+        <div class="progress-icon">🏆</div>
+        <h3>Best Score</h3>
+        <strong id="best-score">0%</strong>
+    </div>
+
+    <div class="progress-card">
+        <div class="progress-icon">🔥</div>
+        <h3>Practice Streak</h3>
+        <strong id="practice-streak">0 Days</strong>
+    </div>
+
+</section>
+        <section class="performance-section">
+
+            <h2>Performance Overview</h2>
+            
+        <div class="chart-placeholder">
+            
+    <div class="performance-item">
+
+        <div class="performance-info">
+            <span>Frontend</span>
+            <strong id="frontend-score">0%</strong>
+        </div>
+
+        <div class="progress-track">
+            <div
+                class="progress-fill"
+                id="frontend-progress"
+            ></div>
+        </div>
+
+        <p id="frontend-status">No Practice Yet</p>
+
+    </div>
+
+
+    <div class="performance-item">
+
+        <div class="performance-info">
+            <span>JavaScript</span>
+            <strong id="javascript-score">0%</strong>
+        </div>
+
+        <div class="progress-track">
+            <div
+                class="progress-fill"
+                id="javascript-progress"
+            ></div>
+        </div>
+
+        <p id="javascript-status">No Practice Yet</p>
+
+    </div>
+
+
+    <div class="performance-item">
+
+        <div class="performance-info">
+            <span>HTML & CSS</span>
+            <strong id="html-css-score">0%</strong>
+        </div>
+
+        <div class="progress-track">
+            <div
+                class="progress-fill"
+                id="html-css-progress"
+            ></div>
+        </div>
+
+        <p id="html-css-status">No Practice Yet</p>
+
+    </div>
+
+
+    <div class="performance-item">
+
+        <div class="performance-info">
+            <span>HR Interview</span>
+            <strong id="hr-score">0%</strong>
+        </div>
+
+        <div class="progress-track">
+            <div
+                class="progress-fill"
+                id="hr-progress"
+            ></div>
+        </div>
+
+        <p id="hr-status">No Practice Yet</p>
+
+    </div>
+
+</div>
+
+
+
+        </section>
+
+        <!-- ======================================
+     ADVANCED PERFORMANCE ANALYTICS
+====================================== -->
+
+<section class="analytics-section">
+
+    <h2>Advanced Performance Analytics</h2>
+
+    <div class="analytics-grid">
+
+        <!-- PERFORMANCE TREND -->
+        <div class="analytics-card">
+
+            <div class="analytics-card-header">
+                <div>
+                    <span class="analytics-label">📈 Performance</span>
+                    <h3>Recent Performance Trend</h3>
+                </div>
+            </div>
+
+            <div
+                id="performance-trend"
+                class="trend-chart"
+            >
+            </div>
+
+            <p
+                id="trend-message"
+                class="analytics-message"
+            >
+                Complete more interviews to see your performance trend.
+            </p>
+
+        </div>
+
+
+        <!-- SKILL BREAKDOWN -->
+        <div class="analytics-card">
+
+            <div class="analytics-card-header">
+                <div>
+                    <span class="analytics-label">🎯 Skills</span>
+                    <h3>Skill Breakdown</h3>
+                </div>
+            </div>
+
+            <div class="skill-breakdown">
+
+                <div class="skill-item">
+
+                    <div class="skill-info">
+                        <span>Technical</span>
+                        <strong id="technical-average">
+                            0/10
+                        </strong>
+                    </div>
+
+                    <div class="skill-track">
+                        <div
+                            id="technical-bar"
+                            class="skill-fill"
+                        ></div>
+                    </div>
+
+                </div>
+
+
+                <div class="skill-item">
+
+                    <div class="skill-info">
+                        <span>Communication</span>
+                        <strong id="communication-average">
+                            0/10
+                        </strong>
+                    </div>
+
+                    <div class="skill-track">
+                        <div
+                            id="communication-bar"
+                            class="skill-fill"
+                        ></div>
+                    </div>
+
+                </div>
+
+
+                <div class="skill-item">
+
+                    <div class="skill-info">
+                        <span>Confidence</span>
+                        <strong id="confidence-average">
+                            0/10
+                        </strong>
+                    </div>
+
+                    <div class="skill-track">
+                        <div
+                            id="confidence-bar"
+                            class="skill-fill"
+                        ></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p
+                id="skill-message"
+                class="analytics-message"
+            >
+                Your skill analysis will appear after completing interviews.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+        <section class="history-section">
+ 
+           <h2>Interview History</h2>
+
+           <div id="history-container"></div>
+
+        </section>
+    </main>
+<script type="module" src="js/progress.js"></script>
+</body>
+
+</html>

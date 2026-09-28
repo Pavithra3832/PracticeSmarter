@@ -1,0 +1,693 @@
+/* =========================================
+   PROGRESS PAGE
+========================================= */
+
+.progress-page {
+    min-height: calc(100vh - 80px);
+    padding: 50px 80px;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(37, 99, 235, 0.08),
+            transparent 30%
+        ),
+        #f8fafc;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.progress-header {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 30px 35px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.progress-label {
+    display: inline-flex;
+    padding: 7px 13px;
+    margin-bottom: 8px;
+    background: #eff6ff;
+    border-radius: 999px;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.progress-header h1 {
+    margin-bottom: 12px;
+    font-size: 38px;
+    font-weight: 750;
+    color: #111827;
+    letter-spacing: -0.8px;
+}
+
+.progress-header p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.progress-stats {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.progress-card {
+    position: relative;
+    overflow: hidden;
+    padding: 27px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, 0.05);
+    cursor: default;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.progress-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: #2563eb;
+}
+
+.progress-card:nth-child(1)::before {
+    background: #2563eb;
+}
+
+.progress-card:nth-child(2)::before {
+    background: #7c3aed;
+}
+
+.progress-card:nth-child(3)::before {
+    background: #059669;
+}
+
+.progress-card:nth-child(4)::before {
+    background: #ea580c;
+}
+
+.progress-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.progress-icon {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 14px;
+}
+
+.progress-card h3 {
+    margin-bottom: 10px;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.progress-card strong {
+    display: block;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #111827;
+}
+
+
+/* =========================================
+   PERFORMANCE OVERVIEW
+========================================= */
+
+.performance-section {
+    max-width: 1200px;
+    margin: 45px auto 0;
+}
+
+.performance-section h2 {
+    margin-bottom: 22px;
+    font-size: 25px;
+    font-weight: 750;
+    color: #111827;
+}
+
+.chart-placeholder {
+    min-height: auto;
+    padding: 32px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, 0.05);
+}
+
+
+/* =========================================
+   PERFORMANCE ITEMS
+========================================= */
+
+.performance-item {
+    padding: 24px 0;
+    margin: 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.performance-item:first-child {
+    padding-top: 0;
+}
+
+.performance-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.performance-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.performance-info span {
+    font-size: 16px;
+    font-weight: 650;
+    color: #1e293b;
+}
+
+.performance-info strong {
+    font-size: 17px;
+    font-weight: 750;
+    color: #2563eb;
+}
+
+
+/* =========================================
+   PROGRESS BARS
+========================================= */
+
+.progress-track {
+    width: 100%;
+    height: 14px;
+    margin-top: 4px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    min-height: 14px;
+    background: #2563eb;
+    border-radius: 999px;
+    transition: width 0.7s ease;
+}
+
+.performance-item p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+
+/* =========================================
+   INTERVIEW HISTORY
+========================================= */
+
+.history-section {
+    max-width: 1200px;
+    margin: 45px auto 0;
+}
+
+.history-section h2 {
+    margin-bottom: 22px;
+    font-size: 25px;
+    font-weight: 750;
+    color: #111827;
+}
+
+.history-summary-card {
+    position: relative;
+    overflow: hidden;
+    padding: 24px 26px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-summary-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: #2563eb;
+}
+
+.history-summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+.history-summary-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.history-category {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.history-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    border-radius: 13px;
+    font-size: 23px;
+}
+
+.history-category h3 {
+    margin: 0 0 5px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.history-category p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.history-scores {
+    display: flex;
+    gap: 32px;
+}
+
+.history-scores div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.history-scores span {
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.history-scores strong {
+    font-size: 20px;
+    font-weight: 750;
+    color: #2563eb;
+}
+
+.view-history-button {
+    margin-top: 16px;
+    padding: 9px 14px;
+    border: none;
+    background: #eff6ff;
+    border-radius: 8px;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.view-history-button:hover {
+    background: #dbeafe;
+    text-decoration: none;
+    transform: translateX(2px);
+}
+
+
+/* =========================================
+   HISTORY DETAILS
+========================================= */
+
+.history-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.history-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.history-detail-item:last-child {
+    border-bottom: none;
+}
+
+.history-detail-item strong {
+    font-size: 15px;
+    color: #111827;
+}
+
+.history-detail-item > strong {
+    font-size: 17px;
+    color: #2563eb;
+}
+
+.history-detail-item p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .progress-page {
+        padding: 35px 25px;
+    }
+
+    .progress-header {
+        padding: 28px;
+    }
+
+    .progress-header h1 {
+        font-size: 34px;
+    }
+
+    .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .history-summary-top {
+        gap: 25px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .progress-page {
+        padding: 25px 15px;
+    }
+
+    .progress-header {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .progress-header h1 {
+        font-size: 28px;
+    }
+
+    .progress-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-card {
+        padding: 23px;
+    }
+
+    .chart-placeholder {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    .performance-section h2,
+    .history-section h2 {
+        font-size: 22px;
+    }
+
+    .history-summary-card {
+        padding: 20px;
+    }
+
+    .history-summary-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .history-scores {
+        width: 100%;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .history-scores div {
+        align-items: flex-start;
+    }
+}
+/* =========================================
+   ADVANCED PERFORMANCE ANALYTICS
+========================================= */
+
+.analytics-section {
+    max-width: 1200px;
+    margin: 45px auto 0;
+}
+
+.analytics-section h2 {
+    margin-bottom: 22px;
+    font-size: 25px;
+    font-weight: 750;
+    color: #111827;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.analytics-card {
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, 0.05);
+}
+
+.analytics-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.analytics-label {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.analytics-card h3 {
+    margin: 0;
+    font-size: 19px;
+    color: #111827;
+}
+
+
+/* =========================================
+   PERFORMANCE TREND
+========================================= */
+
+.trend-chart {
+    height: 230px;
+    padding: 20px 10px 5px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.trend-bar-wrapper {
+    height: 100%;
+    flex: 1;
+    max-width: 55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.trend-score {
+    margin-bottom: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.trend-bar-track {
+    width: 100%;
+    height: 170px;
+    display: flex;
+    align-items: flex-end;
+    background: #eff6ff;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.trend-bar {
+    width: 100%;
+    min-height: 3px;
+    background: #2563eb;
+    border-radius: 8px 8px 0 0;
+    transition: height 0.6s ease;
+}
+
+.trend-label {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #64748b;
+}
+
+
+/* =========================================
+   SKILL BREAKDOWN
+========================================= */
+
+.skill-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.skill-item {
+    width: 100%;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 9px;
+}
+
+.skill-info span {
+    font-size: 15px;
+    font-weight: 650;
+    color: #1e293b;
+}
+
+.skill-info strong {
+    font-size: 15px;
+    font-weight: 750;
+    color: #2563eb;
+}
+
+.skill-track {
+    width: 100%;
+    height: 11px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.skill-fill {
+    width: 0%;
+    height: 100%;
+    background: #2563eb;
+    border-radius: 999px;
+    transition: width 0.7s ease;
+}
+
+.analytics-message {
+    margin: 22px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid #eef2f7;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+
+/* =========================================
+   ANALYTICS RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .analytics-section {
+        margin-top: 35px;
+    }
+
+    .analytics-section h2 {
+        font-size: 22px;
+    }
+
+    .analytics-card {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    .trend-chart {
+        height: 210px;
+        gap: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .trend-bar-track {
+        height: 150px;
+    }
+
+    .trend-score {
+        font-size: 10px;
+    }
+
+    .trend-label {
+        font-size: 10px;
+    }
+
+}

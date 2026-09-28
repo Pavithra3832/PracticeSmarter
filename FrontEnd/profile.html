@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - PracticeSmarter</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+
+    <h2 class="logo">PracticeSmarter.</h2>
+
+    <ul class="nav-links">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="interview.html">Practice</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="profile.html">Profile</a></li>
+    </ul>
+
+    <!-- Right Side Icons -->
+    <div class="navbar-actions">
+
+        <!-- Notification -->
+        <div class="notification-menu-wrapper">
+
+            <button
+                class="icon-button"
+                id="notification-button"
+                type="button"
+                title="Notifications">
+                🔔
+            </button>
+
+            <div
+                class="notification-dropdown"
+                id="notification-dropdown">
+
+                <h3>Notifications</h3>
+
+                <p>🎯 Keep practicing to improve your interview skills.</p>
+                <p>📊 Check your progress regularly.</p>
+                <p>💡 Practice makes you more confident.</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Profile -->
+        <div class="profile-menu-wrapper">
+
+            <button
+                class="icon-button"
+                id="profile-button"
+                type="button"
+                title="Profile">
+                👤
+            </button>
+
+            <div
+                class="profile-dropdown"
+                id="profile-dropdown">
+
+                <a href="progress.html">
+                    📊 My Progress
+                </a>
+
+                <a href="profile.html">
+                    👤 Profile
+                </a>
+
+                <button
+                    id="logout-button"
+                    type="button">
+                    🚪 Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+    </header>
+
+
+    <main class="profile-page">
+
+        <section class="profile-header">
+
+            <p class="profile-label">Account</p>
+
+            <h1>Your Profile</h1>
+
+            <p>
+                Manage your account and practice preferences.
+            </p>
+
+        </section>
+
+
+        <section class="profile-content">
+
+            <div class="profile-card">
+
+                <div class="profile-avatar" id="profile-avatar">
+                    P
+                </div>
+
+                <h2 id="profile-name">Pavithra</h2>
+
+                <p id="profile-career">Frontend Developer</p>
+
+                
+               <button id="edit-profile-button">Edit Profile</button>
+
+              <div class="edit-profile-form" id="edit-profile-form">
+
+    <h2>Edit Profile</h2>
+
+    <label for="edit-name">Full Name</label>
+    <input type="text" id="edit-name" value="Pavithra">
+
+    <label for="edit-email">Email</label>
+    <input type="email" id="edit-email" value="your@email.com">
+
+    <label for="edit-career">Career Goal</label>
+    <input type="text" id="edit-career" value="Frontend Developer">
+
+    <button id="save-profile-button">
+        Save Changes
+    </button>
+
+</div>
+
+            </div>
+
+
+            <div class="details-card">
+
+                <h2>Personal Information</h2>
+
+<div class="detail-row">
+    <span>Full Name</span>
+    <strong id="detail-name">Pavithra</strong>
+</div>
+
+<div class="detail-row">
+    <span>Email</span>
+    <strong id="detail-email">your@email.com</strong>
+</div>
+
+<div class="detail-row">
+    <span>Career Goal</span>
+    <strong id="detail-career">Frontend Developer</strong>
+</div>
+            </div>
+
+        </section>
+
+    </main>
+<script type="module" src="js/profile.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - PracticeSmarter</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         ADMIN NAVBAR
+    ========================== -->
+
+    <header class="admin-navbar">
+
+        <div class="admin-logo">
+            PracticeSmarter<span>.</span>
+        </div>
+
+        <div class="admin-title">
+            Admin Dashboard
+        </div>
+
+        <button
+            id="admin-logout-button"
+            class="admin-logout"
+            type="button">
+            🚪 Logout
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN ADMIN DASHBOARD
+    ========================== -->
+
+    <main class="admin-dashboard">
+
+        <!-- =========================
+             WELCOME
+        ========================== -->
+
+        <section class="admin-welcome">
+
+            <div>
+                <p class="admin-tag">
+                    Administrator
+                </p>
+
+                <h1>
+                    PracticeSmarter Admin Dashboard
+                </h1>
+
+                <p>
+                    Monitor users, interviews and overall platform performance.
+                </p>
+            </div>
+
+            <div class="admin-badge">
+                🔐 Admin Access
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================== -->
+
+        <section class="admin-stats">
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    👥
+                </div>
+
+                <p>Total Users</p>
+
+                <strong id="total-users">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    📝
+                </div>
+
+                <p>Total Interviews</p>
+
+                <strong id="total-interviews">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    📊
+                </div>
+
+                <p>Average Score</p>
+
+                <strong id="average-score">
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    🤖
+                </div>
+
+                <p>AI Evaluations</p>
+
+                <strong id="ai-evaluations">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RECENT RESULTS
+        ========================== -->
+
+        <section class="admin-section">
+
+            <div class="admin-section-header">
+
+                <div>
+                    <h2>
+                        Recent Interview Results
+                    </h2>
+
+                    <p>
+                        Latest interview attempts from users
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>User</th>
+                            <th>Technology</th>
+                            <th>Difficulty</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="results-table-body">
+
+                        <tr>
+                            <td colspan="6" class="table-loading">
+                                Loading results...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             USERS
+        ========================== -->
+
+        <section class="admin-section">
+
+            <div class="admin-section-header">
+
+                <div>
+                    <h2>
+                        Users
+                    </h2>
+
+                    <p>
+                        Registered PracticeSmarter users
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>User ID</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="users-table-body">
+
+                        <tr>
+                            <td colspan="3" class="table-loading">
+                                Loading users...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STATUS MESSAGE
+        ========================== -->
+
+        <p
+            id="admin-status"
+            class="admin-status">
+        </p>
+
+    </main>
+
+
+    <!-- =========================
+         ADMIN JS
+    ========================== -->
+
+    <script
+        type="module"
+        src="js/admin.js">
+    </script>
+
+</body>
+
+</html>

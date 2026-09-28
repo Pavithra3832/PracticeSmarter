@@ -1,0 +1,228 @@
+/* ======================================
+   COMMON NAVBAR
+====================================== */
+
+.navbar {
+    height: 80px;
+    padding: 0 80px;
+
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+
+/* ======================================
+   LOGO
+====================================== */
+
+.logo {
+    margin: 0;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* ======================================
+   NAVIGATION
+====================================== */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+
+    list-style: none;
+
+    gap: 35px;
+
+    margin-left: 120px;
+    margin-right: 0;
+
+    padding: 0;
+}
+.navbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+
+    color: #111827;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    transition: color 0.2s ease;
+}
+
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+
+/* ======================================
+   RIGHT SIDE ICONS
+====================================== */
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+}
+
+
+/* ======================================
+   ICON BUTTON
+====================================== */
+
+.icon-button {
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    font-size: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+
+.icon-button:hover {
+    background: #e5e7eb;
+}
+
+
+/* ======================================
+   DROPDOWN WRAPPERS
+====================================== */
+
+.notification-menu-wrapper,
+.profile-menu-wrapper {
+    position: relative;
+}
+
+
+/* ======================================
+   PROFILE DROPDOWN
+====================================== */
+
+.profile-dropdown {
+    position: absolute;
+
+    top: 48px;
+    right: 0;
+
+    width: 190px;
+
+    display: none;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+    z-index: 1000;
+}
+
+
+.profile-dropdown.show {
+    display: block;
+}
+
+
+.profile-dropdown a,
+.profile-dropdown button {
+    display: block;
+
+    width: 100%;
+
+    padding: 13px 16px;
+
+    border: none;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    text-align: left;
+    text-decoration: none;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+    background: #f8fafc;
+}
+
+
+/* ======================================
+   NOTIFICATION DROPDOWN
+====================================== */
+
+.notification-dropdown {
+    position: absolute;
+
+    top: 48px;
+    right: 0;
+
+    width: 300px;
+
+    padding: 18px;
+
+    display: none;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+    z-index: 1000;
+
+    box-sizing: border-box;
+}
+
+
+.notification-dropdown.show {
+    display: block;
+}

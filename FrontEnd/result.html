@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Result - PracticeSmarter</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/result.css">
+</head>
+
+<body>
+
+    <!-- ==============================
+         NAVBAR
+    =============================== -->
+
+<header>
+    <nav class="navbar">
+
+        <h2 class="logo">PracticeSmarter.</h2>
+
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="interview.html">Practice</a></li>
+            <li><a href="progress.html">Progress</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+
+        <div class="navbar-actions">
+
+            <!-- Notification -->
+            <div class="notification-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="notification-button"
+                    type="button"
+                    title="Notifications">
+                    🔔
+                </button>
+
+                <div
+                    class="notification-dropdown"
+                    id="notification-dropdown">
+
+                    <h3>Notifications</h3>
+
+                    <p>🎯 Keep practicing to improve your interview skills.</p>
+                    <p>📊 Check your progress regularly.</p>
+                    <p>💡 Take your time and explain your answers clearly.</p>
+
+                </div>
+
+            </div>
+
+            <!-- Profile -->
+            <div class="profile-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="profile-button"
+                    type="button"
+                    title="Profile">
+                    👤
+                </button>
+
+                <div
+                    class="profile-dropdown"
+                    id="profile-dropdown">
+
+                    <a href="profile.html">
+                        👤 Profile
+                    </a>
+
+                    <a href="progress.html">
+                        📊 My Progress
+                    </a>
+
+                    <button
+                        id="logout-button"
+                        type="button">
+                        🚪 Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+</header>
+    <!-- ==============================
+         RESULT PAGE
+    =============================== -->
+
+    <main class="result-page">
+
+
+        <!-- ==========================
+             RESULT HEADER
+        =========================== -->
+
+        <section class="result-header">
+
+            <div class="result-message">
+
+                <p class="result-label">
+                    ✨ Interview Completed!
+                </p>
+
+                <h1 id="result-greeting">
+                   Great Job!
+                </h1>
+                <p id="result-description">
+    Here's your interview performance feedback.
+</p>
+
+            </div>
+
+
+            <div class="overall-result">
+
+                <span>
+                    Overall Score
+                </span>
+
+                <strong id="percentage">
+                    0%
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             SCORE CARDS
+        =========================== -->
+
+        <section class="score-cards">
+
+
+            <!-- Overall Score -->
+
+            <div class="score-card">
+
+                <div class="score-title">
+                    <span class="score-icon">⭐</span>
+
+                    <span>
+                        Overall Score
+                    </span>
+                </div>
+
+                <strong id="score">
+                        0/10
+                </strong>
+                <p id="overall-feedback">
+                Great performance
+                </p>
+
+            </div>
+
+            <!-- Communication -->
+
+            <div class="score-card">
+
+                <div class="score-title">
+
+                    <span class="score-icon">
+                        🎤
+                    </span>
+
+                    <span>
+                        Communication
+                    </span>
+
+                </div>
+                <strong id="communication-score">
+                      0/10
+                </strong>
+
+                <p id="communication-feedback">
+                    Analyzing communication...
+                </p>
+
+            </div>
+
+
+            <!-- Technical -->
+
+            <div class="score-card">
+
+                <div class="score-title">
+
+                    <span class="score-icon">
+                        💻
+                    </span>
+
+                    <span>
+                        Technical
+                    </span>
+
+                </div>
+                <strong id="technical-score">
+                      0/10
+                </strong>
+
+                <p id="technical-feedback">
+                    Analyzing technical knowledge...
+                </p>
+            </div>
+
+
+            <!-- Confidence -->
+
+            <div class="score-card">
+
+                <div class="score-title">
+
+                    <span class="score-icon">
+                        🙂 
+                    </span>
+
+                    <span>
+                        Confidence
+                    </span>
+
+                </div>
+                <strong id="confidence-score">
+                  0/10
+                </strong>
+
+                <p id="confidence-feedback">
+                      Analyzing confidence...
+                </p>
+
+                
+
+            </div>
+
+        </section>
+
+    
+<!-- AI Performance Card -->
+<div class="ai-performance-card">
+
+    <div class="ai-performance-left">
+        <div class="ai-icon">
+            ✦
+        </div>
+
+        <div>
+            <span class="ai-label" id="performance-label">
+    INTERVIEW PERFORMANCE
+</span>
+
+<h2 id="performance-title">
+    Your Interview Performance
+</h2>
+
+<p id="performance-description">
+    Review your answers and overall interview performance.
+</p>
+        </div>
+    </div>
+
+    <div class="ai-score">
+        <div class="score-circle">
+            <span id="aiPercentage">0%</span>
+        </div>
+
+        <div class="score-info">
+            <span>Overall Score</span>
+            <strong id="aiLevel">Calculating...</strong>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+        <!-- ==========================
+             FEEDBACK
+        =========================== -->
+
+        <section class="feedback-section">
+
+
+            <!-- Strengths -->
+
+            <div class="feedback-card strengths-card">
+
+                <h2>
+                    💪 Your Strengths
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Good technical knowledge
+                    </li>
+
+                    <li>
+                        Clear explanation
+                    </li>
+
+                    <li>
+                        Good confidence
+                    </li>
+
+                    <li>
+                        Logical thinking
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- Improvement -->
+
+            <div class="feedback-card improvement-card">
+
+                <h2>
+                    📈 Needs Improvement
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Reduce filler words
+                    </li>
+
+                    <li>
+                        Improve speaking speed
+                    </li>
+
+                    <li>
+                        Give more real examples
+                    </li>
+
+                    <li>
+                        Improve eye contact
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             ANSWER REVIEW
+        =========================== -->
+
+        <section class="answer-review">
+
+            <h2>
+                Answer Review
+            </h2>
+
+            <div id="answer-review-container"></div>
+
+        </section>
+
+
+        <!-- ==========================
+             AI RECOMMENDATION
+        =========================== -->
+
+        <!-- ==========================
+     PERSONALIZED IMPROVEMENT
+=========================== -->
+
+<section class="recommendation">
+
+    <h2 id="recommendation-title">
+        🤖 Personalized Improvement Suggestions
+    </h2>
+
+    <p id="recommendation-text">
+        Analyzing your interview performance...
+    </p>
+
+</section>
+
+
+        <!-- ==========================
+             ACTION BUTTONS
+        =========================== -->
+
+        <section class="result-actions">
+      <a
+    href="technical-interview.html"
+    class="secondary-button"
+    id="practice-again-button">
+
+    Practice Again
+
+</a>      
+
+
+    <a href="certificate.html" class="certificate-button">
+        🏆 Get Certificate
+    </a>
+
+    <a href="progress.html" class="primary-button">
+        View Progress
+    </a>
+
+    <a href="dashboard.html" class="secondary-button">
+        Back to Dashboard
+    </a>
+
+</section>
+
+    </main>
+
+
+<script type="module" src="js/result.js"></script>
+</body>
+
+</html>

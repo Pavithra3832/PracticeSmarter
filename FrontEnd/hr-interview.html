@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/technical-interview.css">
+    <link rel="stylesheet" href="css/hr-interview.css">
+
+    <title>HR Interview - PracticeSmarter</title>
+</head>
+
+<body>
+
+<!-- ==============================
+     COMMON NAVBAR
+=============================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <h2 class="logo">
+            PracticeSmarter.
+        </h2>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="interview.html">
+                    Practice
+                </a>
+            </li>
+
+            <li>
+                <a href="progress.html">
+                    Progress
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    Profile
+                </a>
+            </li>
+
+        </ul>
+
+
+        <!-- ==============================
+             RIGHT SIDE ACTIONS
+        =============================== -->
+
+        <div class="navbar-actions">
+
+
+            <!-- NOTIFICATION -->
+
+            <div class="notification-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="notification-button"
+                    type="button"
+                    title="Notifications">
+
+                    🔔
+
+                </button>
+
+
+                <div
+                    class="notification-dropdown"
+                    id="notification-dropdown">
+
+                    <h3>Notifications</h3>
+
+                    <p>
+                        🎯 Keep practicing to improve your score.
+                    </p>
+
+                    <p>
+                        💼 Practice your HR interview skills today.
+                    </p>
+
+                    <p>
+                        📈 Check your progress regularly.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="profile-button"
+                    type="button"
+                    title="Profile">
+
+                    👤
+
+                </button>
+
+
+                <div
+                    class="profile-dropdown"
+                    id="profile-dropdown">
+
+                    <a href="progress.html">
+                        📊 My Progress
+                    </a>
+
+                    <a href="profile.html">
+                        👤 Profile
+                    </a>
+
+                    <button
+                        id="logout-button"
+                        type="button">
+
+                        🚪 Logout
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- ==============================
+     HR INTERVIEW PAGE
+=============================== -->
+
+<main class="technical-page">
+
+
+    <!-- TOP HEADER -->
+
+    <section class="technical-top">
+
+        <div class="question-info">
+
+            <span id="question-number">
+                Question 1 of 30
+            </span>
+
+        </div>
+
+
+        <div class="timer">
+
+            <span>Time</span>
+
+            <strong id="timer">
+                01:00
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         PROGRESS
+    =============================== -->
+
+    <section class="progress-section">
+
+        <div class="progress-header">
+
+            <span>Interview Progress</span>
+
+            <span id="progress-percentage">
+                3%
+            </span>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progress-fill">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         HR INTRODUCTION
+    =============================== -->
+
+    <section class="technology-section">
+
+        <h3>HR Interview</h3>
+
+        <div class="hr-intro">
+
+            <p>
+                Practice common HR interview questions
+                and improve your confidence, communication,
+                and interview skills.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         QUESTION CARD
+    =============================== -->
+
+    <section class="question-card">
+
+
+        <div class="interview-label">
+            HR Interview Question
+        </div>
+
+
+        <h1 id="question-text">
+            Tell me about yourself.
+        </h1>
+
+
+        <p class="question-hint">
+            Answer clearly with a real example whenever possible.
+        </p>
+
+
+        <!-- ==========================
+             CAMERA + MICROPHONE
+        =========================== -->
+
+        <div class="interview-area">
+
+
+            <!-- CAMERA -->
+
+<div class="camera-box">
+
+    <div class="camera-icon">
+        📷
+    </div>
+
+    <span>
+        Camera Preview
+    </span>
+
+    <small id="camera-status">
+        Camera is ready
+    </small>
+
+    <button
+        id="camera-toggle-button"
+        class="camera-toggle-button"
+        type="button">
+
+        Turn On Camera
+
+    </button>
+
+</div>
+
+
+            <!-- MICROPHONE -->
+
+            <button
+    class="microphone-box microphone-answer-button"
+    id="microphone-answer-button"
+    type="button"
+    title="Click to speak">
+                <div class="mic-icon">
+                    🎤
+                </div>
+
+                <div>
+
+                    <strong>
+                        Microphone
+                    </strong>
+
+                    <span>
+                        Status: Click to speak
+                    </span>
+
+                </div>
+
+            </button>
+
+        </div>
+
+
+        <!-- ==========================
+             DIFFICULTY
+        =========================== -->
+
+        <div class="difficulty-row">
+
+            <span class="difficulty-title">
+                Difficulty
+            </span>
+
+
+            <div class="difficulty-buttons">
+
+                <button
+                    class="difficulty-button"
+                    data-difficulty="Easy">
+
+                    Easy
+
+                </button>
+
+
+                <button
+                    class="difficulty-button"
+                    data-difficulty="Medium">
+
+                    Medium
+
+                </button>
+
+
+                <button
+                    class="difficulty-button"
+                    data-difficulty="Hard">
+
+                    Hard
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================
+             SHOW ANSWER
+        =========================== -->
+
+        <div class="answer-help">
+
+            <button
+                id="show-answer-button"
+                class="show-answer-button">
+
+                💡 Show Answer
+
+            </button>
+
+
+            <div
+                id="model-answer"
+                class="model-answer">
+
+                <strong>
+                    Model Answer
+                </strong>
+
+                <p id="model-answer-text">
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================
+             USER ANSWER
+        =========================== -->
+
+        <div class="answer-section">
+
+            <textarea
+                id="answer"
+                placeholder="Type your answer here..."></textarea>
+
+
+            <button
+                class="camera-answer-button"
+                id="camera-answer-button"
+                type="button"
+                title="Camera">
+
+                📷
+
+            </button>
+
+        </div>
+
+
+        <!-- ==========================
+             BUTTONS
+        =========================== -->
+
+        <div class="question-actions">
+
+
+            <button
+                class="secondary-button"
+                id="previous-button">
+
+                Previous
+
+            </button>
+
+
+            <button
+                class="primary-button"
+                id="next-button">
+
+                Next Question
+
+            </button>
+
+
+            <button
+                class="submit-button"
+                id="submit-button">
+
+                Submit
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script type="module" src="js/hr-interview.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,484 @@
+/* =========================================
+   PRACTICESMARTER - ADMIN DASHBOARD
+   CLEAN PROFESSIONAL ADMIN LAYOUT
+========================================= */
+
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f8fafc;
+    color: #111827;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================
+   ADMIN NAVBAR
+========================================= */
+
+.admin-navbar {
+    width: 100%;
+    min-height: 72px;
+    padding: 0 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e5eaf1;
+}
+
+
+/* Logo */
+
+.admin-logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.admin-logo span {
+    color: #2563eb;
+}
+
+
+/* Title */
+
+.admin-title {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* Logout */
+
+.admin-logout {
+    border: 1px solid #e5eaf1;
+    background: #ffffff;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    color: #475569;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.admin-logout:hover {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #2563eb;
+}
+
+
+/* =========================================
+   MAIN DASHBOARD
+========================================= */
+
+.admin-dashboard {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 42px 30px 70px;
+}
+
+
+/* =========================================
+   WELCOME
+========================================= */
+
+.admin-welcome {
+    width: 100%;
+
+    min-height: 150px;
+
+    margin-bottom: 26px;
+    padding: 32px 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0f6ff,
+            #f8fbff
+        );
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 18px;
+}
+
+
+.admin-tag {
+    margin: 0 0 7px;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.admin-welcome h1 {
+    margin: 0 0 9px;
+
+    color: #111827;
+
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+
+.admin-welcome p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+.admin-badge {
+    flex-shrink: 0;
+
+    padding: 10px 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 9px;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.admin-stats {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 28px;
+}
+
+
+.admin-stat-card {
+    min-width: 0;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(15, 23, 42, 0.035);
+}
+
+
+.admin-stat-icon {
+    margin-bottom: 12px;
+
+    font-size: 21px;
+}
+
+
+.admin-stat-card p {
+    margin: 0 0 6px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+.admin-stat-card strong {
+    color: #111827;
+
+    font-size: 25px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================
+   ADMIN SECTION
+========================================= */
+
+.admin-section {
+    width: 100%;
+
+    margin-bottom: 28px;
+
+    padding: 26px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(15, 23, 42, 0.035);
+}
+
+
+.admin-section-header {
+    margin-bottom: 20px;
+}
+
+
+.admin-section-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+
+    font-weight: 750;
+}
+
+
+.admin-section-header p {
+    margin: 6px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.admin-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+
+.admin-table th {
+    padding: 13px 12px;
+
+    background: #f8fafc;
+
+    border-bottom: 1px solid #e5eaf1;
+
+    color: #64748b;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.admin-table td {
+    padding: 14px 12px;
+
+    border-bottom: 1px solid #eef2f7;
+
+    color: #475569;
+
+    font-size: 13px;
+}
+
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+.admin-table tr:hover td {
+    background: #fbfdff;
+}
+
+
+/* =========================================
+   SCORE
+========================================= */
+
+.score-badge {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 7px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================
+   LOADING / EMPTY
+========================================= */
+
+.table-loading {
+    padding: 25px !important;
+
+    text-align: center !important;
+
+    color: #94a3b8 !important;
+}
+
+
+.admin-status {
+    margin: 0;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .admin-navbar {
+        min-height: 70px;
+
+        padding:
+            14px 20px;
+
+        gap: 12px;
+    }
+
+
+    .admin-title {
+        display: none;
+    }
+
+
+    .admin-dashboard {
+        padding:
+            24px 16px 45px;
+    }
+
+
+    .admin-welcome {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding:
+            27px 23px;
+
+        gap: 20px;
+    }
+
+
+    .admin-welcome h1 {
+        font-size: 24px;
+    }
+
+
+    .admin-badge {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    .admin-stats {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 11px;
+    }
+
+
+    .admin-section {
+        padding: 21px;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 420px) {
+
+    .admin-stats {
+        grid-template-columns: 1fr;
+    }
+
+
+    .admin-logo {
+        font-size: 19px;
+    }
+
+
+    .admin-logout {
+        padding:
+            9px 11px;
+
+        font-size: 12px;
+    }
+}

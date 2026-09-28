@@ -1,0 +1,736 @@
+/* ========================================
+   HR INTERVIEW PAGE
+======================================== */
+
+.hr-page {
+    min-height: calc(100vh - 80px);
+    padding: 45px 70px 60px;
+    background: #f8fafc;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.hr-header {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.interview-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.header-left h1 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+.header-left p {
+    max-width: 650px;
+    margin: 0;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   INTERVIEW INFO
+======================================== */
+
+.interview-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.question-counter,
+.timer-box {
+    min-width: 120px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    text-align: center;
+}
+
+.question-counter {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.question-counter strong {
+    display: block;
+    margin-top: 4px;
+    color: #0f172a;
+    font-size: 16px;
+}
+
+.timer-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: #475569;
+}
+
+.timer-box strong {
+    color: #2563eb;
+    font-size: 20px;
+}
+
+
+/* ========================================
+   PROGRESS
+======================================== */
+
+.interview-progress {
+    max-width: 1200px;
+    margin: 0 auto 25px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 9px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.progress-top strong {
+    color: #2563eb;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    overflow: hidden;
+    background: #e2e8f0;
+    border-radius: 20px;
+}
+
+.progress-fill {
+    width: 10%;
+    height: 100%;
+    background: #2563eb;
+    border-radius: inherit;
+    transition: width 0.3s ease;
+}
+
+
+/* ========================================
+   INTERVIEW CONTAINER
+======================================== */
+
+.hr-interview-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* ========================================
+   QUESTION CARD
+======================================== */
+
+.question-card {
+    padding: 35px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+
+/* ========================================
+   QUESTION HEADER
+======================================== */
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.question-type {
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.question-difficulty {
+    padding: 6px 12px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* ========================================
+   QUESTION
+======================================== */
+
+.question-card h2 {
+    margin: 0 0 20px;
+    color: #0f172a;
+    font-size: 27px;
+    line-height: 1.45;
+}
+
+
+/* ========================================
+   QUESTION HINT
+======================================== */
+
+.question-hint {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.question-hint strong {
+    color: #334155;
+}
+
+
+/* ========================================
+   ANSWER SECTION
+======================================== */
+
+.answer-section {
+    margin-bottom: 30px;
+}
+
+.answer-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.answer-heading label {
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+/* ========================================
+   MICROPHONE BUTTON
+======================================== */
+
+.microphone-button {
+    padding: 8px 13px;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.microphone-button:hover {
+    background: #dbeafe;
+}
+
+.microphone-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* ========================================
+   TEXTAREA
+======================================== */
+
+.answer-textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 16px;
+    box-sizing: border-box;
+    resize: vertical;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+
+    background: #ffffff;
+    color: #0f172a;
+
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.answer-textarea::placeholder {
+    color: #94a3b8;
+}
+
+.answer-textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* ========================================
+   ANSWER TOOLS
+======================================== */
+
+.answer-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.camera-answer-button,
+.show-answer-button {
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.camera-answer-button {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+}
+
+.camera-answer-button:hover {
+    background: #f8fafc;
+}
+
+.show-answer-button {
+    border: 1px solid #dbeafe;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.show-answer-button:hover {
+    background: #dbeafe;
+}
+
+
+/* ========================================
+   CAMERA
+======================================== */
+
+.camera-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    min-height: 230px;
+    margin-top: 15px;
+
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.camera-box video {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+
+/* ========================================
+   MODEL ANSWER
+======================================== */
+
+.model-answer {
+    margin-top: 18px;
+    padding: 20px;
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    border-radius: 10px;
+}
+
+.model-answer h3 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 16px;
+}
+
+.model-answer p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   DIFFICULTY SECTION
+======================================== */
+
+.difficulty-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding-top: 25px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.difficulty-section > span {
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.difficulty-button {
+    padding: 9px 18px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.difficulty-button:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.difficulty-button.active {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+
+/* ========================================
+   NAVIGATION
+======================================== */
+
+.question-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 30px;
+    padding-top: 25px;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+.navigation-right {
+    display: flex;
+    gap: 10px;
+}
+
+
+/* ========================================
+   BUTTONS — SAME AS TECHNICAL
+======================================== */
+
+.primary-button,
+.secondary-button,
+.submit-button {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Previous */
+.secondary-button {
+    background: #7c3aed;
+    color: #ffffff;
+}
+
+/* Next */
+.primary-button {
+    background: #4338ca;
+    color: #ffffff;
+}
+
+/* Submit */
+.submit-button {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+/* Hover */
+.secondary-button:hover:not(:disabled),
+.primary-button:hover:not(:disabled),
+.submit-button:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Disabled */
+.secondary-button:disabled,
+.primary-button:disabled,
+.submit-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========================================
+   RESPONSIVE - TABLET
+======================================== */
+
+@media (max-width: 900px) {
+
+    .hr-page {
+        padding: 35px 30px 50px;
+    }
+
+    .hr-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .interview-info {
+        width: 100%;
+    }
+
+    .question-counter,
+    .timer-box {
+        flex: 1;
+    }
+
+}
+
+
+/* ========================================
+   RESPONSIVE - MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+    .hr-page {
+        padding: 25px 15px 40px;
+    }
+
+    .header-left h1 {
+        font-size: 28px;
+    }
+
+    .header-left p {
+        font-size: 14px;
+    }
+
+    .interview-info {
+        gap: 10px;
+    }
+
+    .question-counter,
+    .timer-box {
+        min-width: 0;
+        padding: 12px;
+    }
+
+    .question-card {
+        padding: 22px 18px;
+        border-radius: 14px;
+    }
+
+    .question-card h2 {
+        font-size: 22px;
+    }
+
+    .question-header {
+        align-items: flex-start;
+    }
+
+    .difficulty-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .difficulty-buttons {
+        width: 100%;
+    }
+
+    .difficulty-button {
+        flex: 1;
+    }
+
+    .question-navigation {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .navigation-right {
+        width: 100%;
+    }
+
+    .secondary-button,
+    .primary-button,
+    .submit-button {
+        flex: 1;
+    }
+
+}
+/* ===============================
+   HR CAMERA - SAME AS TECHNICAL
+   =============================== */
+
+.interview-area .camera-box {
+    position: relative;
+    width: 140px;
+    height: 115px;
+    min-width: 140px;
+    min-height: 115px;
+    max-width: 140px;
+    max-height: 115px;
+    flex: 0 0 140px;
+
+    margin: 0;
+    padding: 0;
+
+    background: #dcdcdc;
+    border-radius: 9px;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Camera video */
+.interview-area .camera-box video {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: none;
+    max-height: none;
+
+    object-fit: cover;
+    border-radius: 9px;
+    display: block;
+}
+
+/* Camera button */
+.interview-area .camera-box .camera-toggle-button {
+    position: absolute;
+
+    left: 50%;
+    bottom: 6px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    margin: 0;
+    padding: 5px 9px;
+
+    width: auto;
+    height: auto;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: normal;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.interview-area .camera-box .camera-toggle-button:hover {
+    background: #1d4ed8;
+}
+/* ========================================
+   HR CAMERA - MOBILE RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+
+    .interview-area {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .interview-area .camera-box {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        height: 115px;
+        flex: none;
+    }
+
+}
