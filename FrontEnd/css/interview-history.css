@@ -1,0 +1,122 @@
+/* =====================================
+   INTERVIEW NOTES
+===================================== */
+
+.view-note-button {
+    margin-top: 8px;
+
+    padding: 6px 10px;
+
+    border: 1px solid #dbeafe;
+    border-radius: 7px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.view-note-button:hover:not(:disabled) {
+    background: #dbeafe;
+    transform: translateY(-1px);
+}
+
+.view-note-button:disabled {
+    background: #f8fafc;
+    border-color: #e5e7eb;
+    color: #94a3b8;
+    cursor: default;
+}
+
+.history-note {
+    display: none;
+
+    max-width: 700px;
+
+    margin-top: 10px;
+    padding: 12px 14px;
+
+    background: #f8fbff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 9px;
+}
+
+.history-note.show {
+    display: block;
+}
+
+.history-note strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+}
+
+.history-note p {
+    margin: 0;
+
+    color: #475569;
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+}
+.practice-again-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 8px;
+    margin-left: 8px;
+
+    padding: 6px 10px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.practice-again-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(37, 99, 235, 0.18);
+}
+
+@media (max-width: 650px) {
+
+    .practice-again-button {
+        margin-left: 0;
+        display: flex;
+        width: fit-content;
+    }
+
+}

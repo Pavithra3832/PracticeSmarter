@@ -58,13 +58,18 @@
         <div class="profile-menu-wrapper">
 
             <button
-                class="icon-button"
-                id="profile-button"
-                type="button"
-                title="Profile">
-                👤
-            </button>
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
 
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
+
+</button>
             <div
                 class="profile-dropdown"
                 id="profile-dropdown">
@@ -111,10 +116,23 @@
         <section class="profile-content">
 
             <div class="profile-card">
-
                 <div class="profile-avatar" id="profile-avatar">
-                    P
-                </div>
+    P
+</div>
+
+<input
+    type="file"
+    id="profile-photo-input"
+    accept="image/*"
+    hidden>
+
+<button
+    type="button"
+    id="change-photo-button"
+    class="change-photo-button">
+    📷 Change Photo
+</button>
+
 
                 <h2 id="profile-name">Pavithra</h2>
 
@@ -168,6 +186,7 @@
         </section>
 
     </main>
+<script src="js/navbar-profile-photo.js"></script>
 <script type="module" src="js/profile.js"></script>
 
 </body>

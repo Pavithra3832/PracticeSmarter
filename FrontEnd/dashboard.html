@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
 <!-- =========================
      COMMON NAVBAR
 ========================== -->
@@ -22,7 +23,6 @@
         <h2 class="logo">
             PracticeSmarter.
         </h2>
-
 
         <ul class="nav-links">
 
@@ -52,11 +52,9 @@
 
         </ul>
 
-
         <!-- RIGHT SIDE -->
 
         <div class="navbar-actions">
-
 
             <!-- Notification -->
 
@@ -71,7 +69,6 @@
                     🔔
 
                 </button>
-
 
                 <div
                     class="notification-dropdown"
@@ -95,21 +92,23 @@
 
             </div>
 
-
             <!-- Profile -->
 
             <div class="profile-menu-wrapper">
 
                 <button
-                    class="icon-button"
-                    id="profile-button"
-                    type="button"
-                    title="Profile">
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
 
-                    👤
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
 
-                </button>
-
+</button>
 
                 <div
                     class="profile-dropdown"
@@ -135,278 +134,557 @@
 
             </div>
 
-
         </div>
 
     </nav>
 </header>
 
-    <!-- =========================
-         MAIN DASHBOARD
-    ========================== -->
 
-    <main class="dashboard">
-
-        <!-- =========================
-             WELCOME SECTION
-        ========================== -->
-
-        <section class="dashboard-header">
-
-            <div class="welcome-content">
-
-                <p class="dashboard-tag">
-                    Welcome back!
-                </p>
-
-                <h1>
-                    Ready for your next interview?
-                </h1>
-
-                <p class="dashboard-subtitle">
-                    Practice smarter. Improve faster.
-                </p>
-
-            </div>
-
-            <a href="interview.html" class="dashboard-button">
-                Start Interview
-                <span>→</span>
-            </a>
-
-        </section>
-
-
-        <!-- =========================
-             STATISTICS
-        ========================== -->
-
-        <section class="stats">
-
-            <div class="stat-card">
-
-                <div class="stat-card-top">
-                    <span class="stat-icon">🎯</span>
-                </div>
-
-                <p>Interviews</p>
-
-                <strong id="dashboard-total">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-card-top">
-                    <span class="stat-icon">📊</span>
-                </div>
-
-                <p>Avg Score</p>
-
-                <strong id="dashboard-average">
-                    0%
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-card-top">
-                    <span class="stat-icon">🔥</span>
-                </div>
-
-                <p>Streak</p>
-
-                <strong id="dashboard-streak">
-                    0 Days
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-card-top">
-                    <span class="stat-icon">🏆</span>
-                </div>
-
-                <p>Best Score</p>
-
-                <strong id="dashboard-best">
-                    0%
-                </strong>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             PERFORMANCE OVERVIEW
-        ========================== -->
-
-        <section class="performance-section">
-
-            <div class="performance-card">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>Performance Overview</h2>
-
-                        <p>
-                            Your average performance
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="performance-line"></div>
-
-            </div>
-
-
-            <!-- Overall Progress -->
-
-            <div class="progress-card">
-
-                <div class="progress-header">
-
-                    <h2>
-                        Overall Progress
-                    </h2>
-
-                    <span id="progress-percentage">
-                        0%
-                    </span>
-
-                </div>
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        id="progress-fill">
-                    </div>
-
-                </div>
-
-                <p id="progress-message">
-                    Keep improving!
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-     QUICK PRACTICE
+<!-- =========================
+     MAIN DASHBOARD
 ========================== -->
 
-<section class="quick-practice">
+<main class="dashboard">
 
-    <div class="section-title">
+    <!-- =========================
+         WELCOME SECTION
+    ========================== -->
 
-        <h2>
-            Quick Practice
-        </h2>
+    <section class="dashboard-header">
 
-        <p>
-            Choose a topic and start practicing
-        </p>
+        <div class="welcome-content">
 
-    </div>
+            <p class="dashboard-tag">
+                Welcome back! 👋
+            </p>
 
+            <h1>
+                Ready for your next interview?
+            </h1>
 
-    <div class="practice-options">
+            <p class="dashboard-subtitle">
+                Practice smarter. Improve faster. Build your confidence.
+            </p>
 
-        <a href="technical-interview.html?category=HTML"
-           class="practice-option">
-            <span>🌐</span>
-            HTML
+        </div>
+
+        <a
+            href="interview.html"
+            class="dashboard-button">
+
+            Start Interview
+            <span>→</span>
+
         </a>
 
+        <div class="dashboard-illustration">
+    <img 
+        src="images/dashboard-interview.png"
+        alt="Interview Practice Illustration">
+</div>
 
-        <a href="technical-interview.html?category=CSS"
-           class="practice-option">
-            <span>🎨</span>
-            CSS
-        </a>
-
-
-        <a href="technical-interview.html?category=JavaScript"
-           class="practice-option">
-            <span>⚡</span>
-            JavaScript
-        </a>
+    </section>
 
 
-        <a href="technical-interview.html?category=Python"
-           class="practice-option">
-            <span>🐍</span>
-            Python
-        </a>
+    <!-- =========================
+         STATISTICS
+    ========================== -->
 
-    </div>
+    <section class="stats">
 
-</section>
+        <div class="stat-card">
 
-        <!-- =========================
-             RECENT PRACTICE
-        ========================== -->
-
-        <section class="recent-practice">
-
-            <div class="section-title">
-
-                <h2>
-                    Recent Practice
-                </h2>
-
-                <p>
-                    Your latest interview attempts
-                </p>
-
+            <div class="stat-card-top">
+                <span class="stat-icon">🎯</span>
             </div>
 
+            <p>Interviews</p>
 
-            <div id="recent-practice-container">
+            <strong id="dashboard-total">
+                0
+            </strong>
 
-                <div class="practice-card">
+        </div>
 
-                    <div class="practice-info">
 
-                        <h3>
-                            No interviews yet
-                        </h3>
+        <div class="stat-card">
 
-                        <p>
-                            Start your first interview to see your result here.
-                        </p>
+            <div class="stat-card-top">
+                <span class="stat-icon">📊</span>
+            </div>
 
-                    </div>
+            <p>Avg Score</p>
 
-                    <div class="practice-score">
-                
-                    </div>
+            <strong id="dashboard-average">
+                0%
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-top">
+                <span class="stat-icon">🔥</span>
+            </div>
+
+            <p>Streak</p>
+
+            <strong id="dashboard-streak">
+                0 Days
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-top">
+                <span class="stat-icon">🏆</span>
+            </div>
+
+            <p>Best Score</p>
+
+            <strong id="dashboard-best">
+                0%
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NEW - QUICK ACTIONS
+    ========================== -->
+
+    <section class="dashboard-actions">
+
+        <div class="section-title">
+
+            <h2>
+                Quick Actions
+            </h2>
+
+            <p>
+                Access your important practice facilities quickly.
+            </p>
+
+        </div>
+
+        <div class="action-grid">
+
+            <a
+                href="interview.html"
+                class="action-card">
+
+                <span class="action-icon">🎯</span>
+
+                <div>
+                    <h3>Start Practice</h3>
+                    <p>Begin a new interview session.</p>
+                </div>
+
+                <span class="action-arrow">→</span>
+
+            </a>
+
+
+            <a
+                href="progress.html"
+                class="action-card">
+
+                <span class="action-icon">📈</span>
+
+                <div>
+                    <h3>View Progress</h3>
+                    <p>Track your interview performance.</p>
+                </div>
+
+                <span class="action-arrow">→</span>
+
+            </a>
+
+
+            <a
+                href="profile.html"
+                class="action-card">
+
+                <span class="action-icon">👤</span>
+
+                <div>
+                    <h3>My Profile</h3>
+                    <p>Manage your profile information.</p>
+                </div>
+
+                <span class="action-arrow">→</span>
+
+            </a>
+
+            <a
+    href="bookmarks.html"
+    class="action-card">
+
+    <span class="action-icon">🔖</span>
+
+    <div>
+    <h3>Bookmarked Questions</h3>
+    <p>Review your saved interview questions.</p>
+    <small id="dashboard-bookmark-count">0 questions saved</small>
+</div>
+
+    <span class="action-arrow">→</span>
+
+</a>
+
+<a
+    href="interview-history.html"
+    class="action-card">
+
+    <span class="action-icon">🕘</span>
+
+    <div>
+        <h3>Interview History</h3>
+        <p>View your previous interview attempts.</p>
+    </div>
+
+    <span class="action-arrow">→</span>
+
+</a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PERFORMANCE OVERVIEW
+    ========================== -->
+
+    <section class="performance-section">
+
+        <div class="performance-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Performance Overview
+                    </h2>
+
+                    <p>
+                        Your average interview performance
+                    </p>
 
                 </div>
 
             </div>
 
-        </section>
+            <div class="performance-line"></div>
 
-    </main>
+        </div>
 
 
-    <!-- DASHBOARD JS -->
+        <!-- Overall Progress -->
 
+        <div class="progress-card">
+
+            <div class="progress-header">
+
+                <h2>
+                    Overall Progress
+                </h2>
+
+                <span id="progress-percentage">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progress-fill">
+                </div>
+
+            </div>
+
+            <p id="progress-message">
+                Keep improving!
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NEW - RECOMMENDED PRACTICE
+    ========================== -->
+
+    <section class="recommended-section">
+
+        <div class="section-title">
+
+            <h2>
+                🎯 Recommended Practice
+            </h2>
+
+            <p>
+                A simple suggestion based on your current performance.
+            </p>
+
+        </div>
+
+
+        <div class="recommendation-card">
+
+            <div class="recommendation-icon">
+                💡
+            </div>
+
+            <div class="recommendation-content">
+
+                <span class="recommendation-label">
+                    Your Practice Suggestion
+                </span>
+
+                <h3 id="recommendation-title">
+                    Start your first interview
+                </h3>
+
+                <p id="recommendation-text">
+                    Complete an interview to receive personalized practice suggestions.
+                </p>
+
+            </div>
+
+            <a
+                href="interview.html"
+                class="recommendation-button"
+                id="recommendation-button">
+
+                Practice Now →
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUICK PRACTICE
+    ========================== -->
+
+    <section class="quick-practice">
+
+        <div class="section-title">
+
+            <h2>
+                Quick Practice
+            </h2>
+
+            <p>
+                Choose a technology and start practicing.
+            </p>
+
+        </div>
+
+
+        <div class="practice-options">
+
+            <a
+                href="technical-interview.html?category=HTML"
+                class="practice-option">
+
+                <span>🌐</span>
+                HTML
+
+            </a>
+
+
+            <a
+                href="technical-interview.html?category=CSS"
+                class="practice-option">
+
+                <span>🎨</span>
+                CSS
+
+            </a>
+
+
+            <a
+                href="technical-interview.html?category=JavaScript"
+                class="practice-option">
+
+                <span>⚡</span>
+                JavaScript
+
+            </a>
+
+
+            <a
+                href="technical-interview.html?category=Python"
+                class="practice-option">
+
+                <span>🐍</span>
+                Python
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NEW - ACHIEVEMENTS
+    ========================== -->
+
+    <section class="achievements-section">
+
+        <div class="section-title">
+
+            <h2>
+                🏆 Achievements
+            </h2>
+
+            <p>
+                Keep practicing and unlock your milestones.
+            </p>
+
+        </div>
+
+
+        <div class="achievement-grid">
+
+            <div
+                class="achievement-card"
+                id="achievement-first">
+
+                <span class="achievement-icon">
+                    🎯
+                </span>
+
+                <div>
+
+                    <h3>
+                        First Practice
+                    </h3>
+
+                    <p>
+                        Complete your first interview.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="achievement-card"
+                id="achievement-five">
+
+                <span class="achievement-icon">
+                    🔥
+                </span>
+
+                <div>
+
+                    <h3>
+                        Practice Explorer
+                    </h3>
+
+                    <p>
+                        Complete 5 interviews.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="achievement-card"
+                id="achievement-score">
+
+                <span class="achievement-icon">
+                    ⭐
+                </span>
+
+                <div>
+
+                    <h3>
+                        High Performer
+                    </h3>
+
+                    <p>
+                        Achieve a score of 80% or above.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         RECENT PRACTICE
+    ========================== -->
+
+    <section class="recent-practice">
+
+        <div class="section-title">
+
+            <h2>
+                Recent Practice
+            </h2>
+
+            <p>
+                Your latest interview attempts.
+            </p>
+
+        </div>
+
+
+        <div id="recent-practice-container">
+
+            <div class="practice-card">
+
+                <div class="practice-info">
+
+                    <h3>
+                        No interviews yet
+                    </h3>
+
+                    <p>
+                        Start your first interview to see your result here.
+                    </p>
+
+                </div>
+
+                <div class="practice-score"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     DASHBOARD JS
+========================== -->
+<script src="js/navbar-profile-photo.js"></script>
 <script type="module" src="js/dashboard.js"></script>
-</body>
 
+</body>
 </html>

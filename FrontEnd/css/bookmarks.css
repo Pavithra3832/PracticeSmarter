@@ -1,0 +1,198 @@
+/* =========================================
+   BOOKMARKS PAGE
+========================================= */
+
+.bookmarks-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.bookmarks-header {
+    margin-bottom: 30px;
+}
+
+.bookmarks-header h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.bookmarks-header p {
+    margin: 0;
+    color: #666;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   BOOKMARK GRID
+========================================= */
+
+.bookmark-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+
+/* =========================================
+   BOOKMARK CARD
+========================================= */
+
+.bookmark-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.bookmark-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.09);
+}
+
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+.bookmark-category {
+    display: inline-block;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    margin-bottom: 12px;
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: #f1f3f5;
+}
+
+
+/* =========================================
+   QUESTION
+========================================= */
+
+.bookmark-question {
+    margin: 0 0 18px;
+
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   CARD FOOTER
+========================================= */
+
+.bookmark-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =========================================
+   REMOVE BOOKMARK BUTTON
+========================================= */
+
+.remove-bookmark {
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+}
+
+.remove-bookmark:hover {
+    background: #f5f5f5;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.bookmark-empty {
+    text-align: center;
+
+    padding: 60px 20px;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    border: 1px dashed #d5d5d5;
+}
+
+.bookmark-empty-icon {
+    font-size: 45px;
+
+    margin-bottom: 12px;
+}
+
+.bookmark-empty h2 {
+    margin: 0 0 8px;
+}
+
+.bookmark-empty p {
+    margin: 0;
+
+    color: #777;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .bookmark-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bookmarks-header h1 {
+        font-size: 28px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .bookmarks-page {
+        padding: 25px 15px 40px;
+    }
+
+    .bookmark-card {
+        padding: 18px;
+    }
+
+    .bookmark-question {
+        font-size: 16px;
+    }
+}
+

@@ -16,10 +16,10 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
 // ======================================
 // FIREBASE CONFIG
 // ======================================
@@ -402,32 +402,120 @@ onAuthStateChanged(
 
 
         // ==================================
-        // STUDENT NAME
-        // ==================================
+// STUDENT NAME FROM PROFILE
+// ======================================
 
-        let displayName =
-            user.displayName;
+let displayName = "";
 
+// --------------------------------------
+// FIRST: Try saved local profile
+// --------------------------------------
+
+try {
+
+    const savedProfile =
+        JSON.parse(
+            localStorage.getItem("userProfile")
+        );
+
+    if (
+        savedProfile &&
+        savedProfile.name &&
+        savedProfile.name.trim() !== ""
+    ) {
+
+        displayName =
+            savedProfile.name.trim();
+
+    }
+
+} catch (error) {
+
+    console.warn(
+        "Local profile read failed:",
+        error
+    );
+
+}
+
+
+// --------------------------------------
+// SECOND: Get latest profile from Firestore
+// --------------------------------------
+
+try {
+
+    const userRef =
+        doc(
+            db,
+            "users",
+            user.uid
+        );
+
+    const userSnapshot =
+        await getDoc(userRef);
+
+    if (userSnapshot.exists()) {
+
+        const profileData =
+            userSnapshot.data();
 
         if (
-            !displayName ||
-            displayName.trim() === ""
+            profileData.name &&
+            profileData.name.trim() !== ""
         ) {
 
             displayName =
-                user.email
-                    ? user.email.split("@")[0]
-                    : "PracticeSmarter User";
+                profileData.name.trim();
 
         }
 
+    }
 
-        if (studentNameElement) {
+} catch (error) {
 
-            studentNameElement.textContent =
-                displayName;
+    console.warn(
+        "Profile name load failed:",
+        error
+    );
 
-        }
+}
+
+
+// --------------------------------------
+// FALLBACK
+// --------------------------------------
+
+if (!displayName) {
+
+    displayName =
+        user.displayName &&
+        user.displayName.trim() !== ""
+
+            ? user.displayName.trim()
+
+            : user.email
+                ? user.email.split("@")[0]
+                : "PracticeSmarter User";
+
+}
+
+
+// --------------------------------------
+// DISPLAY NAME
+// --------------------------------------
+
+if (studentNameElement) {
+
+    studentNameElement.textContent =
+        displayName;
+
+}
+
+console.log(
+    "✅ Certificate profile name:",
+    displayName
+);
 
 
         // ==================================

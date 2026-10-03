@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bookmarks - PracticeSmarter</title>
+
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Bookmark Page Styles -->
+    <link rel="stylesheet" href="css/bookmarks.css">
+</head>
+
+<body>
+
+<!-- =========================
+     COMMON NAVBAR
+========================== -->
+
+<header>
+    <nav class="navbar">
+
+        <h2 class="logo">
+            PracticeSmarter.
+        </h2>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="interview.html">
+                    Practice
+                </a>
+            </li>
+
+            <li>
+                <a href="progress.html">
+                    Progress
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    Profile
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- RIGHT SIDE -->
+
+        <div class="navbar-actions">
+
+            <!-- Notification -->
+
+            <div class="notification-menu-wrapper">
+
+                <button
+                    class="icon-button"
+                    id="notification-button"
+                    type="button"
+                    title="Notifications">
+
+                    🔔
+
+                </button>
+
+                <div
+                    class="notification-dropdown"
+                    id="notification-dropdown">
+
+                    <h3>Notifications</h3>
+
+                    <p>
+                        🎯 Keep practicing to improve your interview skills.
+                    </p>
+
+                    <p>
+                        📊 Check your progress regularly.
+                    </p>
+
+                    <p>
+                        💡 Practice makes you more confident.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Profile -->
+
+            <div class="profile-menu-wrapper">
+
+                <button
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
+
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
+
+</button>
+
+                <div
+                    class="profile-dropdown"
+                    id="profile-dropdown">
+
+                    <a href="profile.html">
+                        👤 Profile
+                    </a>
+
+                    <a href="progress.html">
+                        📊 My Progress
+                    </a>
+
+                    <button
+                        id="logout-button"
+                        type="button">
+
+                        🚪 Logout
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+</header>
+
+
+<!-- =========================
+     BOOKMARKS MAIN CONTENT
+========================== -->
+
+<main class="bookmarks-page">
+
+    <!-- PAGE HEADER -->
+
+    <section class="bookmarks-header">
+
+        <h1>
+            🔖 Bookmarked Questions
+        </h1>
+
+        <p>
+            Review and practice the interview questions you saved.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         BOOKMARK CONTENT
+    ========================== -->
+
+    <section>
+
+        <!--
+            Bookmark cards will be
+            loaded dynamically using JavaScript.
+        -->
+
+        <div
+            class="bookmark-grid"
+            id="bookmark-container">
+        </div>
+
+
+        <!-- EMPTY STATE -->
+
+        <div
+            class="bookmark-empty"
+            id="bookmark-empty"
+            style="display: none;">
+
+            <div class="bookmark-empty-icon">
+                🔖
+            </div>
+
+            <h2>
+                No Bookmarks Yet
+            </h2>
+
+            <p>
+                Save interview questions while practicing
+                and they will appear here.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     BOOKMARK JAVASCRIPT
+========================== -->
+
+<script src="js/navbar-profile-photo.js"></script>
+<script type="module" src="js/bookmarks.js"></script>
+
+</body>
+</html>
+

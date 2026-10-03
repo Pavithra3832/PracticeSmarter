@@ -81,37 +81,106 @@ const historyContainer =
 
 let interviewScores = [];
 
-
 // ======================================
 // FIREBASE AUTH STATE
+// FIRESTORE + LOCALSTORAGE SUPPORT
 // ======================================
 
 onAuthStateChanged(auth, async (user) => {
 
-    // Firebase Auth is the real login source
-    if (!user) {
+    // ======================================
+    // FIREBASE USER AVAILABLE
+    // ======================================
 
-        console.warn(
-            "No Firebase user detected. Waiting for Firebase Auth..."
+    if (user) {
+
+        console.log(
+            "✅ Firebase user logged in:",
+            user.uid
         );
+
+        await loadInterviewResults(user.uid);
 
         return;
     }
 
 
-    console.log(
-        "✅ Firebase user logged in:",
-        user.uid
+    // ======================================
+    // FIREBASE USER NOT AVAILABLE
+    // LOAD EXISTING LOCAL RESULTS
+    // ======================================
+
+    console.warn(
+        "⚠️ No Firebase user detected. Loading saved interview results..."
     );
 
 
-    await loadInterviewResults(user.uid);
+    const localResults =
+        JSON.parse(
+            localStorage.getItem("interviewScores")
+        ) || [];
+
+
+    if (Array.isArray(localResults)) {
+
+        interviewScores =
+            localResults.filter(
+                interview =>
+                    interview &&
+                    Number(interview.overall) > 0
+            );
+
+    } else {
+
+        interviewScores = [];
+
+    }
+
+
+    // ======================================
+    // SORT NEWEST → OLDEST
+    // ======================================
+
+    interviewScores.sort((a, b) => {
+
+        const dateA =
+            getTimestampValue(
+                a.createdAt || a.date
+            );
+
+        const dateB =
+            getTimestampValue(
+                b.createdAt || b.date
+            );
+
+        return dateB - dateA;
+
+    });
+
+
+    console.log(
+        "✅ Progress loaded from localStorage:",
+        interviewScores
+    );
+
+
+    // ======================================
+    // UPDATE PROGRESS PAGE
+    // ======================================
+
+    updateProgressPage();
 
 });
 
 
+    
+
 // ======================================
 // LOAD USER INTERVIEW RESULTS
+// ======================================
+// ======================================
+// LOAD USER INTERVIEW RESULTS
+// FIRESTORE + LOCALSTORAGE FALLBACK
 // ======================================
 
 async function loadInterviewResults(userId) {
@@ -123,13 +192,10 @@ async function loadInterviewResults(userId) {
             where("userId", "==", userId)
         );
 
-
         const snapshot =
             await getDocs(resultsQuery);
 
-
         interviewScores = [];
-
 
         snapshot.forEach((documentSnapshot) => {
 
@@ -143,6 +209,49 @@ async function loadInterviewResults(userId) {
 
         });
 
+        // ======================================
+        // FIRESTORE DATA AVAILABLE
+        // ======================================
+
+        if (interviewScores.length > 0) {
+
+            console.log(
+                "✅ Progress loaded from Firestore:",
+                interviewScores
+            );
+
+        } else {
+
+            // ======================================
+            // LOCALSTORAGE FALLBACK
+            // ======================================
+
+            console.warn(
+                "⚠️ No Firestore results found. Loading localStorage..."
+            );
+
+            const localResults =
+                JSON.parse(
+                    localStorage.getItem("interviewScores")
+                ) || [];
+
+            if (Array.isArray(localResults)) {
+
+                interviewScores =
+                    localResults.filter(
+                        interview =>
+                            interview &&
+                            Number(interview.overall) > 0
+                    );
+
+            }
+
+            console.log(
+                "✅ Progress loaded from localStorage:",
+                interviewScores
+            );
+
+        }
 
         // ======================================
         // SORT NEWEST → OLDEST
@@ -164,22 +273,49 @@ async function loadInterviewResults(userId) {
 
         });
 
-
-        console.log(
-            "✅ Firestore Interview Results:",
-            interviewScores
-        );
-
+        // ======================================
+        // UPDATE PAGE
+        // ======================================
 
         updateProgressPage();
-
 
     } catch (error) {
 
         console.error(
-            "❌ Error loading interview results:",
+            "❌ Firestore loading failed:",
             error
         );
+
+        // ======================================
+        // LOCALSTORAGE FALLBACK ON ERROR
+        // ======================================
+
+        const localResults =
+            JSON.parse(
+                localStorage.getItem("interviewScores")
+            ) || [];
+
+        if (Array.isArray(localResults)) {
+
+            interviewScores =
+                localResults.filter(
+                    interview =>
+                        interview &&
+                        Number(interview.overall) > 0
+                );
+
+        } else {
+
+            interviewScores = [];
+
+        }
+
+        console.log(
+            "✅ Progress fallback data:",
+            interviewScores
+        );
+
+        updateProgressPage();
 
     }
 

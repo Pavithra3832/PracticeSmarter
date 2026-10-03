@@ -88,10 +88,10 @@
 }
 
 .login-image img {
-    width: 150%;
-    max-width: 330px;
+    width: 100%;
+    max-width: 320px;
     height: auto;
-    border-radius: 10px;
+    border-radius: 18px;
     display: block;
     margin: 0 auto;
 }

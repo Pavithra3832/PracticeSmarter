@@ -60,12 +60,18 @@
             <div class="profile-menu-wrapper">
 
                 <button
-                    class="icon-button"
-                    id="profile-button"
-                    type="button"
-                    title="Profile">
-                    👤
-                </button>
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
+
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
+
+</button>
 
                 <div
                     class="profile-dropdown"
@@ -369,7 +375,48 @@
             <div id="answer-review-container"></div>
 
         </section>
+<!-- ==========================
+     WEAK TOPIC DETECTION
+=========================== -->
 
+<section class="weak-topic-section">
+
+    <div class="weak-topic-header">
+
+        <span class="weak-topic-label">
+            🧠 SMART ANALYSIS
+        </span>
+
+        <h2>
+            Weak Topic Detection & Practice Recommendation
+        </h2>
+
+        <p>
+            Topics are identified from the questions you found difficult,
+            with a focused recommendation for your next practice session.
+        </p>
+
+    </div>
+
+    <div
+        id="weak-topic-container"
+        class="weak-topic-grid">
+
+        <div class="weak-topic-empty">
+
+            <span>
+                🔍
+            </span>
+
+            <p>
+                Analyzing your answers...
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
         <!-- ==========================
              AI RECOMMENDATION
@@ -388,6 +435,123 @@
     <p id="recommendation-text">
         Analyzing your interview performance...
     </p>
+
+</section>
+
+<!-- ==========================
+     INTERVIEW NOTES
+=========================== -->
+
+<section class="interview-notes-section">
+
+    <div class="notes-header">
+        <div>
+            <span class="notes-label">📝 PERSONAL NOTES</span>
+            <h2>Interview Notes</h2>
+            <p>
+                Write down what you learned and what you want to improve next time.
+            </p>
+        </div>
+    </div>
+
+    <div class="notes-box">
+
+        <textarea
+            id="interview-notes"
+            maxlength="500"
+            placeholder="Example: I need to improve JavaScript closures and explain answers with real examples..."></textarea>
+
+        <div class="notes-footer">
+
+            <span id="notes-counter">
+                0 / 500
+            </span>
+
+            <button
+                type="button"
+                id="save-notes-button"
+                class="save-notes-button">
+                💾 Save Note
+            </button>
+
+        </div>
+
+        <p
+            id="notes-status"
+            class="notes-status">
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================
+     SKILL IMPROVEMENT PLAN
+=========================== -->
+
+<section class="skill-improvement-section">
+
+    <div class="skill-improvement-header">
+
+        <span class="notes-label">
+            🚀 NEXT STEP
+        </span>
+
+        <h2>
+            Skill Improvement Plan
+        </h2>
+
+        <p>
+            A simple practice plan based on your current interview scores.
+        </p>
+
+    </div>
+
+    <div
+        id="skill-improvement-container"
+        class="skill-improvement-grid">
+
+        <div class="skill-plan-item">
+
+            <span class="skill-plan-icon">
+                💻
+            </span>
+
+            <div>
+                <strong>Technical Skills</strong>
+                <p>Preparing your recommendation...</p>
+            </div>
+
+        </div>
+
+        <div class="skill-plan-item">
+
+            <span class="skill-plan-icon">
+                🎤
+            </span>
+
+            <div>
+                <strong>Communication</strong>
+                <p>Preparing your recommendation...</p>
+            </div>
+
+        </div>
+
+        <div class="skill-plan-item">
+
+            <span class="skill-plan-icon">
+                🙂 
+            </span>
+
+            <div>
+                <strong>Confidence</strong>
+                <p>Preparing your recommendation...</p>
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
@@ -424,7 +588,11 @@
     </main>
 
 
+<script src="js/navbar-profile-photo.js"></script>
 <script type="module" src="js/result.js"></script>
+<script src="js/result-enhancements.js"></script>
+<script src="js/weak-topic-detection.js"></script>
+<script src="js/weak-topic-history.js"></script>
 </body>
 
 </html>

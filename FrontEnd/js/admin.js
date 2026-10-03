@@ -126,9 +126,6 @@ onAuthStateChanged(
         // Logged-in user is NOT admin
         console.log("CURRENT LOGIN UID:", user.uid);
 console.log("ADMIN UID IN CODE:", ADMIN_UID);
-
-console.log("CURRENT LOGGED-IN UID:", user.uid);
-console.log("ADMIN UID IN CODE:", ADMIN_UID);
 console.log(
     "UID MATCH:",
     user.uid === ADMIN_UID

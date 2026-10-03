@@ -99,15 +99,18 @@
             <div class="profile-menu-wrapper">
 
                 <button
-                    class="icon-button"
-                    id="profile-button"
-                    type="button"
-                    title="Profile">
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
 
-                    👤
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
 
-                </button>
-
+</button>
 
                 <div
                     class="profile-dropdown"
@@ -387,6 +390,47 @@
     </div>
 
 </section>
+
+
+<!-- ======================================
+     OVERALL WEAK TOPICS
+====================================== -->
+
+<section class="overall-weak-topic-section">
+
+    <div class="overall-weak-topic-header">
+
+        <span class="overall-weak-label">
+            🧠 LONG-TERM ANALYSIS
+        </span>
+
+        <h2>
+            Overall Weak Topics
+        </h2>
+
+        <p>
+            Topics that repeatedly need more practice across your interview attempts.
+        </p>
+
+    </div>
+
+    <div
+        id="overall-weak-topic-container"
+        class="overall-weak-topic-grid">
+
+        <div class="overall-weak-empty">
+
+            <span>🔍</span>
+
+            <p>
+                Complete more interviews to build your overall weak-topic analysis.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
         <section class="history-section">
  
            <h2>Interview History</h2>
@@ -394,8 +438,19 @@
            <div id="history-container"></div>
 
         </section>
+
     </main>
-<script type="module" src="js/progress.js"></script>
+<script src="js/navbar-profile-photo.js"></script>
+
+<script
+    type="module"
+    src="js/overall-weak-topics.js?v=4">
+</script>
+
+<script
+    type="module"
+    src="js/progress.js">
+</script>
 </body>
 
 </html>

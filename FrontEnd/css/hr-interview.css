@@ -734,3 +734,27 @@
     }
 
 }
+/* HR QUESTION HINT - COMPACT */
+.question-hint {
+    display: inline-block;
+    max-width: 520px;
+    margin: 10px 0 18px;
+    padding: 8px 12px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.45;
+}/* =========================================
+   HR INTERVIEW - CUSTOM ILLUSTRATION
+========================================= */
+
+.question-card::after {
+    background-image: url("../images/hr-interview.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 18px;
+}

@@ -521,7 +521,7 @@ async function evaluateInterviewWithAI() {
 
             const response =
                 await fetch(
-                    "http://localhost:5000/api/evaluate-answer",
+                    "https://practicesmarter.onrender.com/api/evaluate-answer",
                     {
                         method: "POST",
 
@@ -972,6 +972,216 @@ if (
     overallPercentage =
         finalOverallPercentage;
 
+        // ======================================
+// DETECT WEAK TOPICS FOR THIS INTERVIEW
+// ======================================
+
+const weakTopicMap = {
+
+    HTML: [
+        {
+            name: "Semantic HTML",
+            keywords: ["semantic", "header", "footer", "section", "article", "nav", "aside"]
+        },
+        {
+            name: "Forms & Inputs",
+            keywords: ["form", "input", "textarea", "label", "validation"]
+        },
+        {
+            name: "HTML Attributes",
+            keywords: ["attribute", "id", "class", "alt", "href", "src"]
+        },
+        {
+            name: "Multimedia",
+            keywords: ["audio", "video", "iframe", "image", "media"]
+        },
+        {
+            name: "Accessibility",
+            keywords: ["accessibility", "aria", "screen reader"]
+        }
+    ],
+
+    CSS: [
+        {
+            name: "Flexbox",
+            keywords: ["flexbox", "justify-content", "align-items", "flex-direction", "flex-wrap"]
+        },
+        {
+            name: "CSS Grid",
+            keywords: ["grid", "grid-template", "grid-area", "grid-column", "grid-row"]
+        },
+        {
+            name: "Box Model",
+            keywords: ["box model", "margin", "padding", "border", "content box"]
+        },
+        {
+            name: "Selectors & Specificity",
+            keywords: ["selector", "specificity", "pseudo-class", "pseudo-element"]
+        },
+        {
+            name: "Responsive Design",
+            keywords: ["responsive", "media query", "mobile", "viewport"]
+        }
+    ],
+
+    JavaScript: [
+        {
+            name: "Variables & Scope",
+            keywords: ["var", "let", "const", "scope", "hoisting"]
+        },
+        {
+            name: "Functions & Closures",
+            keywords: ["function", "closure", "callback", "arrow function"]
+        },
+        {
+            name: "DOM & Events",
+            keywords: ["dom", "document", "event", "onclick", "addeventlistener"]
+        },
+        {
+            name: "Async JavaScript",
+            keywords: ["promise", "async", "await", "fetch", "asynchronous"]
+        },
+        {
+            name: "Arrays & Objects",
+            keywords: ["array", "object", "map", "filter", "reduce"]
+        }
+    ],
+
+    Python: [
+        {
+            name: "Python Data Types",
+            keywords: ["list", "tuple", "set", "dictionary", "data type"]
+        },
+        {
+            name: "Functions",
+            keywords: ["function", "def", "lambda", "parameter"]
+        },
+        {
+            name: "Object-Oriented Programming",
+            keywords: ["class", "object", "inheritance", "polymorphism", "encapsulation"]
+        },
+        {
+            name: "Exception Handling",
+            keywords: ["exception", "try", "except", "finally"]
+        },
+        {
+            name: "Modules & Packages",
+            keywords: ["module", "package", "import", "pip"]
+        }
+    ],
+
+    Java: [
+        {
+            name: "OOP Concepts",
+            keywords: ["class", "object", "inheritance", "polymorphism", "encapsulation"]
+        },
+        {
+            name: "Exception Handling",
+            keywords: ["exception", "try", "catch", "finally"]
+        },
+        {
+            name: "Collections",
+            keywords: ["arraylist", "hashmap", "collection", "list", "set"]
+        },
+        {
+            name: "Interfaces & Abstraction",
+            keywords: ["interface", "abstract", "abstraction"]
+        },
+        {
+            name: "Multithreading",
+            keywords: ["thread", "multithreading", "synchronized"]
+        }
+    ]
+};
+
+
+// ======================================
+// DETECT TOPIC FROM QUESTION
+// ======================================
+
+function detectInterviewTopic(category, question) {
+
+    const topics =
+        weakTopicMap[category] || [];
+
+    const text =
+        String(question || "").toLowerCase();
+
+    let bestTopic = null;
+    let bestMatches = 0;
+
+    topics.forEach(topic => {
+
+        let matches = 0;
+
+        topic.keywords.forEach(keyword => {
+
+            if (
+                text.includes(
+                    keyword.toLowerCase()
+                )
+            ) {
+                matches++;
+            }
+
+        });
+
+        if (matches > bestMatches) {
+
+            bestMatches = matches;
+            bestTopic = topic.name;
+
+        }
+
+    });
+
+    return bestTopic || "Core Concepts";
+}
+
+
+// ======================================
+// BUILD WEAK TOPIC DATA
+// ======================================
+
+function getWeakTopicsForInterview() {
+
+    const topicCounts = {};
+
+    answerResults.forEach(item => {
+
+        if (item.isCorrect) {
+            return;
+        }
+
+        const topic =
+            detectInterviewTopic(
+                category,
+                item.question
+            );
+
+        topicCounts[topic] =
+            (topicCounts[topic] || 0) + 1;
+
+    });
+
+    return Object.entries(topicCounts)
+        .map(([topic, count]) => ({
+            topic,
+            count
+        }));
+
+}
+
+
+const weakTopics =
+    getWeakTopicsForInterview();
+
+console.log(
+    "🧠 Weak topics for this interview:",
+    weakTopics
+);
+
+
 
     // ==================================
     // SAVE COMPLETE INTERVIEW RESULT
@@ -986,6 +1196,181 @@ if (
 
 
     const interviewResult = {
+
+    category:
+        category,
+
+    difficulty:
+        difficulty,
+
+    technical:
+        finalTechnicalScore,
+
+    communication:
+        finalCommunicationScore,
+
+    confidence:
+        finalConfidenceScore,
+
+    overall:
+        finalOverallPercentage,
+
+    weakTopics:
+        weakTopics,
+
+    date:
+        new Date().toLocaleString(
+            [],
+            {
+                dateStyle: "short",
+                timeStyle: "short"
+            }
+        )
+};
+
+// ======================================
+// FIREBASE USER + LOCAL RESULT SAVE
+// ======================================
+
+return new Promise(resolve => {
+
+    onAuthStateChanged(
+        auth,
+        async (user) => {
+
+            // ==================================
+            // PREVENT DUPLICATE SAVE
+            // ==================================
+
+            const savedSessionId =
+                sessionStorage.getItem(
+                    "savedInterviewSessionId"
+                );
+
+
+            if (
+                savedSessionId ===
+                interviewSessionId
+            ) {
+
+                console.log(
+                    "This interview result is already saved."
+                );
+
+                resolve();
+
+                return;
+            }
+
+
+            // ==================================
+            // SAVE LOCAL RESULT FIRST
+            // ==================================
+
+            let localResult = {
+
+                ...interviewResult,
+
+                userId:
+                    user?.uid || "local-user",
+
+                sessionId:
+                    interviewSessionId
+
+            };
+
+
+            // ==================================
+            // ADD RESULT TO LOCALSTORAGE
+            // ==================================
+
+            interviewScores.push(
+                localResult
+            );
+
+
+            localStorage.setItem(
+                "interviewScores",
+                JSON.stringify(
+                    interviewScores
+                )
+            );
+
+
+            console.log(
+                "✅ LOCAL INTERVIEW RESULT SAVED"
+            );
+
+            console.log(
+                "Interview Category:",
+                category
+            );
+
+            console.log(
+                "Interview Difficulty:",
+                difficulty
+            );
+
+            console.log(
+                "Overall Percentage:",
+                finalOverallPercentage
+            );
+
+
+            // ==================================
+            // FIREBASE USER NOT AVAILABLE
+            // ==================================
+
+            if (!user) {
+
+                console.warn(
+                    "⚠️ Firebase user unavailable. Result saved locally."
+                );
+
+
+                // Mark session as saved
+                // so refresh does not create duplicate result
+
+                sessionStorage.setItem(
+                    "savedInterviewSessionId",
+                    interviewSessionId
+                );
+
+
+                console.log(
+                    "✅ Result will be available in Progress and Interview History."
+                );
+
+
+                resolve();
+
+                return;
+            }
+
+
+            // ==================================
+            // FIRESTORE SAVE
+            // ==================================
+
+            try {
+
+                const resultRef =
+                    doc(
+                        db,
+                        "interviewResults",
+                        interviewSessionId
+                    );
+
+
+                await setDoc(
+    resultRef,
+    {
+
+        userId:
+            user.uid,
+
+        sessionId:
+            interviewSessionId,
 
         category:
             category,
@@ -1005,257 +1390,142 @@ if (
         overall:
             finalOverallPercentage,
 
-        date:
-            new Date().toLocaleString(
-                [],
-                {
-                    dateStyle: "short",
-                    timeStyle: "short"
-                }
-            )
+        weakTopics:
+            weakTopics,
 
-    };
+        totalQuestions:
+            totalQuestions,
 
+        correctAnswers:
+            technicalPoints,
 
-    // ==================================
-    // FIREBASE USER
-    // ==================================
+        answeredQuestions:
+            answeredQuestions,
 
-    return new Promise(resolve => {
+        aiEvaluated:
+            actualAIResults.length > 0,
 
-        onAuthStateChanged(
-            auth,
-            async (user) => {
+        aiEvaluationCount:
+            actualAIResults.length,
 
-                if (!user) {
+        createdAt:
+            serverTimestamp()
 
-                    console.error(
-                        "❌ No Firebase user is signed in."
-                    );
-
-                    resolve();
-
-                    return;
-                }
+    }
+);
 
 
-                // ==================================
-                // PREVENT DUPLICATE SAVE
-                // ==================================
+                console.log(
+                    "🔥 FIRESTORE WRITE CONFIRMED"
+                );
 
-                const savedSessionId =
-                    sessionStorage.getItem(
-                        "savedInterviewSessionId"
-                    );
+                console.log(
+                    "📁 Collection: interviewResults"
+                );
 
-
-                if (
-                    savedSessionId ===
+                console.log(
+                    "🆔 Document ID:",
                     interviewSessionId
-                ) {
-
-                    console.log(
-                        "This interview result is already saved."
-                    );
-
-                    resolve();
-
-                    return;
-                }
-
-
-                // ==================================
-                // SAVE LOCAL RESULT
-                // ==================================
-
-                const localResult = {
-
-                    ...interviewResult,
-
-                    userId:
-                        user.uid,
-
-                    sessionId:
-                        interviewSessionId
-
-                };
-
-
-                interviewScores.push(
-                    localResult
                 );
 
-
-                localStorage.setItem(
-                    "interviewScores",
-                    JSON.stringify(
-                        interviewScores
-                    )
+                console.log(
+                    "👤 User ID:",
+                    user.uid
                 );
 
 
                 // ==================================
-                // SAVE FIRESTORE
+                // MARK SESSION AS SAVED
                 // ==================================
 
-                try {
-
-                    const resultRef =
-                        doc(
-                            db,
-                            "interviewResults",
-                            interviewSessionId
-                        );
+                sessionStorage.setItem(
+                    "savedInterviewSessionId",
+                    interviewSessionId
+                );
 
 
-                    await setDoc(
-                        resultRef,
-                        {
+                console.log(
+                    "======================================"
+                );
 
-                            userId:
-                                user.uid,
+                console.log(
+                    "✅ FINAL INTERVIEW RESULT SAVED"
+                );
 
-                            sessionId:
-                                interviewSessionId,
+                console.log(
+                    "Interview Category:",
+                    category
+                );
 
-                            category:
-                                category,
+                console.log(
+                    "Interview Difficulty:",
+                    difficulty
+                );
 
-                            difficulty:
-                                difficulty,
+                console.log(
+                    "Technical Score:",
+                    finalTechnicalScore
+                );
 
-                            technical:
-                                finalTechnicalScore,
+                console.log(
+                    "Communication Score:",
+                    finalCommunicationScore
+                );
 
-                            communication:
-                                finalCommunicationScore,
+                console.log(
+                    "Confidence Score:",
+                    finalConfidenceScore
+                );
 
-                            confidence:
-                                finalConfidenceScore,
+                console.log(
+                    "Overall Score:",
+                    finalOverallScore
+                );
 
-                            overall:
-                                finalOverallPercentage,
+                console.log(
+                    "Overall Percentage:",
+                    finalOverallPercentage
+                );
 
-                            totalQuestions:
-                                totalQuestions,
+                console.log(
+                    "AI Evaluations:",
+                    aiEvaluationResults.length
+                );
 
-                            correctAnswers:
-                                technicalPoints,
+                console.log(
+                    "Interview Session ID:",
+                    interviewSessionId
+                );
 
-                            answeredQuestions:
-                                answeredQuestions,
+                console.log(
+                    "Firebase User ID:",
+                    user.uid
+                );
 
-                            aiEvaluated:
-    actualAIResults.length > 0,
-
-aiEvaluationCount:
-    actualAIResults.length,
-
-                            createdAt:
-                                serverTimestamp()
-
-                        }
-                    );
-                    console.log("🔥 FIRESTORE WRITE CONFIRMED");
-console.log("📁 Collection: interviewResults");
-console.log("🆔 Document ID:", interviewSessionId);
-console.log("👤 User ID:", user.uid);
-            
-
-
-                    // ==================================
-                    // MARK SESSION AS SAVED
-                    // ==================================
-
-                    sessionStorage.setItem(
-                        "savedInterviewSessionId",
-                        interviewSessionId
-                    );
+                console.log(
+                    "======================================"
+                );
 
 
-                    console.log(
-                        "======================================"
-                    );
+            } catch (error) {
 
-                    console.log(
-                        "✅ FINAL INTERVIEW RESULT SAVED"
-                    );
+                console.error(
+                    "❌ Firestore save error:",
+                    error
+                );
 
-                    console.log(
-                        "Interview Category:",
-                        category
-                    );
-
-                    console.log(
-                        "Interview Difficulty:",
-                        difficulty
-                    );
-
-                    console.log(
-                        "Technical Score:",
-                        finalTechnicalScore
-                    );
-
-                    console.log(
-                        "Communication Score:",
-                        finalCommunicationScore
-                    );
-
-                    console.log(
-                        "Confidence Score:",
-                        finalConfidenceScore
-                    );
-
-                    console.log(
-                        "Overall Score:",
-                        finalOverallScore
-                    );
-
-                    console.log(
-                        "Overall Percentage:",
-                        finalOverallPercentage
-                    );
-
-                    console.log(
-                        "AI Evaluations:",
-                        aiEvaluationResults.length
-                    );
-
-                    console.log(
-                        "Interview Session ID:",
-                        interviewSessionId
-                    );
-
-                    console.log(
-                        "Firebase User ID:",
-                        user.uid
-                    );
-
-                    console.log(
-                        "======================================"
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "❌ Firestore save error:",
-                        error
-                    );
-
-                }
-
-
-                resolve();
-
+                // Local result is already saved,
+                // so Progress will still work.
             }
-        );
 
-    });
 
+            resolve();
+
+        }
+    );
+
+});
 }
-
-
 // ======================================
 // WAIT FOR FINAL EVALUATION
 // ======================================
@@ -1482,113 +1752,6 @@ if (resultMessage) {
     }
 }
 
-// ======================================
-// PERSONALIZED IMPROVEMENT SUGGESTIONS
-// ======================================
-
-const recommendationTitle =
-    document.getElementById("recommendation-title");
-
-const recommendationText =
-    document.getElementById("recommendation-text");
-
-
-if (
-    recommendationTitle &&
-    recommendationText
-) {
-
-    const suggestions = [];
-
-
-    // ==================================
-    // TECHNICAL SUGGESTION
-    // ==================================
-
-    if (technicalScore < 5) {
-
-        suggestions.push(
-            "Focus on strengthening your technical fundamentals and practice basic interview questions regularly."
-        );
-
-    } else if (technicalScore < 8) {
-
-        suggestions.push(
-            "Your technical foundation is developing. Practice more scenario-based questions and explain concepts with practical examples."
-        );
-
-    } else {
-
-        suggestions.push(
-            "Your technical performance is strong. Continue practicing advanced and real-world technical questions."
-        );
-
-    }
-
-
-    // ==================================
-    // COMMUNICATION SUGGESTION
-    // ==================================
-
-    if (communicationScore < 5) {
-
-        suggestions.push(
-            "Work on speaking clearly and giving complete answers instead of very short responses."
-        );
-
-    } else if (communicationScore < 8) {
-
-        suggestions.push(
-            "Your communication is good, but try to organize your answers with a clear beginning, explanation, and conclusion."
-        );
-
-    } else {
-
-        suggestions.push(
-            "Your communication is strong. Continue maintaining clear and structured explanations."
-        );
-
-    }
-
-
-    // ==================================
-    // CONFIDENCE SUGGESTION
-    // ==================================
-
-    if (confidenceScore < 5) {
-
-        suggestions.push(
-            "Build confidence by practicing answers aloud and avoiding uncertain phrases such as 'maybe' or 'I don't know'."
-        );
-
-    } else if (confidenceScore < 8) {
-
-        suggestions.push(
-            "Your confidence is developing. Practice answering questions without hesitation and use confident language."
-        );
-
-    } else {
-
-        suggestions.push(
-            "You showed good confidence while answering. Continue practicing to maintain consistent delivery."
-        );
-
-    }
-
-
-    // ==================================
-    // FINAL RECOMMENDATION
-    // ==================================
-
-    recommendationText.innerHTML =
-        suggestions
-            .map(
-                suggestion =>
-                    `<span class="recommendation-item">💡 ${suggestion}</span>`
-            )
-            .join("");
-
-}
 // ======================================
 // DYNAMIC STRENGTHS & IMPROVEMENTS
 // ======================================

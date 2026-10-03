@@ -144,9 +144,9 @@
     font-weight: 650;
 
     transition:
-        transform 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 .category-card a::after {
     content: "→";

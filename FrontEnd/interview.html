@@ -104,14 +104,18 @@
             <div class="profile-menu-wrapper">
 
                 <button
-                    class="icon-button"
-                    id="profile-button"
-                    type="button"
-                    title="Profile">
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
 
-                    👤
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
 
-                </button>
+</button>
 
 
                 <div
@@ -160,6 +164,7 @@
             </p>
 
         </section>
+
         <section class="interview-categories">
 
 
@@ -196,6 +201,7 @@
 
 
     <div class="category-card">
+
         <div class="category-icon">☕</div>
         <h2>Java</h2>
         <p>30 Questions</p>
@@ -210,11 +216,24 @@
         <a href="hr-interview.html">Start Practice</a>
     </div>
 
+    <div class="category-card gd-card">
+    <div class="category-icon">🗣️</div>
+
+    <h2>Group Discussion</h2>
+
+    <p>AI-Powered GD Practice</p>
+
+    <a href="group-discussion.html">
+        Start GD
+    </a>
+</div>
+
 </section>
 
 
 
     </main>
+    <script src="js/navbar-profile-photo.js"></script>
 <script type="module" src="js/interview.js"></script>
 </body>
 

@@ -226,3 +226,32 @@
 .notification-dropdown.show {
     display: block;
 }
+/* ======================================
+   NAVBAR PROFILE PHOTO
+====================================== */
+
+.navbar-profile-avatar {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    font-size: 18px;
+
+    background: #f1f5f9;
+}
+
+.navbar-profile-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}

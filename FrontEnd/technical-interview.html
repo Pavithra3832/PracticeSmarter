@@ -103,16 +103,20 @@
             <!-- PROFILE -->
 
             <div class="profile-menu-wrapper">
-
                 <button
-                    class="icon-button"
-                    id="profile-button"
-                    type="button"
-                    title="Profile">
+    class="icon-button"
+    id="profile-button"
+    type="button"
+    title="Profile">
 
-                    👤
+    <span
+        class="navbar-profile-avatar"
+        id="navbar-profile-avatar">
+        👤
+    </span>
 
-                </button>
+</button>
+
 
 
                 <div
@@ -269,6 +273,13 @@
 <p class="question-hint">
     Answer clearly with an example.
 </p>
+
+<button
+    id="bookmark-question-button"
+    class="bookmark-question-button"
+    type="button">
+    🔖 Bookmark Question
+</button>
 
 
 <button
@@ -461,6 +472,7 @@
 </section>
 
     </main>
+<script src="js/navbar-profile-photo.js"></script>
 <script type="module" src="js/technical-interview.js"></script>
 
 </body>

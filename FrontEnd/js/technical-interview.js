@@ -1069,7 +1069,425 @@ const cameraButton =
 const cameraBox =
     document.querySelector(".camera-box");
 
+// ======================================
+// PROFESSIONAL INTERVIEW UX
+// ======================================
 
+// --------------------------------------
+// QUESTION CARD ELEMENTS
+// --------------------------------------
+
+const interviewLabel =
+    document.querySelector(".interview-label");
+
+const questionHint =
+    document.querySelector(".question-hint");
+
+
+// --------------------------------------
+// AI STATUS BADGE
+// --------------------------------------
+
+let aiStatusBadge = null;
+
+if (interviewLabel) {
+
+    aiStatusBadge =
+        document.createElement("span");
+
+    aiStatusBadge.className =
+        "ai-status-badge";
+
+    aiStatusBadge.setAttribute(
+        "aria-live",
+        "polite"
+    );
+
+    interviewLabel.appendChild(
+        aiStatusBadge
+    );
+}
+
+
+// --------------------------------------
+// ANSWER CHARACTER COUNTER
+// --------------------------------------
+
+let answerCounter = null;
+
+if (answerBox) {
+
+    answerCounter =
+        document.createElement("div");
+
+    answerCounter.className =
+        "answer-counter";
+
+    answerCounter.textContent =
+        "0 characters";
+
+    answerBox.insertAdjacentElement(
+        "afterend",
+        answerCounter
+    );
+
+}
+
+
+// --------------------------------------
+// AI STATUS HELPER
+// --------------------------------------
+
+function setAIStatus(
+    message,
+    type = "default"
+) {
+
+    if (!aiStatusBadge) {
+        return;
+    }
+
+    aiStatusBadge.textContent =
+        message;
+
+    aiStatusBadge.className =
+        "ai-status-badge";
+
+    if (type !== "default") {
+
+        aiStatusBadge.classList.add(
+            type
+        );
+
+    }
+
+}
+
+
+// --------------------------------------
+// UPDATE ANSWER COUNTER
+// --------------------------------------
+
+function updateAnswerCounter() {
+
+    if (!answerCounter || !answerBox) {
+        return;
+    }
+
+    const length =
+        answerBox.value.length;
+
+    answerCounter.textContent =
+        `${length} ${
+            length === 1
+                ? "character"
+                : "characters"
+        }`;
+
+}
+
+
+// --------------------------------------
+// ANSWER INPUT LISTENER
+// --------------------------------------
+
+if (answerBox) {
+
+    answerBox.addEventListener(
+        "input",
+        updateAnswerCounter
+    );
+
+}
+
+
+// --------------------------------------
+// TIMER UX
+// --------------------------------------
+
+function updateTimerUX() {
+
+    if (!timer) {
+        return;
+    }
+
+    timer.classList.remove(
+        "timer-warning",
+        "timer-danger"
+    );
+
+    if (timeLeft <= 5) {
+
+        timer.classList.add(
+            "timer-danger"
+        );
+
+    } else if (timeLeft <= 15) {
+
+        timer.classList.add(
+            "timer-warning"
+        );
+
+    }
+
+}
+
+
+// --------------------------------------
+// INTERVIEW STATE UX
+// --------------------------------------
+
+function updateInterviewUX() {
+
+    updateAnswerCounter();
+
+    updateTimerUX();
+
+
+    // ------------------------------
+    // AI MODE
+    // ------------------------------
+
+    if (aiMode) {
+
+        setAIStatus(
+            "🤖 AI Interview",
+            "active"
+        );
+
+        if (questionHint) {
+
+            questionHint.textContent =
+                "AI-generated question • Explain clearly and include an example.";
+
+        }
+
+
+        // Lock technology buttons visually
+
+        technologyButtons.forEach(
+            button => {
+
+                button.classList.add(
+                    "ai-locked"
+                );
+
+            }
+        );
+
+    } else {
+
+        setAIStatus(
+            "Technical Practice",
+            "default"
+        );
+
+        if (questionHint) {
+
+            questionHint.textContent =
+                "Answer clearly with an example.";
+
+        }
+
+
+        technologyButtons.forEach(
+            button => {
+
+                button.classList.remove(
+                    "ai-locked"
+                );
+
+            }
+        );
+
+    }
+
+}    
+// ======================================
+// BOOKMARK QUESTION
+// ======================================
+
+const bookmarkQuestionButton =
+    document.getElementById(
+        "bookmark-question-button"
+    );
+
+
+// ======================================
+// GET BOOKMARKED QUESTIONS
+// ======================================
+
+function getBookmarkedQuestions() {
+
+    return JSON.parse(
+        localStorage.getItem(
+            "bookmarkedQuestions"
+        )
+    ) || [];
+
+}
+
+
+// ======================================
+// CREATE UNIQUE BOOKMARK ID
+// ======================================
+
+function getBookmarkId(question) {
+
+    return `${selectedCategory}_${question.difficulty}_${question.question}`;
+
+}
+
+
+// ======================================
+// UPDATE BOOKMARK BUTTON
+// ======================================
+
+function updateBookmarkButton() {
+
+    if (!bookmarkQuestionButton) {
+        return;
+    }
+
+    const current =
+        questions[currentQuestion];
+
+    if (!current) {
+        return;
+    }
+
+    const bookmarks =
+        getBookmarkedQuestions();
+
+    const bookmarkId =
+        getBookmarkId(current);
+
+    const isBookmarked =
+        bookmarks.some(
+            item =>
+                item.id === bookmarkId
+        );
+
+
+    if (isBookmarked) {
+
+        bookmarkQuestionButton.textContent =
+            "🔖 Bookmarked";
+
+        bookmarkQuestionButton.classList.add(
+            "bookmarked"
+        );
+
+    } else {
+
+        bookmarkQuestionButton.textContent =
+            "🔖 Bookmark Question";
+
+        bookmarkQuestionButton.classList.remove(
+            "bookmarked"
+        );
+
+    }
+
+}
+
+
+// ======================================
+// BOOKMARK BUTTON CLICK
+// ======================================
+
+if (bookmarkQuestionButton) {
+
+    bookmarkQuestionButton.addEventListener(
+        "click",
+        function() {
+
+            const current =
+                questions[currentQuestion];
+
+            if (!current) {
+                return;
+            }
+
+            let bookmarks =
+                getBookmarkedQuestions();
+
+            const bookmarkId =
+                getBookmarkId(current);
+
+            const existingIndex =
+                bookmarks.findIndex(
+                    item =>
+                        item.id === bookmarkId
+                );
+
+
+            if (existingIndex !== -1) {
+
+                bookmarks.splice(
+                    existingIndex,
+                    1
+                );
+
+                localStorage.setItem(
+                    "bookmarkedQuestions",
+                    JSON.stringify(bookmarks)
+                );
+
+                updateBookmarkButton();
+
+                console.log(
+                    "Bookmark removed:",
+                    current.question
+                );
+
+                return;
+            }
+
+
+            bookmarks.push({
+
+                id:
+                    bookmarkId,
+
+                question:
+                    current.question,
+
+                answer:
+                    current.answer || "",
+
+                category:
+                    selectedCategory,
+
+                difficulty:
+                    current.difficulty,
+
+                isAI:
+                    current.isAI === true,
+
+                date:
+                    new Date().toLocaleDateString()
+
+            });
+
+
+            localStorage.setItem(
+                "bookmarkedQuestions",
+                JSON.stringify(bookmarks)
+            );
+
+
+            updateBookmarkButton();
+
+            console.log(
+                "Bookmark added:",
+                current.question
+            );
+
+        }
+    );
+
+}
 // ======================================
 // TIMER
 // ======================================
@@ -1090,6 +1508,7 @@ function updateTimer() {
 
     timer.textContent =
         `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    updateTimerUX();    
 
 
     // ==================================
@@ -1311,6 +1730,8 @@ function showQuestion() {
             "none";
 
     }
+    updateInterviewUX();
+    updateBookmarkButton();
 
 }
 
@@ -2371,6 +2792,11 @@ async function generateAIQuestions() {
 
     aiQuestionButton.textContent =
         "🤖 Generating 30 Questions...";
+    
+    setAIStatus(
+    "⏳ Generating AI Questions...",
+    "loading"
+);    
 
     console.log(
         "Sending AI request:",
@@ -2385,8 +2811,7 @@ async function generateAIQuestions() {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/generate-question",
-                {
+                      "https://practicesmarter.onrender.com/api/generate-question",                {
                     method: "POST",
 
                     headers: {
@@ -2472,6 +2897,10 @@ async function generateAIQuestions() {
         // ==================================
 
         aiMode = true;
+        setAIStatus(
+    "✅ AI Interview Ready",
+    "success"
+);
 
 
         // ==================================
@@ -2638,6 +3067,11 @@ async function generateAIQuestions() {
         console.log(
             "Gemini unavailable. Using fallback questions."
         );
+
+        setAIStatus(
+    "⚠️ AI unavailable • Fallback mode",
+    "warning"
+);
 
 
         // ==================================

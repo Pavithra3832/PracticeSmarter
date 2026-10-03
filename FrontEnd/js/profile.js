@@ -85,6 +85,105 @@ const detailEmail =
 
 const detailCareer =
     document.getElementById("detail-career");
+// =========================================
+// PROFILE PHOTO
+// =========================================
+const profilePhotoInput = document.getElementById("profile-photo-input");
+const changePhotoButton = document.getElementById("change-photo-button");
+
+function loadProfilePhoto() {
+    const savedPhoto = localStorage.getItem("profilePhoto");
+
+    if (!savedPhoto || !profileAvatar) {
+        return;
+    }
+
+    profileAvatar.innerHTML = "";
+
+    const img = document.createElement("img");
+    img.src = savedPhoto;
+    img.alt = "Profile Photo";
+
+    profileAvatar.appendChild(img);
+}
+
+changePhotoButton?.addEventListener("click", () => {
+    profilePhotoInput?.click();
+});
+
+profilePhotoInput?.addEventListener("change", (event) => {
+
+    const file = event.target.files?.[0];
+
+    if (!file) {
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+        alert("Please select an image file.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+        const image = new Image();
+
+        image.onload = () => {
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const size = 300;
+
+            canvas.width = size;
+            canvas.height = size;
+
+            const minSide = Math.min(
+                image.width,
+                image.height
+            );
+
+            const sourceX =
+                (image.width - minSide) / 2;
+
+            const sourceY =
+                (image.height - minSide) / 2;
+
+            ctx.drawImage(
+                image,
+                sourceX,
+                sourceY,
+                minSide,
+                minSide,
+                0,
+                0,
+                size,
+                size
+            );
+
+            const compressedPhoto =
+                canvas.toDataURL("image/jpeg", 0.8);
+
+            localStorage.setItem(
+                "profilePhoto",
+                compressedPhoto
+            );
+
+            loadProfilePhoto();
+
+            console.log("✅ Profile photo saved");
+        };
+
+        image.src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
+});
+
+// Load saved photo when page opens
+loadProfilePhoto();    
 
 
 // ===============================
@@ -284,11 +383,28 @@ function updateProfile(name, email, career) {
     detailCareer.textContent = career;
 
 
-    // First letter of name
+    // Keep saved profile photo
+    const savedPhoto =
+        localStorage.getItem("profilePhoto");
 
-    profileAvatar.textContent =
-        name.charAt(0).toUpperCase();
+    if (savedPhoto) {
 
+        profileAvatar.innerHTML = "";
+
+        const img =
+            document.createElement("img");
+
+        img.src = savedPhoto;
+        img.alt = "Profile Photo";
+
+        profileAvatar.appendChild(img);
+
+    } else {
+
+        // Show first letter when no photo exists
+        profileAvatar.textContent =
+            name.charAt(0).toUpperCase();
+    }
 }
 // ======================================
 // PROFILE + NOTIFICATION DROPDOWN

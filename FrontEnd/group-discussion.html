@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Group Discussion - PracticeSmarter</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/group-discussion.css">
+</head>
+
+<body>
+
+    <!-- ==============================
+         COMMON NAVBAR
+    =============================== -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <h2 class="logo">
+                PracticeSmarter.
+            </h2>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="dashboard.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="interview.html">
+                        Practice
+                    </a>
+                </li>
+
+                <li>
+                    <a href="progress.html">
+                        Progress
+                    </a>
+                </li>
+
+                <li>
+                    <a href="profile.html">
+                        Profile
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="navbar-actions">
+
+                <!-- Notification -->
+
+                <div class="notification-menu-wrapper">
+
+                    <button
+                        class="icon-button"
+                        id="notification-button"
+                        type="button"
+                        title="Notifications">
+
+                        🔔
+
+                    </button>
+
+                    <div
+                        class="notification-dropdown"
+                        id="notification-dropdown">
+
+                        <h3>Notifications</h3>
+
+                        <p>
+                            🎯 Keep practicing to improve your communication skills.
+                        </p>
+
+                        <p>
+                            💬 Express your ideas clearly during discussions.
+                        </p>
+
+                        <p>
+                            📊 Review your GD performance regularly.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Profile -->
+
+                <div class="profile-menu-wrapper">
+
+                    <button
+                        class="icon-button"
+                        id="profile-button"
+                        type="button"
+                        title="Profile">
+
+                        <span
+                            class="navbar-profile-avatar"
+                            id="navbar-profile-avatar">
+
+                            👤
+
+                        </span>
+
+                    </button>
+
+                    <div
+                        class="profile-dropdown"
+                        id="profile-dropdown">
+
+                        <a href="profile.html">
+                            👤 Profile
+                        </a>
+
+                        <a href="progress.html">
+                            📊 My Progress
+                        </a>
+
+                        <button
+                            id="logout-button"
+                            type="button">
+
+                            🚪 Logout
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==============================
+         GD MAIN CONTENT
+    =============================== -->
+
+    <main class="gd-page">
+
+        <!-- INTRO -->
+
+        <section class="gd-header">
+
+            <p class="dashboard-tag">
+                AI Group Discussion
+            </p>
+
+            <h1>
+                Improve Your Group Discussion Skills
+            </h1>
+
+            <p>
+                Practice real-world group discussions with AI participants
+                and receive personalized feedback on your performance.
+            </p>
+
+        </section>
+        <section class="gd-setup">
+
+    <div class="gd-setup-card">
+
+        <div class="gd-icon">
+            🗣️
+        </div>
+
+        <h2>
+            Start a Group Discussion
+        </h2>
+
+        <p>
+            Create a discussion room or join an existing room with your friends.
+        </p>
+
+
+        <!-- ==============================
+             CREATE ROOM
+        =============================== -->
+
+        <div class="gd-room-option">
+
+            <h3>
+                🏠 Create New Room
+            </h3>
+
+            <p>
+                Start a new GD and invite other participants.
+            </p>
+
+            <button
+                id="create-room-button"
+                class="gd-start-button"
+                type="button">
+
+                🚀 Create GD Room
+
+            </button>
+
+        </div>
+
+
+        <div class="gd-divider">
+            <span>OR</span>
+        </div>
+
+
+        <!-- ==============================
+             JOIN ROOM
+        =============================== -->
+
+        <div class="gd-room-option">
+
+            <h3>
+                🔗 Join Existing Room
+            </h3>
+
+            <p>
+                Enter the room code shared by another participant.
+            </p>
+
+            <div class="gd-join-row">
+
+                <input
+                    type="text"
+                    id="room-code-input"
+                    placeholder="Enter 6-digit room code"
+                    maxlength="6"
+                    autocomplete="off">
+
+                <button
+                    id="join-room-button"
+                    type="button">
+
+                    Join Room
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             ROOM SETTINGS
+        =============================== -->
+
+        <div
+            id="room-settings"
+            class="gd-room-settings"
+            style="display: none;">
+
+            <div class="gd-form-group">
+
+                <label for="gd-topic">
+                    Discussion Topic
+                </label>
+
+                <select id="gd-topic">
+
+                    <option value="">
+                        Select a topic
+                    </option>
+
+                    <option value="ai-human-jobs">
+                        AI and Human Jobs
+                    </option>
+
+                    <option value="ai-education">
+                        AI in Education
+                    </option>
+
+                    <option value="social-media-students">
+                        Social Media and Students
+                    </option>
+
+                    <option value="online-offline-education">
+                        Online Education vs Classroom Education
+                    </option>
+
+                    <option value="skills-vs-marks">
+                        Skills vs Academic Marks
+                    </option>
+
+                    <option value="coding-career">
+                        Importance of Coding Skills for Career
+                    </option>
+
+                    <option value="work-from-home">
+                        Work From Home vs Office Work
+                    </option>
+
+                    <option value="startups-vs-jobs">
+                        Startups vs Traditional Jobs
+                    </option>
+
+                    <option value="teamwork-vs-individual">
+                        Teamwork vs Individual Performance
+                    </option>
+
+                    <option value="climate-change">
+                        Climate Change and Individual Responsibility
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="gd-form-group">
+
+                <label for="gd-difficulty">
+                    Difficulty Level
+                </label>
+
+                <select id="gd-difficulty">
+
+                    <option value="Easy">
+                        Easy
+                    </option>
+
+                    <option value="Medium" selected>
+                        Medium
+                    </option>
+
+                    <option value="Hard">
+                        Hard
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="gd-form-group">
+
+                <label for="gd-duration">
+                    Discussion Duration
+                </label>
+
+                <select id="gd-duration">
+
+                    <option value="3">
+                        3 Minutes
+                    </option>
+
+                    <option value="5" selected>
+                        5 Minutes
+                    </option>
+
+                    <option value="10">
+                        10 Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                id="start-room-button"
+                class="gd-start-button"
+                type="button">
+
+                ▶️ Start Discussion
+
+            </button>
+
+        </div>
+
+
+        <p
+            id="gd-room-status"
+            class="gd-room-status">
+        </p>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+     GD WAITING ROOM
+========================================= -->
+
+<section
+    class="gd-waiting-room"
+    id="gd-waiting-room"
+    style="display: none;">
+
+    <div class="gd-waiting-card">
+
+        <div class="gd-waiting-icon">
+            👥
+        </div>
+
+        <h2>
+            GD Room Ready
+        </h2>
+
+        <p>
+            Share this room code with your friends
+            to join the discussion.
+        </p>
+
+        <div class="gd-room-code-box">
+
+            <span>
+                Room Code
+            </span>
+
+            <strong id="display-room-code">
+                ------
+            </strong>
+
+            <button
+                type="button"
+                id="copy-room-code">
+                📋 Copy
+            </button>
+
+        </div>
+
+        <div class="gd-room-info">
+
+            <p>
+                <strong>Topic:</strong>
+                <span id="waiting-topic">—</span>
+            </p>
+
+            <p>
+                <strong>Difficulty:</strong>
+                <span id="waiting-difficulty">—</span>
+            </p>
+
+            <p>
+                <strong>Duration:</strong>
+                <span id="waiting-duration">—</span>
+            </p>
+
+        </div>
+
+
+        <!-- PARTICIPANTS -->
+
+        <div class="gd-participant-waiting">
+
+            <h3>
+                👥 Participants
+            </h3>
+
+            <div
+                id="waiting-participants"
+                class="waiting-participants">
+
+                <div class="waiting-empty">
+                    Waiting for participants...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HOST START BUTTON -->
+
+        <button
+            type="button"
+            id="waiting-start-button"
+            class="gd-start-button">
+
+            ▶️ Start Discussion
+
+        </button>
+
+
+        <p
+            id="waiting-status"
+            class="gd-room-status">
+            Waiting for participants...
+        </p>
+
+    </div>
+
+</section>
+
+
+        <!-- ==============================
+             DISCUSSION AREA
+        =============================== -->
+
+        <section
+            class="gd-discussion"
+            id="gd-discussion"
+            style="display: none;">
+
+            <div class="gd-discussion-header">
+
+                <div>
+
+                    <p class="gd-small-label">
+                        LIVE GROUP DISCUSSION
+                    </p>
+
+                    <h2 id="active-topic">
+                        Discussion Topic
+                    </h2>
+
+                </div>
+
+
+                <div class="gd-timer-box">
+
+                    <span>
+                        ⏱️
+                    </span>
+
+                    <strong id="gd-timer">
+                        05:00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+<!-- =========================================
+     AI + GD PARTICIPANTS
+========================================= -->
+
+<div class="gd-participants">
+
+    <!-- AI TEACHER -->
+
+    <div class="participant-card ai-teacher-card">
+
+        <div class="participant-avatar ai-teacher-avatar">
+            👩‍🏫
+        </div>
+
+        <div class="ai-teacher-info">
+
+            <strong>
+                AI Discussion Teacher
+            </strong>
+
+            <span class="ai-status">
+                🟢 Listening
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- USER -->
+
+    <div class="participant-card user-participant">
+
+        <div class="participant-avatar">
+            👤
+        </div>
+
+        <div>
+
+            <strong>
+                You
+            </strong>
+
+            <span>
+                Participant
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     AI GD TEACHER
+========================================= -->
+
+<div class="gd-ai-teacher-panel" id="gd-ai-teacher-panel">
+
+    <div class="gd-ai-avatar-wrapper">
+
+        <div class="gd-ai-avatar" id="gd-ai-avatar">
+            👩‍🏫
+        </div>
+
+        <span class="gd-ai-speaking-dot" id="gd-ai-speaking-dot"></span>
+
+    </div>
+
+    <div class="gd-ai-teacher-info">
+
+        <strong>
+            AI Discussion Teacher
+        </strong>
+
+        <span id="gd-ai-status">
+            🟢 Ready to discuss
+        </span>
+
+        <p id="gd-ai-caption">
+            I will participate in the discussion, ask questions,
+            and help everyone share their ideas.
+        </p>
+
+    </div>
+
+</div>
+            <!-- Conversation -->
+
+            <div
+                class="gd-conversation"
+                id="gd-conversation">
+
+                <div class="gd-message ai-message">
+
+                    <div class="message-avatar">
+                        🤖
+                    </div>
+
+                    <div class="message-content">
+
+                        <strong>
+                            AI Moderator
+                        </strong>
+
+                        <p>
+                            Welcome to the group discussion.
+                            Please share your opinion clearly and support
+                            your ideas with relevant points.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="gd-input-area">
+
+    <textarea
+        id="gd-response"
+        placeholder="Type your opinion here..."></textarea>
+
+    <button
+        id="gd-mic-button"
+        type="button"
+        class="gd-mic-button"
+        title="Speak your response">
+
+        🎤
+
+    </button>
+
+    <button
+        id="send-gd-response"
+        type="button"
+        class="gd-send-button">
+
+        Send
+
+    </button>
+
+</div>
+
+            <!-- Controls -->
+
+            <div class="gd-controls">
+
+                <button
+                    id="end-gd-button"
+                    type="button"
+                    class="gd-end-button">
+
+                    End Discussion
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             RESULT AREA
+        =============================== -->
+
+        <section
+            class="gd-result"
+            id="gd-result"
+            style="display: none;">
+
+            <div class="gd-result-card">
+
+                <div class="gd-result-icon">
+                    🎉
+                </div>
+
+                <p class="gd-small-label">
+                    DISCUSSION COMPLETED
+                </p>
+
+                <h2>
+                    Your GD Performance
+                </h2>
+
+                <p>
+                    Your AI-powered performance analysis will appear here.
+                </p>
+
+
+                <div class="gd-score-preview">
+
+                    <div>
+                        <span>
+                            Overall Score
+                        </span>
+
+                        <strong id="gd-overall-score">
+                            0/10
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            Communication
+                        </span>
+
+                        <strong id="gd-communication-score">
+                            0/10
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            Relevance
+                        </span>
+
+                        <strong id="gd-relevance-score">
+                            0/10
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="gd-feedback-box">
+
+                    <h3>
+                        💡 AI Feedback
+                    </h3>
+
+                    <p id="gd-feedback">
+                        Your personalized feedback will appear here.
+                    </p>
+
+                </div>
+
+
+                <div class="gd-result-actions">
+
+                    <button
+                        id="gd-practice-again"
+                        type="button">
+
+                        🔄 Practice Again
+
+                    </button>
+
+                    <a href="dashboard.html">
+                        📊 Dashboard
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         SCRIPTS
+    =============================== -->
+
+    <script src="js/navbar-profile-photo.js"></script>
+    <script type="module" src="js/group-discussion.js"></script>
+
+</body>
+
+</html>

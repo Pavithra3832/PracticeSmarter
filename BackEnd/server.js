@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require("path");
 
 dotenv.config();
 
@@ -15,8 +16,24 @@ console.log("SERVER FILE STARTED");
 // HOME ROUTE
 // ======================================================
 
+// ======================================================
+// SERVE FRONTEND
+// ======================================================
+
+app.use(
+    express.static(
+        path.join(__dirname, "FrontEnd")
+    )
+);
+
 app.get("/", (req, res) => {
-    res.send("PracticeSmarter Backend is Running!");
+    res.sendFile(
+        path.join(
+            __dirname,
+            "FrontEnd",
+            "index.html"
+        )
+    );
 });
 
 
@@ -1077,38 +1094,1201 @@ Rules:
 });
 
 
+
 // ======================================================
-// SERVER
+// GROUP DISCUSSION - AI RESPONSE
 // ======================================================
 
-const PORT = 5000;
+app.post("/api/gd-response", async (req, res) => {
 
-const server =
-    app.listen(
-        PORT,
-        () => {
+    try {
 
-            console.log(
-                `Server running on port ${PORT}`
+        const {
+            topic,
+            difficulty,
+            conversation
+        } = req.body;
+
+
+        // ------------------------------------------------
+        // VALIDATION
+        // ------------------------------------------------
+
+        if (
+            !topic ||
+            !Array.isArray(conversation)
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                error:
+                    "Topic and conversation are required"
+
+            });
+
+        }
+
+
+        // ------------------------------------------------
+        // FIND LATEST USER MESSAGE
+        // ------------------------------------------------
+
+        const latestUserMessage =
+            [...conversation]
+                .reverse()
+                .find(
+                    (message) =>
+                        message.type === "user"
+                );
+
+
+        if (!latestUserMessage) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                error:
+                    "User message is required"
+
+            });
+
+        }
+
+
+        const userMessage =
+            String(
+                latestUserMessage.text || ""
+            )
+                .trim();
+
+
+        // ------------------------------------------------
+        // TRIVIAL / NON-GD MESSAGE CHECK
+        // ------------------------------------------------
+
+        const normalizedMessage =
+            userMessage
+                .toLowerCase()
+                .replace(/\s+/g, " ")
+                .trim();
+
+
+        const trivialPatterns = [
+
+            /^hi+$/,
+            /^hello+$/,
+            /^hey+$/,
+            /^hii+$/,
+            /^hiii+$/,
+            /^helo+$/,
+            /^ok+$/,
+            /^okay+$/,
+            /^yes+$/,
+            /^no+$/,
+            /^sure+$/,
+            /^same+$/,
+            /^thanks+$/,
+            /^thank you+$/,
+            /^thankyou+$/,
+            /^i agree+$/,
+            /^agree+$/,
+            /^i disagree+$/,
+            /^disagree+$/
+
+        ];
+
+
+        const isTrivialMessage =
+            trivialPatterns.some(
+                (pattern) =>
+                    pattern.test(
+                        normalizedMessage
+                    )
+            );
+
+
+        // ------------------------------------------------
+        // SHORT MESSAGE CHECK
+        // ------------------------------------------------
+
+        const wordCount =
+            normalizedMessage
+                .split(/\s+/)
+                .filter(Boolean)
+                .length;
+
+
+        const isVeryShortMessage =
+            wordCount <= 2;
+
+
+        // ------------------------------------------------
+        // DO NOT GENERATE A LONG GD ANSWER
+        // FOR GREETINGS / VERY SHORT RESPONSES
+        // ------------------------------------------------
+
+        if (
+            isTrivialMessage ||
+            isVeryShortMessage
+        ) {
+
+            return res.json({
+
+                success: true,
+
+                response:
+                    "Please share your opinion on the discussion topic."
+
+            });
+
+        }
+
+
+        // ------------------------------------------------
+        // GEMINI
+        // ------------------------------------------------
+
+        const { GoogleGenAI } =
+            await import("@google/genai");
+
+
+        const ai =
+            new GoogleGenAI({
+
+                apiKey:
+                    process.env.GEMINI_API_KEY
+
+            });
+
+
+        // ------------------------------------------------
+        // RECENT CONVERSATION
+        // ------------------------------------------------
+
+        const recentConversation =
+            conversation
+                .slice(-12)
+                .map(
+                    (message) => {
+
+                        return (
+                            `${message.sender}: ${message.text}`
+                        );
+
+                    }
+                )
+                .join("\n");
+
+
+        // ------------------------------------------------
+        // AI RESPONSE
+        // ------------------------------------------------
+
+        const response =
+            await ai.models.generateContent({
+
+                model:
+                    "gemini-3.6-flash",
+
+                contents: `
+
+You are a participant in a college-level Group Discussion.
+
+Topic:
+${topic}
+
+Difficulty:
+${difficulty || "Medium"}
+
+Conversation so far:
+${recentConversation}
+
+The latest participant message is:
+"${userMessage}"
+
+Your task is to respond naturally to the latest participant's actual idea.
+
+IMPORTANT RULES:
+
+1. Respond ONLY to the latest participant's meaningful idea.
+2. Stay directly related to the discussion topic.
+3. Do not turn a simple greeting into a full discussion answer.
+4. Do not invent opinions that the participant did not express.
+5. Do not repeat previous AI statements.
+6. Give one useful GD contribution.
+7. You may agree, disagree, add a point, give a short example, or introduce another viewpoint.
+8. Use simple, professional English.
+9. Keep the response to 2 or 3 sentences.
+10. Keep the response concise, around 30–60 words.
+11. Do not dominate the discussion.
+12. Do not act as a teacher or evaluator.
+13. Do not mention that you are an AI.
+14. Do not give feedback or scores.
+15. Return ONLY the response text.
+
+`,
+
+                config: {
+
+                    temperature:
+                        0.3,
+
+                    maxOutputTokens:
+                        250
+
+                }
+
+            });
+
+
+        // ------------------------------------------------
+        // CHECK RESPONSE
+        // ------------------------------------------------
+
+        if (
+            !response ||
+            !response.text
+        ) {
+
+            throw new Error(
+                "Empty response from Gemini"
             );
 
         }
-    );
 
 
-// ======================================================
-// SERVER ERROR
-// ======================================================
+        const aiText =
+            response.text
+                .trim();
 
-server.on(
-    "error",
-    error => {
+
+        if (!aiText) {
+
+            throw new Error(
+                "Gemini returned an empty response"
+            );
+
+        }
+
+
+        // ------------------------------------------------
+        // SEND RESPONSE
+        // ------------------------------------------------
+
+        return res.json({
+
+            success: true,
+
+            response:
+                aiText
+
+        });
+
+
+    } catch (error) {
 
         console.error(
-            "SERVER ERROR:",
+            "GD AI Response Error:",
             error
         );
 
-    }
-);
 
+        if (
+            error.status === 429
+        ) {
+
+            return res.status(429).json({
+
+                success: false,
+
+                error:
+                    "Gemini API quota exceeded"
+
+            });
+
+        }
+
+
+        if (
+            error.status === 503
+        ) {
+
+            return res.status(503).json({
+
+                success: false,
+
+                error:
+                    "Gemini AI is temporarily busy"
+
+            });
+
+        }
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            error:
+                error.message ||
+                "GD AI response failed"
+
+        });
+
+    }
+
+});
+/* =========================================
+   GROUP DISCUSSION EVALUATION
+========================================= */
+
+app.post("/api/gd-evaluate", async (req, res) => {
+
+    try {
+
+        const {
+            topic,
+            difficulty,
+            participants,
+            conversation,
+            participantName,
+            participantUid
+        } = req.body;
+
+
+        /* -----------------------------------------
+           BASIC VALIDATION
+        ----------------------------------------- */
+
+        if (
+            !topic ||
+            !Array.isArray(participants) ||
+            !Array.isArray(conversation)
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                error:
+                    "Topic, participants and conversation are required"
+
+            });
+
+        }
+
+
+        if (!participantUid) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                error:
+                    "Participant information is required"
+
+            });
+
+        }
+
+
+        /* -----------------------------------------
+           FIND CURRENT PARTICIPANT MESSAGES
+        ----------------------------------------- */
+
+const participantMessages =
+    conversation.filter(
+        (message) =>
+            message.uid === participantUid &&
+            message.type === "user"
+    );
+
+
+        /*
+         * Fallback:
+         * If UID is unavailable for an old message,
+         * match the participant name.
+         */
+        const identifiedMessages =
+            participantMessages.length > 0
+                ? participantMessages
+                : conversation.filter(
+                    (message) =>
+                        message.sender ===
+                        participantName &&
+                        message.type === "user"
+                );
+
+
+        /* -----------------------------------------
+           BASIC MESSAGE ANALYSIS
+        ----------------------------------------- */
+
+        const normalizeText = (text) => {
+
+            return String(text || "")
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, " ");
+
+        };
+
+
+        const trivialPatterns = [
+
+            /^hi+$/,
+            /^hello+$/,
+            /^hey+$/,
+            /^hii+$/,
+            /^hiii+$/,
+            /^helo+$/,
+            /^ok+$/,
+            /^okay+$/,
+            /^yes+$/,
+            /^no+$/,
+            /^sure+$/,
+            /^same+$/,
+            /^thanks+$/,
+            /^thank you+$/,
+            /^thankyou+$/,
+            /^i agree+$/,
+            /^agree+$/,
+            /^i disagree+$/,
+            /^disagree+$/
+
+        ];
+
+
+        const isTrivialMessage = (text) => {
+
+            const normalized =
+                normalizeText(text);
+
+            return trivialPatterns.some(
+                (pattern) =>
+                    pattern.test(normalized)
+            );
+
+        };
+
+
+        const meaningfulMessages =
+            identifiedMessages.filter(
+                (message) => {
+
+                    const text =
+                        normalizeText(
+                            message.text
+                        );
+
+                    if (!text) {
+                        return false;
+                    }
+
+                    if (
+                        isTrivialMessage(text)
+                    ) {
+                        return false;
+                    }
+
+                    /*
+                     * Very short responses are not
+                     * considered strong GD contributions.
+                     */
+                    if (
+                        text.split(/\s+/).length < 4
+                    ) {
+                        return false;
+                    }
+
+                    return true;
+
+                }
+            );
+
+
+        const totalParticipantMessages =
+            identifiedMessages.length;
+
+
+        const meaningfulMessageCount =
+            meaningfulMessages.length;
+
+
+        const totalWords =
+            identifiedMessages.reduce(
+                (total, message) => {
+
+                    return (
+                        total +
+                        normalizeText(
+                            message.text
+                        )
+                            .split(/\s+/)
+                            .filter(Boolean)
+                            .length
+                    );
+
+                },
+                0
+            );
+
+
+        /* -----------------------------------------
+           VERY LOW ACTIVITY PROTECTION
+        ----------------------------------------- */
+
+        /*
+         * If the participant only says things like
+         * "hi", "hello", "okay", etc.,
+         * do NOT allow Gemini to give an
+         * unrealistically high score.
+         */
+
+        if (
+            meaningfulMessageCount === 0
+        ) {
+
+            return res.json({
+
+                success: true,
+
+                evaluation: {
+
+                    overallScore: 1,
+
+                    communicationScore:
+                        totalWords > 0 ? 1 : 0,
+
+                    relevanceScore: 0,
+
+                    confidenceScore: 0,
+
+                    teamworkScore:
+                        totalParticipantMessages > 0
+                            ? 1
+                            : 0,
+
+                    participationScore:
+                        totalParticipantMessages > 0
+                            ? 1
+                            : 0,
+
+                    feedback:
+                        "Your discussion contribution was too limited to demonstrate your GD skills. Try to share clear, topic-related ideas, explain your reasoning, and respond to other participants.",
+
+                    strengths: [],
+
+                    improvements: [
+
+                        "Speak more than greetings or very short responses.",
+
+                        "Share relevant ideas about the discussion topic.",
+
+                        "Explain your opinion with reasons or examples.",
+
+                        "Respond meaningfully to other participants."
+
+                    ]
+
+                }
+
+            });
+
+        }
+
+
+        /* -----------------------------------------
+           GEMINI
+        ----------------------------------------- */
+
+        const { GoogleGenAI } =
+            await import("@google/genai");
+
+
+        const ai =
+            new GoogleGenAI({
+
+                apiKey:
+                    process.env.GEMINI_API_KEY
+
+            });
+
+
+        const participantNames =
+            participants
+                .map(
+                    (participant) =>
+                        participant.name
+                )
+                .join(", ");
+
+
+        const fullDiscussionText =
+            conversation
+                .map(
+                    (message) => {
+
+                        return (
+                            `${message.sender}: ${message.text}`
+                        );
+
+                    }
+                )
+                .join("\n");
+
+
+        const participantContributionText =
+            identifiedMessages
+                .map(
+                    (message) => {
+
+                        return (
+                            `${message.sender}: ${message.text}`
+                        );
+
+                    }
+                )
+                .join("\n");
+
+
+        /* -----------------------------------------
+           EVALUATION SCHEMA
+        ----------------------------------------- */
+
+        const evaluationSchema = {
+
+            type: "object",
+
+            properties: {
+
+                communicationScore: {
+                    type: "number"
+                },
+
+                relevanceScore: {
+                    type: "number"
+                },
+
+                contentScore: {
+                    type: "number"
+                },
+
+                participationScore: {
+                    type: "number"
+                },
+
+                reasoningScore: {
+                    type: "number"
+                },
+
+                overallScore: {
+                    type: "number"
+                },
+
+                feedback: {
+                    type: "string"
+                },
+
+                strengths: {
+
+                    type: "array",
+
+                    items: {
+                        type: "string"
+                    }
+
+                },
+
+                improvements: {
+
+                    type: "array",
+
+                    items: {
+                        type: "string"
+                    }
+
+                }
+
+            },
+
+            required: [
+
+                "communicationScore",
+
+                "relevanceScore",
+
+                "contentScore",
+
+                "participationScore",
+
+                "reasoningScore",
+
+                "overallScore",
+
+                "feedback",
+
+                "strengths",
+
+                "improvements"
+
+            ]
+
+        };
+
+
+        /* -----------------------------------------
+   GEMINI EVALUATION WITH RETRY
+----------------------------------------- */
+
+let response = null;
+
+let attempts = 0;
+
+const maxAttempts = 3;
+
+while (
+    attempts < maxAttempts &&
+    !response
+) {
+
+    attempts++;
+
+    try {
+
+        console.log(
+            `🤖 GD Evaluation attempt ${attempts}/${maxAttempts}`
+        );
+
+        response =
+            await ai.models.generateContent({
+
+                model:
+                    "gemini-3.6-flash",
+
+                contents: `
+
+You are a strict and fair college-level Group Discussion evaluator.
+
+Evaluate ONLY the performance of this participant:
+
+Participant:
+${participantName}
+
+Participant UID:
+${participantUid}
+
+Topic:
+${topic}
+
+Difficulty:
+${difficulty || "Medium"}
+
+Participants:
+${participantNames}
+
+
+PARTICIPANT'S OWN CONTRIBUTIONS:
+${participantContributionText}
+
+
+FULL DISCUSSION:
+${fullDiscussionText}
+
+
+SCORING SYSTEM:
+
+Evaluate five areas.
+
+1. Communication & Clarity — /10
+- Clear sentences
+- Understandable expression
+- Professional language
+- Ability to communicate an idea clearly
+
+2. Topic Relevance — /10
+- Ideas directly related to the topic
+- Avoids unnecessary statements
+- Understands the discussion subject
+
+3. Ideas & Content — /10
+- Quality of ideas
+- Examples
+- Useful information
+- Original or meaningful points
+
+4. Participation & Engagement — /10
+- Meaningful participation
+- Responding to other participants
+- Contributing throughout the discussion
+- Do NOT reward greetings or meaningless short messages
+
+5. Reasoning & Response — /10
+- Gives reasons
+- Explains opinions
+- Responds logically to different viewpoints
+- Shows critical thinking
+
+
+STRICT SCORING RULES:
+
+- Score ONLY the selected participant.
+- Do not give credit for other participants' messages.
+- Do not reward message length alone.
+- A greeting such as "hi", "hello", "hey", "hii" gives almost no score.
+- "okay", "yes", "no", "same", "sure", "I agree" alone are not meaningful contributions.
+- Very short statements without explanation should receive low scores.
+- A participant must demonstrate actual GD skills to receive a high score.
+- High scores require multiple meaningful, relevant contributions.
+- Do not give 7, 8, 9 or 10 simply because the participant participated.
+- If the participant has only one meaningful sentence, scores should remain limited.
+- If the participant gives several strong, relevant contributions with reasoning and responses, higher scores are appropriate.
+- Evaluate the actual evidence in the conversation.
+- Do not invent statements that the participant did not say.
+
+IMPORTANT SCORE CALIBRATION:
+
+0–2 = Very weak / almost no meaningful contribution
+3–4 = Limited contribution
+5–6 = Average / developing
+7–8 = Good
+9 = Very strong
+10 = Exceptional
+
+Return scores from 0 to 10.
+
+The overall score must reflect the participant's actual performance across all five categories.
+
+Keep feedback practical and specific.
+
+Return structured JSON only.
+
+`,
+
+                config: {
+
+                    responseMimeType:
+                        "application/json",
+
+                    responseSchema:
+                        evaluationSchema,
+
+                    temperature:
+                        0.1,
+
+                    maxOutputTokens:
+                        3000
+
+                }
+
+            });
+
+        console.log(
+            "✅ GD Evaluation response received"
+        );
+
+    } catch (error) {
+
+        console.error(
+            `GD Evaluation attempt ${attempts} failed:`,
+            error.status ||
+            error.message
+        );
+
+        /*
+         * Retry only temporary Gemini
+         * service errors.
+         */
+
+        if (
+            error.status === 503 &&
+            attempts < maxAttempts
+        ) {
+
+            console.log(
+                "⏳ Gemini is temporarily busy. Retrying GD evaluation in 3 seconds..."
+            );
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        3000
+                    )
+            );
+
+        } else {
+
+            throw error;
+
+        }
+
+    }
+
+}
+
+
+/* -----------------------------------------
+   FINAL RESPONSE CHECK
+----------------------------------------- */
+
+if (
+    !response ||
+    !response.text
+) {
+
+    throw new Error(
+        "Empty GD evaluation response"
+    );
+
+}
+        /* -----------------------------------------
+           PARSE RESPONSE
+        ----------------------------------------- */
+
+        let evaluation;
+
+
+        try {
+
+            evaluation =
+                JSON.parse(
+                    response.text.trim()
+                );
+
+        } catch (error) {
+
+            console.error(
+                "GD Evaluation JSON Error:",
+                error
+            );
+
+            throw new Error(
+                "Gemini returned invalid GD evaluation"
+            );
+
+        }
+
+
+        /* -----------------------------------------
+           SCORE VALIDATION
+        ----------------------------------------- */
+
+        const scoreFields = [
+
+            "communicationScore",
+
+            "relevanceScore",
+
+            "contentScore",
+
+            "participationScore",
+
+            "reasoningScore"
+
+        ];
+
+
+        const validScores =
+            scoreFields.every(
+                (field) => {
+
+                    return (
+
+                        typeof evaluation[field] ===
+                        "number"
+
+                        &&
+
+                        evaluation[field] >=
+                        0
+
+                        &&
+
+                        evaluation[field] <=
+                        10
+
+                    );
+
+                }
+            );
+
+
+        if (!validScores) {
+
+            throw new Error(
+                "Invalid GD evaluation scores"
+            );
+
+        }
+
+
+        /* -----------------------------------------
+           CALCULATE TOTAL /50
+        ----------------------------------------- */
+
+        const totalScore =
+            evaluation.communicationScore +
+            evaluation.relevanceScore +
+            evaluation.contentScore +
+            evaluation.participationScore +
+            evaluation.reasoningScore;
+
+
+        /*
+         * Convert /50 to the existing /10
+         * Overall Score UI.
+         *
+         * Example:
+         * 40/50 = 8/10
+         */
+
+        const overallScore =
+            Math.round(
+                (totalScore / 5) *
+                10
+            ) / 10;
+
+
+        /* -----------------------------------------
+           FINAL RESPONSE
+        ----------------------------------------- */
+
+        return res.json({
+
+            success: true,
+
+            evaluation: {
+
+                /*
+                 * Existing frontend fields
+                 * are preserved.
+                 */
+
+                overallScore:
+                    Math.min(
+                        10,
+                        Math.max(
+                            0,
+                            overallScore
+                        )
+                    ),
+
+                communicationScore:
+                    evaluation.communicationScore,
+
+                relevanceScore:
+                    evaluation.relevanceScore,
+
+
+                /*
+                 * New detailed scores.
+                 * Existing frontend does not depend
+                 * on these, so this is backward compatible.
+                 */
+
+                contentScore:
+                    evaluation.contentScore,
+
+                participationScore:
+                    evaluation.participationScore,
+
+                reasoningScore:
+                    evaluation.reasoningScore,
+
+                totalScore:
+                    totalScore,
+
+
+                feedback:
+                    evaluation.feedback ||
+                    "Continue practicing your communication, reasoning and topic-related discussion skills.",
+
+                strengths:
+                    Array.isArray(
+                        evaluation.strengths
+                    )
+                        ? evaluation.strengths
+                        : [],
+
+                improvements:
+                    Array.isArray(
+                        evaluation.improvements
+                    )
+                        ? evaluation.improvements
+                        : []
+
+            }
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "GD Evaluation Error:",
+            error
+        );
+
+
+        if (
+            error.status === 429
+        ) {
+
+            return res.status(429).json({
+
+                success: false,
+
+                error:
+                    "Gemini API quota exceeded"
+
+            });
+
+        }
+
+
+        if (
+            error.status === 503
+        ) {
+
+            return res.status(503).json({
+
+                success: false,
+
+                error:
+                    "Gemini AI is temporarily busy"
+
+            });
+
+        }
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            error:
+                error.message ||
+                "GD evaluation failed"
+
+        });
+
+    }
+
+});
+// ======================================================
+// START SERVER
+// ======================================================
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+
+    console.log(
+        `🚀 Server running at http://localhost:${PORT}`
+    );
+
+});

@@ -10,6 +10,8 @@ import {
     getAuth,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
 // ======================================
 // CHECK LOGIN STATUS
 // ======================================
@@ -40,12 +42,44 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+
 // ======================================
 // GET INTERVIEW SCORES
 // ======================================
 
 const interviewScores =
     JSON.parse(localStorage.getItem("interviewScores")) || [];
+
+// ======================================
+// BOOKMARK COUNT
+// ADDITIVE FEATURE
+// ======================================
+
+const bookmarkedQuestions =
+    JSON.parse(
+        localStorage.getItem("bookmarkedQuestions")
+    ) || [];
+
+const dashboardBookmarkCount =
+    document.getElementById(
+        "dashboard-bookmark-count"
+    );
+
+if (dashboardBookmarkCount) {
+
+    const count =
+        Array.isArray(bookmarkedQuestions)
+            ? bookmarkedQuestions.length
+            : 0;
+
+    dashboardBookmarkCount.textContent =
+        `${count} ${
+            count === 1
+                ? "question"
+                : "questions"
+        } saved`;
+}
 
 
 // ======================================
@@ -121,31 +155,21 @@ const dashboardBest =
 // ======================================
 
 if (dashboardTotal) {
-
-    dashboardTotal.textContent =
-        total;
+    dashboardTotal.textContent = total;
 }
-
 
 if (dashboardAverage) {
-
-    dashboardAverage.textContent =
-        `${average}%`;
+    dashboardAverage.textContent = `${average}%`;
 }
-
 
 if (dashboardStreak) {
-
-    dashboardStreak.textContent =
-        `${streak} Days`;
+    dashboardStreak.textContent = `${streak} Days`;
 }
-
 
 if (dashboardBest) {
-
-    dashboardBest.textContent =
-        `${best}%`;
+    dashboardBest.textContent = `${best}%`;
 }
+
 
 // ======================================
 // PERFORMANCE OVERVIEW BAR
@@ -163,6 +187,7 @@ if (performanceLine) {
             #e8eef7 ${average}%
         )`;
 }
+
 
 // ======================================
 // OVERALL PROGRESS
@@ -185,14 +210,12 @@ const progressMessage =
 
 
 if (progressPercentage) {
-
     progressPercentage.textContent =
         `${average}%`;
 }
 
 
 if (progressFill) {
-
     progressFill.style.width =
         `${average}%`;
 }
@@ -229,6 +252,203 @@ if (progressMessage) {
 
 
 // ======================================
+// RECOMMENDED PRACTICE
+// NEW ADDITIVE FEATURE
+// ======================================
+
+const recommendationTitle =
+    document.getElementById(
+        "recommendation-title"
+    );
+
+const recommendationText =
+    document.getElementById(
+        "recommendation-text"
+    );
+
+const recommendationButton =
+    document.getElementById(
+        "recommendation-button"
+    );
+
+
+if (
+    recommendationTitle &&
+    recommendationText &&
+    recommendationButton
+) {
+
+    // ----------------------------------
+    // NO INTERVIEWS
+    // ----------------------------------
+
+    if (scores.length === 0) {
+
+        recommendationTitle.textContent =
+            "Start your first interview";
+
+        recommendationText.textContent =
+            "Complete an interview to begin tracking your performance and receive personalized practice suggestions.";
+
+        recommendationButton.href =
+            "interview.html";
+    }
+
+
+    // ----------------------------------
+    // LOW PERFORMANCE
+    // ----------------------------------
+
+    else if (average < 40) {
+
+        recommendationTitle.textContent =
+            "Focus on building your fundamentals";
+
+        recommendationText.textContent =
+            "Practice regularly and strengthen your basic interview skills.";
+
+        recommendationButton.href =
+            "interview.html";
+    }
+
+
+    // ----------------------------------
+    // DEVELOPING PERFORMANCE
+    // ----------------------------------
+
+    else if (average < 60) {
+
+        recommendationTitle.textContent =
+            "Keep improving your interview skills";
+
+        recommendationText.textContent =
+            "Try another technical interview and focus on explaining your answers clearly.";
+
+        recommendationButton.href =
+            "interview.html";
+    }
+
+
+    // ----------------------------------
+    // GOOD PERFORMANCE
+    // ----------------------------------
+
+    else if (average < 80) {
+
+        recommendationTitle.textContent =
+            "Challenge yourself further";
+
+        recommendationText.textContent =
+            "Try a higher difficulty level to continue improving your technical skills.";
+
+        recommendationButton.href =
+            "interview.html";
+    }
+
+
+    // ----------------------------------
+    // HIGH PERFORMANCE
+    // ----------------------------------
+
+    else {
+
+        recommendationTitle.textContent =
+            "Maintain your strong performance";
+
+        recommendationText.textContent =
+            "Keep practicing consistently and challenge yourself with different technologies.";
+
+        recommendationButton.href =
+            "interview.html";
+    }
+}
+
+
+// ======================================
+// ACHIEVEMENTS
+// NEW ADDITIVE FEATURE
+// ======================================
+
+const achievementFirst =
+    document.getElementById(
+        "achievement-first"
+    );
+
+const achievementFive =
+    document.getElementById(
+        "achievement-five"
+    );
+
+const achievementScore =
+    document.getElementById(
+        "achievement-score"
+    );
+
+
+// ======================================
+// FIRST PRACTICE
+// ======================================
+
+if (achievementFirst) {
+
+    if (total >= 1) {
+
+        achievementFirst.classList.add(
+            "unlocked"
+        );
+
+    } else {
+
+        achievementFirst.classList.add(
+            "locked"
+        );
+    }
+}
+
+
+// ======================================
+// FIVE INTERVIEWS
+// ======================================
+
+if (achievementFive) {
+
+    if (total >= 5) {
+
+        achievementFive.classList.add(
+            "unlocked"
+        );
+
+    } else {
+
+        achievementFive.classList.add(
+            "locked"
+        );
+    }
+}
+
+
+// ======================================
+// HIGH SCORE
+// ======================================
+
+if (achievementScore) {
+
+    if (best >= 80) {
+
+        achievementScore.classList.add(
+            "unlocked"
+        );
+
+    } else {
+
+        achievementScore.classList.add(
+            "locked"
+        );
+    }
+}
+
+
+// ======================================
 // RECENT PRACTICE
 // SHOW LATEST 5 VALID INTERVIEWS
 // ======================================
@@ -238,11 +458,16 @@ const recentContainer =
         "recent-practice-container"
     );
 
+
 if (recentContainer) {
 
     recentContainer.innerHTML = "";
 
-    // Only completed interviews with score > 0
+
+    // ----------------------------------
+    // ONLY COMPLETED INTERVIEWS
+    // ----------------------------------
+
     const recentInterviews =
         interviewScores
             .filter(result =>
@@ -254,101 +479,112 @@ if (recentContainer) {
             .slice(-5)
             .reverse();
 
-    // No valid interviews
+
+    // ----------------------------------
+    // NO VALID INTERVIEWS
+    // ----------------------------------
+
     if (recentInterviews.length === 0) {
 
         recentContainer.innerHTML = `
             <div class="empty-practice">
-                <p>No completed interviews yet.</p>
+
+                <p>
+                    No completed interviews yet.
+                </p>
+
                 <span>
                     Start your first interview to see your progress here.
                 </span>
+
             </div>
         `;
 
     } else {
+
         recentInterviews.forEach(result => {
 
-    // ----------------------------------
-    // CATEGORY
-    // ----------------------------------
 
-    const category =
-        result.category || "Interview";
+            // ----------------------------------
+            // CATEGORY
+            // ----------------------------------
 
-
-    // ----------------------------------
-    // DIFFICULTY
-    // ----------------------------------
-
-    const difficulty =
-        result.difficulty &&
-        result.difficulty !== "null"
-            ? result.difficulty
-            : "All Difficulties";
+            const category =
+                result.category || "Interview";
 
 
-    // ----------------------------------
-    // SCORE
-    // ----------------------------------
+            // ----------------------------------
+            // DIFFICULTY
+            // ----------------------------------
 
-    const score =
-        Math.round(Number(result.overall));
-
-
-    // ----------------------------------
-    // DATE
-    // ----------------------------------
-
-    const date =
-        result.date || "";
+            const difficulty =
+                result.difficulty &&
+                result.difficulty !== "null"
+                    ? result.difficulty
+                    : "All Difficulties";
 
 
-    // ----------------------------------
-    // CREATE CARD
-    // ----------------------------------
+            // ----------------------------------
+            // SCORE
+            // ----------------------------------
 
-    const practiceCard =
-        document.createElement("div");
-
-    practiceCard.className =
-        "practice-card";
-
-
-    practiceCard.innerHTML = `
-        <div class="practice-info">
-
-            <h3>
-                ${category}
-            </h3>
-
-            <p>
-                ${category} • ${difficulty}
-            </p>
-
-            ${
-                date
-                    ? `<small>${date}</small>`
-                    : ""
-            }
-
-        </div>
-
-        <strong class="practice-score">
-            Score: ${score}%
-        </strong>
-    `;
+            const score =
+                Math.round(
+                    Number(result.overall)
+                );
 
 
-    recentContainer.appendChild(
-        practiceCard
-    );
+            // ----------------------------------
+            // DATE
+            // ----------------------------------
 
-});
+            const date =
+                result.date || "";
 
-        
-        };
+
+            // ----------------------------------
+            // CREATE CARD
+            // ----------------------------------
+
+            const practiceCard =
+                document.createElement("div");
+
+            practiceCard.className =
+                "practice-card";
+
+
+            practiceCard.innerHTML = `
+                <div class="practice-info">
+
+                    <h3>
+                        ${category}
+                    </h3>
+
+                    <p>
+                        ${category} • ${difficulty}
+                    </p>
+
+                    ${
+                        date
+                            ? `<small>${date}</small>`
+                            : ""
+                    }
+
+                </div>
+
+                <strong class="practice-score">
+                    Score: ${score}%
+                </strong>
+            `;
+
+
+            recentContainer.appendChild(
+                practiceCard
+            );
+
+        });
     }
+}
 
 
 // ======================================
@@ -379,43 +615,67 @@ console.log(
     "Interview Scores:",
     interviewScores
 );
+
+
 // ======================================
 // PROFILE + NOTIFICATION DROPDOWN
 // ======================================
 
 const profileButton =
-    document.getElementById("profile-button");
+    document.getElementById(
+        "profile-button"
+    );
 
 const profileDropdown =
-    document.getElementById("profile-dropdown");
+    document.getElementById(
+        "profile-dropdown"
+    );
 
 const notificationButton =
-    document.getElementById("notification-button");
+    document.getElementById(
+        "notification-button"
+    );
 
 const notificationDropdown =
-    document.getElementById("notification-dropdown");
+    document.getElementById(
+        "notification-dropdown"
+    );
 
 
 // ======================================
 // PROFILE DROPDOWN
 // ======================================
 
-if (profileButton && profileDropdown) {
+if (
+    profileButton &&
+    profileDropdown
+) {
 
-    profileButton.addEventListener("click", function (event) {
+    profileButton.addEventListener(
+        "click",
+        function (event) {
 
-        event.stopPropagation();
+            event.stopPropagation();
 
-        // Close notification
-        if (notificationDropdown) {
-            notificationDropdown.classList.remove("show");
+
+            // Close notification
+
+            if (notificationDropdown) {
+
+                notificationDropdown.classList.remove(
+                    "show"
+                );
+            }
+
+
+            // Open / close profile
+
+            profileDropdown.classList.toggle(
+                "show"
+            );
+
         }
-
-        // Open / close profile
-        profileDropdown.classList.toggle("show");
-
-    });
-
+    );
 }
 
 
@@ -423,22 +683,36 @@ if (profileButton && profileDropdown) {
 // NOTIFICATION DROPDOWN
 // ======================================
 
-if (notificationButton && notificationDropdown) {
+if (
+    notificationButton &&
+    notificationDropdown
+) {
 
-    notificationButton.addEventListener("click", function (event) {
+    notificationButton.addEventListener(
+        "click",
+        function (event) {
 
-        event.stopPropagation();
+            event.stopPropagation();
 
-        // Close profile
-        if (profileDropdown) {
-            profileDropdown.classList.remove("show");
+
+            // Close profile
+
+            if (profileDropdown) {
+
+                profileDropdown.classList.remove(
+                    "show"
+                );
+            }
+
+
+            // Open / close notification
+
+            notificationDropdown.classList.toggle(
+                "show"
+            );
+
         }
-
-        // Open / close notification
-        notificationDropdown.classList.toggle("show");
-
-    });
-
+    );
 }
 
 
@@ -448,12 +722,14 @@ if (notificationButton && notificationDropdown) {
 
 if (profileDropdown) {
 
-    profileDropdown.addEventListener("click", function (event) {
+    profileDropdown.addEventListener(
+        "click",
+        function (event) {
 
-        event.stopPropagation();
+            event.stopPropagation();
 
-    });
-
+        }
+    );
 }
 
 
@@ -463,12 +739,14 @@ if (profileDropdown) {
 
 if (notificationDropdown) {
 
-    notificationDropdown.addEventListener("click", function (event) {
+    notificationDropdown.addEventListener(
+        "click",
+        function (event) {
 
-        event.stopPropagation();
+            event.stopPropagation();
 
-    });
-
+        }
+    );
 }
 
 
@@ -476,17 +754,27 @@ if (notificationDropdown) {
 // CLOSE DROPDOWNS OUTSIDE
 // ======================================
 
-document.addEventListener("click", function () {
+document.addEventListener(
+    "click",
+    function () {
 
-    if (profileDropdown) {
-        profileDropdown.classList.remove("show");
+        if (profileDropdown) {
+
+            profileDropdown.classList.remove(
+                "show"
+            );
+        }
+
+
+        if (notificationDropdown) {
+
+            notificationDropdown.classList.remove(
+                "show"
+            );
+        }
+
     }
-
-    if (notificationDropdown) {
-        notificationDropdown.classList.remove("show");
-    }
-
-});
+);
 
 
 // ======================================
@@ -494,33 +782,54 @@ document.addEventListener("click", function () {
 // ======================================
 
 const logoutButton =
-    document.getElementById("logout-button");
+    document.getElementById(
+        "logout-button"
+    );
+
 
 if (logoutButton) {
 
-    logoutButton.addEventListener("click", async function () {
+    logoutButton.addEventListener(
+        "click",
+        async function () {
 
-        try {
+            try {
 
-            await signOut(auth);
+                await signOut(auth);
 
-            // Remove our login status
-            localStorage.removeItem("isLoggedIn");
 
-            sessionStorage.clear();
+                // Remove our login status
 
-            console.log("User logged out successfully.");
+                localStorage.removeItem(
+                    "isLoggedIn"
+                );
 
-            window.location.replace("login.html");
 
-        } catch (error) {
+                sessionStorage.clear();
 
-            console.error("Logout Error:", error);
 
-            alert("Logout failed. Please try again.");
+                console.log(
+                    "User logged out successfully."
+                );
+
+
+                window.location.replace(
+                    "login.html"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Logout Error:",
+                    error
+                );
+
+                alert(
+                    "Logout failed. Please try again."
+                );
+
+            }
 
         }
-
-    });
-
+    );
 }

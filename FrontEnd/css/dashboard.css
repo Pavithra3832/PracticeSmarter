@@ -867,3 +867,657 @@
         font-size: 19px;
     }
 }
+
+/* =========================================
+   PRACTICESMARTER - DASHBOARD NEW FEATURES
+   MATCHES CURRENT dashboard.html
+========================================= */
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.dashboard-actions {
+    width: 100%;
+    padding: 26px;
+    margin-bottom: 28px;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border: 1px solid #e5eaf1;
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.035);
+}
+.dashboard-actions .section-title {
+    margin-bottom: 20px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+}
+
+.action-card {
+    grid-column: span 2;
+}
+
+/* Center the last 2 cards */
+.action-card:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.action-card:nth-child(5) {
+    grid-column: 4 / span 2;
+}
+
+@media (max-width: 1000px) {
+    .action-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+.action-card {
+    min-width: 0;
+
+    display: grid;
+    grid-template-columns: 42px 1fr 20px;
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 82px;
+    padding: 15px 16px;
+
+    box-sizing: border-box;
+
+    background: #f8fafc;
+    border: 1px solid #e5eaf1;
+    border-radius: 11px;
+
+    color: #334155;
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.action-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+    border-radius: 10px;
+
+    font-size: 20px;
+}
+
+.action-card h3 {
+    margin: 0 0 4px;
+
+    color: #111827;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.action-card p {
+    margin: 0;
+
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.action-arrow {
+    color: #94a3b8;
+    font-size: 17px;
+    font-weight: 700;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.action-card:hover .action-arrow {
+    color: #2563eb;
+    transform: translateX(2px);
+}
+
+
+/* =========================================
+   RECOMMENDED PRACTICE
+========================================= */
+
+.recommended-section {
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.recommended-section .section-title {
+    margin-bottom: 18px;
+}
+
+.recommendation-card {
+    width: 100%;
+
+    min-height: 135px;
+
+    padding: 24px 26px;
+
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    align-items: center;
+
+    gap: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0f6ff,
+            #f8fbff
+        );
+
+    border: 1px solid #dbeafe;
+    border-radius: 15px;
+}
+
+.recommendation-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+
+    font-size: 23px;
+
+    box-shadow:
+        0 3px 10px rgba(37, 99, 235, 0.06);
+}
+
+.recommendation-content {
+    min-width: 0;
+}
+
+.recommendation-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.recommendation-content h3 {
+    margin: 0 0 6px;
+
+    color: #111827;
+
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 750;
+}
+
+.recommendation-content p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.recommendation-button {
+    min-width: 125px;
+
+    padding: 11px 16px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.recommendation-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   ACHIEVEMENTS
+========================================= */
+
+.achievements-section {
+    width: 100%;
+
+    padding: 26px;
+
+    margin-bottom: 28px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.035);
+}
+
+.achievements-section .section-title {
+    margin-bottom: 20px;
+}
+
+.achievement-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.achievement-card {
+    min-width: 0;
+
+    min-height: 145px;
+
+    padding: 21px 16px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 12px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.achievement-icon {
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border-radius: 50%;
+
+    font-size: 21px;
+}
+
+.achievement-card h3 {
+    margin: 0 0 6px;
+
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.achievement-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+/* ======================================
+   ACHIEVEMENT LOCKED STATE
+====================================== */
+
+.achievement-card.locked {
+    opacity: 0.55;
+
+    background: #f8fafc;
+
+    border-color: #e5e7eb;
+
+    filter: grayscale(0.25);
+}
+
+
+/* ======================================
+   LOCKED ICON
+====================================== */
+
+.achievement-card.locked .achievement-icon {
+    background: #f1f5f9;
+
+    filter: grayscale(0.5);
+}
+
+
+/* ======================================
+   ACHIEVEMENT UNLOCKED STATE
+====================================== */
+
+.achievement-card.unlocked {
+    background: #ffffff;
+
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 6px 18px rgba(37, 99, 235, 0.08);
+}
+
+
+/* ======================================
+   UNLOCKED ICON
+====================================== */
+
+.achievement-card.unlocked .achievement-icon {
+    background: #dbeafe;
+
+    transform: scale(1.05);
+}
+
+
+/* ======================================
+   UNLOCKED HOVER
+====================================== */
+
+.achievement-card.unlocked:hover {
+    transform: translateY(-4px);
+
+    border-color: #60a5fa;
+
+    box-shadow:
+        0 10px 24px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =========================================
+   UNLOCKED
+========================================= */
+
+.achievement-card.unlocked {
+    background:
+        linear-gradient(
+            145deg,
+            #f8fbff,
+            #eff6ff
+        );
+
+    border-color: #bfdbfe;
+}
+
+.achievement-card.unlocked .achievement-icon {
+    background: #dbeafe;
+}
+
+.achievement-card.unlocked h3 {
+    color: #2563eb;
+}
+
+
+/* =========================================
+   LOCKED
+========================================= */
+
+.achievement-card.locked {
+    opacity: 0.55;
+}
+
+.achievement-card.locked .achievement-icon {
+    background: #f1f5f9;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .achievement-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .dashboard-actions {
+        padding: 21px;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .action-card {
+        min-height: 76px;
+    }
+
+    .recommendation-card {
+        grid-template-columns: 44px 1fr;
+        gap: 14px;
+
+        padding: 21px;
+    }
+
+    .recommendation-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .recommendation-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .achievements-section {
+        padding: 21px;
+    }
+
+    .achievement-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .achievement-card {
+        min-height: 125px;
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 420px) {
+
+    .action-card {
+        grid-template-columns: 38px 1fr 18px;
+        gap: 9px;
+
+        padding: 13px;
+    }
+
+    .action-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .action-card h3 {
+        font-size: 13px;
+    }
+
+    .action-card p {
+        font-size: 10px;
+    }
+
+    .recommendation-content h3 {
+        font-size: 16px;
+    }
+
+}
+/* =========================================
+   DASHBOARD INTERVIEW ILLUSTRATION
+========================================= */
+
+.dashboard-illustration {
+    flex: 0 0 300px;
+    width: 300px;
+    min-height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.dashboard-illustration img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 22px;
+    transition: transform 0.25s ease;
+}   
+.dashboard-illustration img:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+
+/* =========================================
+   IMAGE RESPONSIVE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .dashboard-header {
+        gap: 25px;
+    }
+
+    .dashboard-illustration {
+        flex: 0 0 auto;
+
+        width: 210px;
+        min-height: 130px;
+    }
+
+    .dashboard-illustration img {
+        max-width: 210px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .dashboard-illustration {
+        width: 100%;
+        min-height: 130px;
+
+        justify-content: center;
+    }
+
+    .dashboard-illustration img {
+        width: 190px;
+        max-width: 190px;
+    }
+}
