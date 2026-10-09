@@ -486,17 +486,16 @@ function getScore(interview) {
 
 function calculatePracticeStreak() {
 
-    if (
-        interviewScores.length === 0
-    ) {
-
+    if (interviewScores.length === 0) {
         return 0;
-
     }
 
+    // --------------------------------------
+    // Convert each interview timestamp
+    // into Indian local date (YYYY-MM-DD)
+    // --------------------------------------
 
-    const uniqueDates = [];
-
+    const dateSet = new Set();
 
     interviewScores.forEach(interview => {
 
@@ -504,82 +503,102 @@ function calculatePracticeStreak() {
             interview.createdAt ||
             interview.date;
 
-
         if (!dateValue) {
-
             return;
-
         }
 
+        let timestamp = 0;
 
-        let date;
-
-
+        // Firestore Timestamp
         if (
-            typeof dateValue.toDate === "function"
+            typeof dateValue.toMillis === "function"
         ) {
+            timestamp = dateValue.toMillis();
 
-            date =
-                dateValue.toDate();
-
+        // Firestore Timestamp-like object
         } else if (
             typeof dateValue.seconds === "number"
         ) {
+            timestamp = dateValue.seconds * 1000;
 
-            date =
-                new Date(
-                    dateValue.seconds * 1000
-                );
+        // JavaScript Date
+        } else if (
+            dateValue instanceof Date
+        ) {
+            timestamp = dateValue.getTime();
 
-        } else {
-
-            date =
-                new Date(dateValue);
-
+        // String date
+        } else if (
+            typeof dateValue === "string"
+        ) {
+            timestamp = new Date(dateValue).getTime();
         }
 
-
-        if (
-            isNaN(date.getTime())
-        ) {
-
+        if (!timestamp || isNaN(timestamp)) {
             return;
-
         }
 
+        // --------------------------------------
+        // Convert to India date
+        // --------------------------------------
 
-        const dateString =
-            date.toLocaleDateString("en-CA");
+        const indiaDate =
+            new Intl.DateTimeFormat("en-CA", {
+                timeZone: "Asia/Kolkata",
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }).format(new Date(timestamp));
 
-
-        if (
-            !uniqueDates.includes(dateString)
-        ) {
-
-            uniqueDates.push(dateString);
-
-        }
+        dateSet.add(indiaDate);
 
     });
 
 
-    if (
-        uniqueDates.length === 0
-    ) {
-
+    if (dateSet.size === 0) {
         return 0;
-
     }
 
 
-    uniqueDates.sort(
-        (a, b) =>
-            new Date(b) - new Date(a)
-    );
+    // --------------------------------------
+    // Sort dates newest → oldest
+    // --------------------------------------
 
+    const uniqueDates =
+        Array.from(dateSet).sort(
+            (a, b) =>
+                new Date(b + "T00:00:00Z") -
+                new Date(a + "T00:00:00Z")
+        );
+
+
+    // --------------------------------------
+    // Get today's date in India
+    // --------------------------------------
+
+    const today =
+        new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).format(new Date());
+
+
+    // --------------------------------------
+    // Latest practice must be today
+    // --------------------------------------
+
+    if (uniqueDates[0] !== today) {
+        return 0;
+    }
+
+
+    // --------------------------------------
+    // Calculate consecutive days
+    // --------------------------------------
 
     let streak = 1;
-
 
     for (
         let i = 0;
@@ -587,18 +606,22 @@ function calculatePracticeStreak() {
         i++
     ) {
 
-        const current =
-            new Date(uniqueDates[i]);
+        const currentDate =
+            new Date(
+                uniqueDates[i] + "T00:00:00Z"
+            );
 
-        const previous =
-            new Date(uniqueDates[i + 1]);
+        const previousDate =
+            new Date(
+                uniqueDates[i + 1] + "T00:00:00Z"
+            );
 
 
         const difference =
             Math.round(
                 (
-                    current -
-                    previous
+                    currentDate -
+                    previousDate
                 ) /
                 (
                     1000 *
@@ -609,9 +632,7 @@ function calculatePracticeStreak() {
             );
 
 
-        if (
-            difference === 1
-        ) {
+        if (difference === 1) {
 
             streak++;
 
@@ -622,12 +643,12 @@ function calculatePracticeStreak() {
         }
 
     }
+    console.log("📅 Practice Dates:", uniqueDates);
+console.log("🔥 Calculated Practice Streak:", streak);
 
-
-    return streak;
+return streak;
 
 }
-
 
 // ======================================
 // UPDATE PROGRESS PAGE

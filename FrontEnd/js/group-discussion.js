@@ -1690,7 +1690,7 @@ async function handleAIResponses() {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/gd-response",
+                "https://practicesmarter.onrender.com/api/gd-response",
                 {
                     method: "POST",
 
@@ -2349,7 +2349,7 @@ async function evaluateDiscussion() {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/gd-evaluate", 
+                "https://practicesmarter.onrender.com/api/gd-evaluate",
                 {
 
                     method: "POST",
@@ -2435,15 +2435,22 @@ async function evaluateDiscussion() {
    RENDER EVALUATION
 ========================================= */
 
+/* =========================================
+   RENDER EVALUATION
+========================================= */
+
 function renderEvaluation(
     evaluation
 ) {
 
     if (!evaluation) {
-
         return;
     }
 
+
+    /* =========================================
+       GET EVALUATION SCORES
+    ========================================= */
 
     const overall =
         Number(
@@ -2463,6 +2470,28 @@ function renderEvaluation(
         ) || 0;
 
 
+    const content =
+        Number(
+            evaluation.contentScore
+        ) || 0;
+
+
+    const participation =
+        Number(
+            evaluation.participationScore
+        ) || 0;
+
+
+    const reasoning =
+        Number(
+            evaluation.reasoningScore
+        ) || 0;
+
+
+    /* =========================================
+       DISPLAY SCORES
+    ========================================= */
+
     document.getElementById(
         "gd-overall-score"
     ).textContent =
@@ -2480,6 +2509,10 @@ function renderEvaluation(
     ).textContent =
         `${relevance}/10`;
 
+
+    /* =========================================
+       FEEDBACK
+    ========================================= */
 
     const feedback =
         evaluation.feedback ||
@@ -2531,9 +2564,246 @@ function renderEvaluation(
     ).textContent =
         finalFeedback;
 
+
+    /* =========================================
+       SAVE GD RESULT TO FIRESTORE
+    ========================================= */
+
+    saveGDResultToFirestore({
+
+        overall:
+            overall,
+
+        communication:
+            communication,
+
+        relevance:
+            relevance,
+
+        content:
+            content,
+
+        participation:
+            participation,
+
+        reasoning:
+            reasoning,
+
+        feedback:
+            feedback,
+
+        strengths:
+            strengths,
+
+        improvements:
+            improvements
+
+    });
+
 }
 
 
+/* =========================================
+   SAVE GD RESULT TO FIRESTORE
+========================================= */
+
+async function saveGDResultToFirestore(
+    evaluation
+) {
+
+    if (
+        !currentUser ||
+        !currentRoomCode ||
+        !currentRoomData
+    ) {
+
+        console.warn(
+            "⚠️ GD result cannot be saved. Required data missing."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const resultRef =
+            doc(
+                db,
+                "interviewResults",
+                `gd_${currentRoomCode}_${currentUser.uid}`
+            );
+
+
+        await setDoc(
+            resultRef,
+            {
+
+                userId:
+                    currentUser.uid,
+
+
+                sessionId:
+                    `gd_${currentRoomCode}`,
+
+
+                category:
+                    "Group Discussion",
+
+
+                topic:
+                    topicNames[
+                        currentRoomData.topic
+                    ] ||
+                    currentRoomData.topic,
+
+
+                difficulty:
+                    currentRoomData.difficulty,
+
+
+                duration:
+                    Number(
+                        currentRoomData.duration
+                    ) || 0,
+
+
+                /* =================================
+                   PROGRESS PAGE COMPATIBILITY
+                ================================= */
+
+                technical:
+                    Number(
+                        evaluation.content
+                    ) || 0,
+
+
+                communication:
+                    Number(
+                        evaluation.communication
+                    ) || 0,
+
+
+                confidence:
+                    Number(
+                        evaluation.overall
+                    ) || 0,
+
+
+                overall:
+                    Number(
+                        evaluation.overall
+                    ) || 0,
+
+
+                /* =================================
+                   DETAILED GD SCORES
+                ================================= */
+
+                relevance:
+                    Number(
+                        evaluation.relevance
+                    ) || 0,
+
+
+                content:
+                    Number(
+                        evaluation.content
+                    ) || 0,
+
+
+                participation:
+                    Number(
+                        evaluation.participation
+                    ) || 0,
+
+
+                reasoning:
+                    Number(
+                        evaluation.reasoning
+                    ) || 0,
+
+
+                /* =================================
+                   FEEDBACK
+                ================================= */
+
+                feedback:
+                    evaluation.feedback || "",
+
+
+                strengths:
+                    Array.isArray(
+                        evaluation.strengths
+                    )
+                        ? evaluation.strengths
+                        : [],
+
+
+                improvements:
+                    Array.isArray(
+                        evaluation.improvements
+                    )
+                        ? evaluation.improvements
+                        : [],
+
+
+                /* =================================
+                   DISCUSSION DETAILS
+                ================================= */
+
+                totalQuestions:
+                    allMessages.length,
+
+
+                answeredQuestions:
+                    allMessages.filter(
+                        message =>
+                            message.senderType === "user"
+                    ).length,
+
+
+                gdRoomCode:
+                    currentRoomCode,
+
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        console.log(
+            "✅ GD RESULT SAVED TO FIRESTORE"
+        );
+
+        console.log(
+            "📊 GD Overall:",
+            evaluation.overall
+        );
+
+        console.log(
+            "📊 GD Communication:",
+            evaluation.communication
+        );
+
+        console.log(
+            "📊 GD Relevance:",
+            evaluation.relevance
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Failed to save GD result:",
+            error
+        );
+
+    }
+
+}
 /* =========================================
    COPY ROOM CODE
 ========================================= */

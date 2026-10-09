@@ -4,96 +4,120 @@
     // INTERVIEW NOTES
     // ======================================
 
-    function getLatestInterviewKey() {
+function setupInterviewNotes() {
 
-        const savedSessionId =
-            sessionStorage.getItem("savedInterviewSessionId");
+    const notes = document.getElementById("interview-notes");
+    const counter = document.getElementById("notes-counter");
+    const saveButton = document.getElementById("save-notes-button");
+    const status = document.getElementById("notes-status");
 
-        if (savedSessionId) {
-            return `interviewNote_${savedSessionId}`;
-        }
-
-        return "interviewNote_latest";
+    if (!notes || !counter || !saveButton) {
+        console.log("❌ Interview Notes elements not found");
+        return;
     }
 
+    function updateCounter() {
+        counter.textContent = `${notes.value.length} / 500`;
+    }
 
-    function setupInterviewNotes() {
+    // ======================================
+    // GET CURRENT INTERVIEW SESSION ID
+    // ======================================
 
-        const notes =
-            document.getElementById("interview-notes");
+    const sessionId =
+        sessionStorage.getItem("interviewSessionId") ||
+        sessionStorage.getItem("savedInterviewSessionId");
 
-        const counter =
-            document.getElementById("notes-counter");
+    if (!sessionId) {
+        console.warn("⚠️ Interview session ID not found.");
+    }
 
-        const saveButton =
-            document.getElementById("save-notes-button");
+    // ======================================
+    // LOAD NOTE FOR THIS INTERVIEW ONLY
+    // ======================================
 
-        const status =
-            document.getElementById("notes-status");
+    let savedNote = "";
 
-        if (!notes || !counter || !saveButton) {
+    if (sessionId) {
+        savedNote =
+            localStorage.getItem(
+                `interviewNote_${sessionId}`
+            ) || "";
+    }
+
+    if (savedNote) {
+        notes.value = savedNote;
+
+        console.log(
+            "✅ Interview note loaded for session:",
+            sessionId
+        );
+    } else {
+        // IMPORTANT:
+        // Do not load the previous interview's note.
+        notes.value = "";
+    }
+
+    updateCounter();
+
+    // ======================================
+    // SAVE NOTE
+    // ======================================
+
+    saveButton.addEventListener("click", () => {
+
+        const note = notes.value.trim();
+
+        if (!sessionId) {
+            console.warn(
+                "⚠️ Cannot save interview note: session ID missing."
+            );
             return;
         }
 
-
-        const noteKey =
-            getLatestInterviewKey();
-
-        const savedNote =
-            localStorage.getItem(noteKey);
-
-        if (savedNote) {
-            notes.value = savedNote;
-        }
-
-
-        function updateCounter() {
-
-            counter.textContent =
-                `${notes.value.length} / 500`;
-
-        }
-
-
-        notes.addEventListener(
-            "input",
-            updateCounter
+        // Save note specifically for this interview
+        localStorage.setItem(
+            `interviewNote_${sessionId}`,
+            note
         );
 
-
-        saveButton.addEventListener(
-            "click",
-            () => {
-
-                const note =
-                    notes.value.trim();
-
-                localStorage.setItem(
-                    noteKey,
-                    note
-                );
-
-                if (status) {
-
-                    status.textContent =
-                        "✅ Your interview note has been saved.";
-
-                    setTimeout(() => {
-                        status.textContent = "";
-                    }, 2500);
-
-                }
-            }
+        // Keep latest note separately for compatibility
+        localStorage.setItem(
+            "interviewNote_latest",
+            note
         );
 
+        console.log(
+            "✅ Interview note saved for session:",
+            sessionId,
+            note
+        );
+
+        if (status) {
+            status.textContent =
+                "✅ Your interview note has been saved.";
+
+            setTimeout(() => {
+                status.textContent = "";
+            }, 2500);
+        }
 
         updateCounter();
-    }
-
+    });
 
     // ======================================
-    // READ SCORE
+    // UPDATE COUNTER
     // ======================================
+
+    notes.addEventListener(
+        "input",
+        updateCounter
+    );
+}  
+
+// ======================================
+//  // READ SCORE
+// ======================================
 
     function readScore(id) {
 
@@ -353,6 +377,69 @@
         return true;
     }
 
+    function generatePersonalizedSuggestion() {
+    const recommendationText =
+        document.getElementById("recommendation-text");
+
+    if (!recommendationText) {
+        return;
+    }
+
+    const technical = readScore("technical-score");
+    const communication = readScore("communication-score");
+    const confidence = readScore("confidence-score");
+
+    if (
+        technical === null ||
+        communication === null ||
+        confidence === null
+    ) {
+        return;
+    }
+
+    if (
+        !finalScoreReady(
+            "technical-score",
+            "technical-feedback"
+        ) ||
+        !finalScoreReady(
+            "communication-score",
+            "communication-feedback"
+        ) ||
+        !finalScoreReady(
+            "confidence-score",
+            "confidence-feedback"
+        )
+    ) {
+        return;
+    }
+
+    const scores = [
+        {
+            name: "technical skills",
+            score: technical,
+            advice: "Revise core concepts and practice more technical interview questions."
+        },
+        {
+            name: "communication",
+            score: communication,
+            advice: "Practice explaining your answers clearly and use simple real-world examples."
+        },
+        {
+            name: "confidence",
+            score: confidence,
+            advice: "Practice speaking your answers aloud and attend more mock interviews."
+        }
+    ];
+
+    scores.sort((a, b) => a.score - b.score);
+
+    const weakest = scores[0];
+
+    recommendationText.textContent =
+        `Your main area to improve is ${weakest.name}. ${weakest.advice}`;
+}
+
 
     // ======================================
     // WATCH RESULT.JS SCORE UPDATES
@@ -383,6 +470,8 @@
             new MutationObserver(() => {
 
                 generateSkillPlan();
+                generatePersonalizedSuggestion();
+
 
             });
 
@@ -405,13 +494,16 @@
         setTimeout(() => {
 
             generateSkillPlan();
+            generatePersonalizedSuggestion();
+
 
         }, 500);
 
 
         setTimeout(() => {
-
             generateSkillPlan();
+                generatePersonalizedSuggestion();
+
 
         }, 1500);
 
@@ -419,6 +511,8 @@
         setTimeout(() => {
 
             generateSkillPlan();
+                generatePersonalizedSuggestion();
+
 
         }, 3000);
     }
@@ -428,15 +522,90 @@
     // START
     // ======================================
 
-    window.addEventListener(
-        "load",
-        () => {
+window.addEventListener("load", () => {
+    // Wait until result page is completely ready
+    setTimeout(() => {
 
-            setupInterviewNotes();
+        setupInterviewNotes();
+        watchForFinalScores();
 
-            watchForFinalScores();
+    }, 1000);
 
+});
+    // ======================================
+    // ANSWER STATUS COLORS
+    // ======================================
+
+    function applyAnswerStatusColors() {
+
+        const container =
+            document.getElementById("answer-review-container");
+
+        if (!container) {
+            return;
         }
-    );
 
+        container
+            .querySelectorAll(".answer-status")
+            .forEach(status => {
+
+                const text =
+                    status.textContent.trim().toLowerCase();
+
+                // Remove old classes first
+                status.classList.remove(
+                    "status-correct",
+                    "status-improvement"
+                );
+
+                // Correct → Green
+                if (text.includes("correct")) {
+
+                    status.classList.add(
+                        "status-correct"
+                    );
+
+                }
+
+                // Needs Improvement → Orange
+                else if (
+                    text.includes("needs improvement")
+                ) {
+
+                    status.classList.add(
+                        "status-improvement"
+                    );
+
+                }
+
+            });
+    }
+
+    // Watch dynamically generated Answer Review cards
+    const answerReviewContainer =
+        document.getElementById(
+            "answer-review-container"
+        );
+
+    if (answerReviewContainer) {
+
+        const answerStatusObserver =
+            new MutationObserver(() => {
+
+                applyAnswerStatusColors();
+
+            });
+
+        answerStatusObserver.observe(
+            answerReviewContainer,
+            {
+                childList: true,
+                subtree: true,
+                characterData: true
+            }
+        );
+
+        // Initial check
+        applyAnswerStatusColors();
+    }
 })();

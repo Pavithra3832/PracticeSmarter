@@ -758,3 +758,7 @@
     background-position: center;
     border-radius: 18px;
 }
+/* Match the main Interview page font */
+.hr-interview-page {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}

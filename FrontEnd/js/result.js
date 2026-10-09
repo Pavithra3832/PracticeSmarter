@@ -18,6 +18,7 @@ import {
     addDoc,
     doc,
     setDoc,
+    getDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 const firebaseConfig = {
@@ -1181,6 +1182,75 @@ console.log(
     weakTopics
 );
 
+// ======================================
+// SAVE WEAK TOPIC HISTORY LOCALLY
+// ======================================
+
+function saveWeakTopicHistory() {
+
+    try {
+
+        const existingHistory =
+            JSON.parse(
+                localStorage.getItem("weakTopicHistory")
+            ) || [];
+
+        const alreadyExists =
+            existingHistory.some(
+                item =>
+                    item &&
+                    item.sessionId === interviewSessionId
+            );
+
+        if (alreadyExists) {
+
+            console.log(
+                "🧠 Weak topic history already saved for this session."
+            );
+
+            return;
+        }
+
+        existingHistory.push({
+
+            sessionId:
+                interviewSessionId,
+
+            category:
+                category,
+
+            difficulty:
+                difficulty,
+
+            topics:
+                weakTopics,
+
+            date:
+                new Date().toISOString()
+
+        });
+
+        localStorage.setItem(
+            "weakTopicHistory",
+            JSON.stringify(existingHistory)
+        );
+
+        console.log(
+            "✅ Weak topic history saved locally."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ Failed to save weak topic history:",
+            error
+        );
+
+    }
+
+}
+
+saveWeakTopicHistory();
 
 
     // ==================================
@@ -2149,4 +2219,197 @@ if (practiceAgainButton) {
         }
     );
 
+}
+
+/* =========================================
+   PRACTICESMARTER - INTERVIEW NOTES
+   Persistent save + correct button state
+========================================= */
+
+const notesTextarea = document.getElementById("interview-notes");
+const saveNotesButton = document.getElementById("save-notes-button");
+const notesStatus = document.getElementById("notes-status");
+const notesCounter = document.getElementById("notes-counter");
+
+if (notesTextarea && saveNotesButton && notesStatus) {
+    const notesStorageKey = `practiceSmarterNotes_${interviewSessionId}`;
+
+    let notesSaved = false;
+    let savedNoteText = "";
+    let saveInProgress = false;
+
+    function updateNotesCounter() {
+        if (notesCounter) {
+            notesCounter.textContent =
+                `${notesTextarea.value.length} / 500`;
+        }
+    }
+
+    function setNotesButtonState(state) {
+        if (state === "saved") {
+            saveNotesButton.textContent = "✓ Note Saved";
+            saveNotesButton.classList.add("note-saved");
+        } else if (state === "saving") {
+            saveNotesButton.textContent = "Saving...";
+            saveNotesButton.classList.remove("note-saved");
+        } else {
+            saveNotesButton.textContent = "💾 Save Note";
+            saveNotesButton.classList.remove("note-saved");
+        }
+    }
+
+    // Load locally saved note immediately.
+    try {
+        const localNote = localStorage.getItem(notesStorageKey);
+
+        if (localNote !== null) {
+            notesTextarea.value = localNote;
+            savedNoteText = localNote;
+            notesSaved = true;
+            setNotesButtonState("saved");
+            notesStatus.textContent = "✓ Your note is saved.";
+        }
+    } catch (error) {
+        console.error("Could not load local interview note:", error);
+    }
+
+    updateNotesCounter();
+
+    // Load the signed-in user's Firestore note, if available.
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) return;
+
+        const noteRef = doc(
+            db,
+            "interviewNotes",
+            `${user.uid}_${interviewSessionId}`
+        );
+
+        try {
+            const noteSnapshot = await getDoc(noteRef);
+
+            if (noteSnapshot.exists()) {
+                const data = noteSnapshot.data();
+                const firestoreNote = data.note || "";
+
+                // Don't overwrite edits the user has made.
+                if (
+                    notesTextarea.value === savedNoteText ||
+                    notesTextarea.value === ""
+                ) {
+                    notesTextarea.value = firestoreNote;
+                    savedNoteText = firestoreNote;
+                    notesSaved = true;
+
+                    try {
+                        localStorage.setItem(
+                            notesStorageKey,
+                            firestoreNote
+                        );
+                    } catch (storageError) {
+                        console.warn("Local note cache unavailable.");
+                    }
+
+                    setNotesButtonState("saved");
+                    notesStatus.textContent = "✓ Note loaded successfully.";
+                    updateNotesCounter();
+                }
+            }
+        } catch (error) {
+            console.error("Could not load Firestore note:", error);
+        }
+    });
+
+    // Any edit means the current text may no longer be saved.
+    notesTextarea.addEventListener("input", () => {
+        updateNotesCounter();
+
+        if (notesTextarea.value !== savedNoteText) {
+            notesSaved = false;
+            setNotesButtonState("default");
+            notesStatus.textContent = "Unsaved changes.";
+        } else if (notesSaved) {
+            setNotesButtonState("saved");
+            notesStatus.textContent = "✓ Your note is saved.";
+        }
+    });
+
+    // Save note.
+    saveNotesButton.addEventListener("click", async () => {
+        if (saveInProgress) return;
+
+        const noteText = notesTextarea.value.trim();
+
+        if (!noteText) {
+            notesStatus.textContent = "Please enter a note before saving.";
+            notesTextarea.focus();
+            return;
+        }
+
+        saveInProgress = true;
+        saveNotesButton.disabled = true;
+        setNotesButtonState("saving");
+        notesStatus.textContent = "Saving your note...";
+
+        try {
+            const user = auth.currentUser;
+
+            if (user) {
+                const noteRef = doc(
+                    db,
+                    "interviewNotes",
+                    `${user.uid}_${interviewSessionId}`
+                );
+
+                await setDoc(noteRef, {
+                    userId: user.uid,
+                    sessionId: interviewSessionId,
+                    category: category,
+                    difficulty: difficulty,
+                    note: noteText,
+                    updatedAt: serverTimestamp()
+                }, { merge: true });
+            }
+            console.log("🔍 NOTE SAVE DEBUG", {
+    projectId: db.app.options.projectId,
+    signedIn: !!auth.currentUser,
+    authUID: auth.currentUser?.uid,
+    noteUserID: user?.uid,
+    sessionID: interviewSessionId
+});
+
+            // Keep a local copy for this interview session.
+            localStorage.setItem(notesStorageKey, noteText);
+
+            savedNoteText = noteText;
+            notesSaved = true;
+
+            setNotesButtonState("saved");
+            notesStatus.textContent = auth.currentUser
+                ? "✓ Note saved successfully."
+                : "✓ Note saved on this device. Sign in to sync it to your account.";
+
+        } catch (error) {
+            console.error("Interview note save failed:", error);
+            console.log("Firebase error code:", error.code);
+console.log("Firebase error message:", error.message);
+
+            // Preserve the note locally if Firestore is unavailable.
+            try {
+                localStorage.setItem(notesStorageKey, noteText);
+                savedNoteText = noteText;
+                notesSaved = true;
+                setNotesButtonState("saved");
+                notesStatus.textContent =
+                    "Note saved on this device, but cloud sync failed.";
+            } catch (storageError) {
+                setNotesButtonState("default");
+                notesStatus.textContent =
+                    "Save failed. Please try again.";
+            }
+        } finally {
+            saveInProgress = false;
+            saveNotesButton.disabled = false;
+        }
+    });
 }

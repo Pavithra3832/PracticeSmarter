@@ -13,11 +13,14 @@
 }
 
 body {
-    margin: 0;
-    background: #f8fafc;
-    color: #111827;
-    font-family: Arial, sans-serif;
+margin: 0;
+background: #f8fafc;
+color: #111827;
+font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
 }
+
 
 
 /* =========================================

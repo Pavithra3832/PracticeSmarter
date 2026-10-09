@@ -1,151 +1,100 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#173b7a">
 
-    <title>Certificate - PracticeSmarter</title>
+    <title>Certificate of Achievement - PracticeSmarter</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/certificate.css">
 </head>
-
 <body>
 
     <main class="certificate-page">
 
-        <div class="certificate">
+        <p id="certificateStatus" class="certificate-status"
+           role="status" aria-live="polite">
+            Loading your certificate...
+        </p>
 
-            <!-- Decorative Border -->
+        <section class="certificate" id="certificate" hidden>
             <div class="certificate-inner">
 
-                <div class="brand">
-                    PracticeSmarter.
-                </div>
+                <div class="brand">PracticeSmarter.</div>
 
-                <p class="certificate-label">
-                    CERTIFICATE OF ACHIEVEMENT
-                </p>
-
+                <p class="certificate-label">CERTIFICATE OF ACHIEVEMENT</p>
                 <div class="divider"></div>
 
-                <p class="presented">
-                    This certificate is proudly presented to
-                </p>
+                <p class="presented">This certificate is proudly presented to</p>
 
-                <h1 id="studentName">
-                    Student Name
-                </h1>
+                <h1 id="studentName">Student Name</h1>
 
                 <p class="achievement-text">
                     for successfully completing an interview practice
                     session through PracticeSmarter.
                 </p>
 
-                <!-- Interview Details -->
-
                 <div class="certificate-details">
-
                     <div class="detail">
                         <span>Interview Category</span>
-                        <strong id="category">
-                            HTML
-                        </strong>
+                        <strong id="category">—</strong>
                     </div>
 
                     <div class="detail">
                         <span>Difficulty</span>
-                        <strong id="difficulty">
-                            Easy
-                        </strong>
+                        <strong id="difficulty">—</strong>
                     </div>
 
                     <div class="detail">
                         <span>Score</span>
-                        <strong id="score">
-                            0/10
-                        </strong>
+                        <strong id="score">—</strong>
                     </div>
 
                     <div class="detail">
                         <span>Percentage</span>
-                        <strong id="percentage">
-                            0%
-                        </strong>
+                        <strong id="percentage">—</strong>
                     </div>
-
                 </div>
 
-                <!-- Date + Certificate ID -->
-
                 <div class="certificate-footer">
-
                     <div>
-                        <span>Date</span>
-                        <strong id="completionDate">
-                            —
-                        </strong>
+                        <span>Completion Date</span>
+                        <strong id="completionDate">—</strong>
                     </div>
 
                     <div>
                         <span>Certificate ID</span>
-                        <strong id="certificateId">
-                            —
-                        </strong>
+                        <strong id="certificateId">—</strong>
                     </div>
-
                 </div>
 
-                <!-- Signature -->
-
-                <div class="signature-section">
-
+                <div class="signature-section" aria-label="PracticeSmarter certificate seal">
                     <div class="signature-line"></div>
-
-                    <strong>
-                        PracticeSmarter
-                    </strong>
-
-                    <span>
-                        Interview Practice Platform
-                    </span>
-
+                    <strong>PracticeSmarter</strong>
+                    <span>Interview Practice Platform</span>
                 </div>
 
             </div>
+        </section>
 
-        </div>
-
-
-        <!-- Action Buttons -->
-
-        <div class="certificate-actions">
-
-            <button
-                id="downloadCertificate"
-                class="download-button"
-                type="button">
-
-                📥 Download Certificate
-
+        <div class="certificate-actions" id="certificateActions" hidden>
+            <button id="downloadCertificate" class="download-button" type="button">
+                📥 Download / Save as PDF
             </button>
 
-            <button
-                id="backToResult"
-                class="back-button"
-                type="button">
-
+            <button id="backToResult" class="back-button" type="button">
                 ← Back to Result
-
             </button>
-
         </div>
 
     </main>
 
-
     <script type="module" src="js/certificate.js"></script>
-
 </body>
-
 </html>

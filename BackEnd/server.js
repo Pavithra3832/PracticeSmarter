@@ -13,6 +13,368 @@ app.use(express.json());
 console.log("SERVER FILE STARTED");
 
 // ======================================================
+// GD FALLBACK SYSTEM
+// Used when Gemini quota / temporary service errors occur
+// ======================================================
+
+function getGDFallbackResponse(topic, userMessage) {
+
+    const message =
+        String(userMessage || "").toLowerCase();
+
+    if (
+        message.includes("teamwork") &&
+        message.includes("individual")
+    ) {
+        return "I agree with that point. Teamwork helps people combine different skills, while individual responsibility ensures that every member contributes effectively to the team's success.";
+    }
+
+    if (
+        message.includes("team")
+    ) {
+        return "I agree that teamwork is important because people can combine different skills and ideas. At the same time, each member should take responsibility for their own contribution.";
+    }
+
+    if (
+        message.includes("individual")
+    ) {
+        return "Individual performance is also important because every person has unique skills and responsibilities. Strong individual contributions can help the entire team achieve better results.";
+    }
+
+    if (
+        message.includes("important")
+    ) {
+        return "That is a relevant point. I think the best approach is to consider different perspectives and find a balance that supports the overall objective.";
+    }
+
+    const fallbackResponses = [
+
+        "I agree with that perspective. Another important point is that effective participation and cooperation can help achieve better results.",
+
+        "That is a useful point. I would also consider how different skills and viewpoints can contribute to achieving the common goal.",
+
+        "I understand your point. In my opinion, the situation can be improved when people take responsibility while also supporting others.",
+
+        "I agree to some extent. Another perspective is that success depends on both individual contribution and effective coordination with others."
+
+    ];
+
+    const index =
+        Math.floor(
+            Math.random() *
+            fallbackResponses.length
+        );
+
+    return fallbackResponses[index];
+}
+
+
+function getGDFallbackEvaluation({
+    participantName,
+    topic,
+    meaningfulMessageCount,
+    totalParticipantMessages,
+    totalWords
+}) {
+
+    // ------------------------------------------
+    // VERY LOW ACTIVITY
+    // ------------------------------------------
+
+    if (
+        meaningfulMessageCount === 0
+    ) {
+
+        return {
+
+            overallScore: 1,
+
+            communicationScore:
+                totalWords > 0 ? 1 : 0,
+
+            relevanceScore: 0,
+
+            contentScore: 0,
+
+            participationScore:
+                totalParticipantMessages > 0
+                    ? 1
+                    : 0,
+
+            reasoningScore: 0,
+
+            totalScore: 2,
+
+            feedback:
+                `${participantName || "The participant"} made very limited meaningful contributions. More topic-related ideas, explanations and examples are needed.`,
+
+            strengths: [],
+
+            improvements: [
+
+                "Share complete and meaningful ideas.",
+
+                "Stay focused on the discussion topic.",
+
+                "Explain opinions with reasons or examples.",
+
+                "Respond meaningfully to other participants."
+
+            ]
+
+        };
+
+    }
+
+    // ------------------------------------------
+    // BASIC RULE-BASED FALLBACK SCORING
+    // ------------------------------------------
+
+    let communicationScore = 4;
+    let relevanceScore = 4;
+    let contentScore = 4;
+    let participationScore = 4;
+    let reasoningScore = 3;
+
+
+    if (
+        meaningfulMessageCount >= 2
+    ) {
+
+        participationScore = 6;
+
+    }
+
+    if (
+        meaningfulMessageCount >= 3
+    ) {
+
+        participationScore = 7;
+
+    }
+
+    if (
+        totalWords >= 40
+    ) {
+
+        communicationScore = 5;
+        contentScore = 5;
+
+    }
+
+    if (
+        totalWords >= 80
+    ) {
+
+        communicationScore = 6;
+        contentScore = 6;
+
+    }
+
+    if (
+        totalWords >= 120
+    ) {
+
+        communicationScore = 7;
+        contentScore = 7;
+
+    }
+
+    if (
+        meaningfulMessageCount >= 2 &&
+        totalWords >= 60
+    ) {
+
+        reasoningScore = 5;
+
+    }
+
+    if (
+        meaningfulMessageCount >= 3 &&
+        totalWords >= 100
+    ) {
+
+        reasoningScore = 6;
+
+        relevanceScore = 6;
+
+    }
+
+
+    const totalScore =
+        communicationScore +
+        relevanceScore +
+        contentScore +
+        participationScore +
+        reasoningScore;
+
+
+    const overallScore =
+        Math.round(
+            (totalScore / 5) * 10
+        ) / 10;
+
+
+    return {
+
+        overallScore,
+
+        communicationScore,
+
+        relevanceScore,
+
+        contentScore,
+
+        participationScore,
+
+        reasoningScore,
+
+        totalScore,
+
+        feedback:
+            `${participantName || "The participant"} made meaningful contributions during the discussion. The evaluation is based on communication, relevance, content, participation and reasoning.`,
+
+        strengths: [
+
+            "Participated in the discussion with meaningful responses.",
+
+            "Shared topic-related ideas.",
+
+            "Attempted to contribute to the discussion."
+
+        ],
+
+        improvements: [
+
+            "Provide more detailed explanations.",
+
+            "Support opinions with relevant examples.",
+
+            "Respond to different viewpoints with stronger reasoning."
+
+        ]
+
+    };
+
+}
+
+function buildGDFallbackEvaluation(body) {
+
+    const {
+        topic,
+        conversation = [],
+        participantName,
+        participantUid
+    } = body || {};
+
+    const normalizeText = (text) =>
+        String(text || "")
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, " ");
+
+    const trivialPatterns = [
+        /^hi+$/,
+        /^hello+$/,
+        /^hey+$/,
+        /^hii+$/,
+        /^hiii+$/,
+        /^helo+$/,
+        /^ok+$/,
+        /^okay+$/,
+        /^yes+$/,
+        /^no+$/,
+        /^sure+$/,
+        /^same+$/,
+        /^thanks+$/,
+        /^thank you+$/,
+        /^thankyou+$/,
+        /^i agree+$/,
+        /^agree+$/,
+        /^i disagree+$/,
+        /^disagree+$/
+    ];
+
+    const isTrivialMessage = (text) => {
+
+        const normalized = normalizeText(text);
+
+        return trivialPatterns.some(
+            pattern => pattern.test(normalized)
+        );
+
+    };
+
+    const participantMessages =
+        conversation.filter(
+            message =>
+                message.uid === participantUid &&
+                message.type === "user"
+        );
+
+    const identifiedMessages =
+        participantMessages.length > 0
+            ? participantMessages
+            : conversation.filter(
+                message =>
+                    message.sender === participantName &&
+                    message.type === "user"
+            );
+
+    const meaningfulMessages =
+        identifiedMessages.filter(message => {
+
+            const text =
+                normalizeText(message.text);
+
+            if (!text) return false;
+
+            if (isTrivialMessage(text)) {
+                return false;
+            }
+
+            if (text.split(/\s+/).length < 4) {
+                return false;
+            }
+
+            return true;
+
+        });
+
+    const totalParticipantMessages =
+        identifiedMessages.length;
+
+    const meaningfulMessageCount =
+        meaningfulMessages.length;
+
+    const totalWords =
+        identifiedMessages.reduce(
+            (total, message) => {
+
+                return (
+                    total +
+                    normalizeText(message.text)
+                        .split(/\s+/)
+                        .filter(Boolean)
+                        .length
+                );
+
+            },
+            0
+        );
+
+    return getGDFallbackEvaluation({
+        participantName,
+        topic,
+        meaningfulMessageCount,
+        totalParticipantMessages,
+        totalWords
+    });
+
+}
+
+
+// ======================================================
 // HOME ROUTE
 // ======================================================
 
@@ -1026,74 +1388,36 @@ Rules:
 
         });
 
-
-    } catch (error) {
+            } catch (error) {
 
         console.error(
             "AI Evaluation Error:",
             error
         );
 
-
-        // ------------------------------------------------
-        // QUOTA
-        // ------------------------------------------------
-
-        if (
-            error.status === 429
-        ) {
-
+        if (error.status === 429) {
             return res.status(429).json({
-
                 success: false,
-
-                error:
-                    "Gemini API quota exceeded"
-
+                error: "Gemini API quota exceeded"
             });
-
         }
 
-
-        // ------------------------------------------------
-        // SERVICE UNAVAILABLE
-        // ------------------------------------------------
-
-        if (
-            error.status === 503
-        ) {
-
+        if (error.status === 503) {
             return res.status(503).json({
-
                 success: false,
-
-                error:
-                    "Gemini AI is temporarily busy"
-
+                error: "Gemini AI is temporarily busy"
             });
-
         }
-
-
-        // ------------------------------------------------
-        // GENERAL ERROR
-        // ------------------------------------------------
 
         return res.status(500).json({
-
             success: false,
-
             error:
                 error.message ||
-                "AI evaluation failed"
-
+                "AI answer evaluation failed"
         });
 
     }
-
 });
-
-
 
 // ======================================================
 // GROUP DISCUSSION - AI RESPONSE
@@ -1388,45 +1712,53 @@ IMPORTANT RULES:
         });
 
 
-    } catch (error) {
+        } catch (error) {
 
         console.error(
             "GD AI Response Error:",
             error
         );
 
-
         if (
-            error.status === 429
-        ) {
-
-            return res.status(429).json({
-
-                success: false,
-
-                error:
-                    "Gemini API quota exceeded"
-
-            });
-
-        }
-
-
-        if (
+            error.status === 429 ||
             error.status === 503
         ) {
 
-            return res.status(503).json({
+            console.log(
+                "⚠️ Gemini unavailable. Using GD fallback response."
+            );
 
-                success: false,
+            const fallbackConversation =
+                Array.isArray(req.body?.conversation)
+                    ? req.body.conversation
+                    : [];
 
-                error:
-                    "Gemini AI is temporarily busy"
+            const fallbackUserMessage =
+                [...fallbackConversation]
+                    .reverse()
+                    .find(
+                        message =>
+                            message.type === "user"
+                    )?.text || "";
+
+            const fallbackResponse =
+                getGDFallbackResponse(
+                    req.body?.topic || "",
+                    fallbackUserMessage
+                );
+
+            return res.json({
+
+                success: true,
+
+                fallback: true,
+
+                response:
+                    fallbackResponse
 
             });
 
         }
-
 
         return res.status(500).json({
 
@@ -1437,10 +1769,9 @@ IMPORTANT RULES:
                 "GD AI response failed"
 
         });
+     }
 
-    }
-
-});
+    });
 /* =========================================
    GROUP DISCUSSION EVALUATION
 ========================================= */
@@ -2224,8 +2555,6 @@ if (
             }
 
         });
-
-
     } catch (error) {
 
         console.error(
@@ -2233,38 +2562,32 @@ if (
             error
         );
 
-
         if (
-            error.status === 429
-        ) {
-
-            return res.status(429).json({
-
-                success: false,
-
-                error:
-                    "Gemini API quota exceeded"
-
-            });
-
-        }
-
-
-        if (
+            error.status === 429 ||
             error.status === 503
         ) {
 
-            return res.status(503).json({
+            console.log(
+                "⚠️ Gemini unavailable. Using GD fallback evaluation."
+            );
 
-                success: false,
+            const fallbackEvaluation =
+                buildGDFallbackEvaluation(
+                    req.body
+                );
 
-                error:
-                    "Gemini AI is temporarily busy"
+            return res.json({
+
+                success: true,
+
+                fallback: true,
+
+                evaluation:
+                    fallbackEvaluation
 
             });
 
         }
-
 
         return res.status(500).json({
 
@@ -2279,16 +2602,9 @@ if (
     }
 
 });
-// ======================================================
-// START SERVER
-// ======================================================
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-
-    console.log(
-        `🚀 Server running at http://localhost:${PORT}`
-    );
-
+    console.log(`Server running on port ${PORT}`);
 });

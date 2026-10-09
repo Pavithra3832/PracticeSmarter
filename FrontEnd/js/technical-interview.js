@@ -3334,7 +3334,7 @@ difficultyButtons.forEach(
 );
 
 
-// Show first normal question
+// Show first`   normal question
 showQuestion();
 
 // Start normal timer

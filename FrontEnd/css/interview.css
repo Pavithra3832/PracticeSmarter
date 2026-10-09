@@ -2,10 +2,12 @@
    INTERVIEW PAGE
 ========================================= */
 
+
 .interview-page {
     max-width: 1180px;
     margin: 0 auto;
     padding: 55px 30px 80px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
 
@@ -187,7 +189,13 @@
     opacity: 1;
 }
 
+/* =========================================
+   GROUP DISCUSSION CARD
+========================================= */
 
+.gd-card {
+    grid-column: 2;
+}
 /* =========================================
    TABLET
 ========================================= */
@@ -205,8 +213,9 @@
     .interview-categories {
         grid-template-columns: repeat(2, 1fr);
     }
-}
 
+
+}
 
 /* =========================================
    MOBILE
@@ -238,6 +247,8 @@
     .category-card {
         padding: 28px 20px 24px;
     }
+
+
 }
 /* ===============================
    PROFILE DROPDOWN
@@ -477,5 +488,55 @@
 .notification-dropdown {
     top: calc(100% + 10px);
     right: 0;
+}
+/* =========================================
+INTERVIEW NAVBAR — MATCH PROGRESS PAGE
+========================================= */
+
+.navbar .nav-links {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 9px;
+padding: 0;
+margin: 0;
+list-style: none;
+}
+
+.navbar .nav-links a {
+position: relative;
+display: inline-flex;
+align-items: center;
+min-height: 42px;
+padding: 0 15px;
+box-sizing: border-box;
+border: none;
+border-radius: 11px;
+
+color: #626984;
+background: transparent;
+
+font-family: Inter, "Segoe UI", Arial, sans-serif;
+font-size: 0.91rem;
+font-weight: 650;
+font-style: normal;
+letter-spacing: normal;
+text-decoration: none;
+text-transform: none;
+
+transition: color 0.2s ease, background 0.2s ease;
+
+
+}
+
+.navbar .nav-links a:hover,
+.navbar .nav-links a.active {
+color: #5b5ce2;
+background: #f0efff;
+}
+
+.navbar .nav-links a::after {
+content: none;
+display: none;
 }
 

@@ -25,6 +25,13 @@
     ) ||
     Date.now().toString();
 
+    if (
+    sessionStorage.getItem("weakTopicsAlreadySaved") ===
+    sessionId
+) {
+    return;
+}
+
         let history =
             JSON.parse(
                 localStorage.getItem(
@@ -116,6 +123,11 @@
             "weakTopicHistory",
             JSON.stringify(history)
         );
+
+        sessionStorage.setItem(
+    "weakTopicsAlreadySaved",
+    sessionId
+);
 
 
         console.log(

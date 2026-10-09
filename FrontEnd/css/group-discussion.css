@@ -2,10 +2,12 @@
    GROUP DISCUSSION PAGE
 ========================================= */
 
+
 .gd-page {
     max-width: 1200px;
     margin: 0 auto;
     padding: 50px 24px 80px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
 
