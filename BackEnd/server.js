@@ -387,6 +387,11 @@ function buildGDFallbackEvaluation(body) {
 // SERVE FRONTEND
 // ======================================================
 
+
+ // ======================================================
+// SERVE FRONTEND
+// ======================================================
+
 const frontendPath = path.resolve(__dirname, "..", "FrontEnd");
 
 app.use(express.static(frontendPath));
