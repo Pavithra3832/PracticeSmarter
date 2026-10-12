@@ -382,19 +382,29 @@ function buildGDFallbackEvaluation(body) {
 // SERVE FRONTEND
 // ======================================================
 
-app.use(
-    express.static(
-        path.join(__dirname, "FrontEnd")
-    )
-);
+
+ // ======================================================
+// SERVE FRONTEND
+// ======================================================
+
+const frontendPath = path.resolve(__dirname, "..", "FrontEnd");
+
+app.use(express.static(frontendPath));
 
 app.get("/", (req, res) => {
     res.sendFile(
-        path.join(
-            __dirname,
-            "FrontEnd",
-            "index.html"
-        )
+        path.join(frontendPath, "index.html"),
+        (err) => {
+            if (err) {
+                console.error("Frontend index.html error:", err);
+
+                if (!res.headersSent) {
+                    res.status(500).send(
+                        "Unable to load the homepage."
+                    );
+                }
+            }
+        }
     );
 });
 
